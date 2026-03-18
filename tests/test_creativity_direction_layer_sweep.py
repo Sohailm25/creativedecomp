@@ -26,6 +26,23 @@ def load_layer_sweep_module():
 
 
 class CreativityDirectionLayerSweepTest(unittest.TestCase):
+    def test_parse_direction_method_accepts_supported_values(self) -> None:
+        sweep = load_layer_sweep_module()
+
+        self.assertEqual("pca", sweep.parse_direction_method("pca"))
+        self.assertEqual("mean_difference", sweep.parse_direction_method("mean_difference"))
+
+    def test_compute_mean_difference_direction_normalizes_mean_activation_delta(self) -> None:
+        sweep = load_layer_sweep_module()
+
+        direction = sweep.compute_mean_difference_direction(
+            positive_hidden=[[3.0, 0.0], [1.0, 0.0]],
+            negative_hidden=[[1.0, 0.0], [1.0, 0.0]],
+        )
+
+        self.assertAlmostEqual(1.0, direction[0])
+        self.assertAlmostEqual(0.0, direction[1])
+
     def test_path_for_summary_normalizes_repo_relative_paths(self) -> None:
         sweep = load_layer_sweep_module()
 
@@ -58,6 +75,23 @@ class CreativityDirectionLayerSweepTest(unittest.TestCase):
         ranked = sweep.rank_layer_rows(rows)
 
         self.assertEqual([12, 4, 20], [row["hidden_layer"] for row in ranked])
+
+    def test_build_layer_direction_supports_mean_difference(self) -> None:
+        sweep = load_layer_sweep_module()
+        layer_hiddens = [
+            [4.0, 0.0],
+            [1.0, 0.0],
+            [2.0, 0.0],
+            [1.0, 0.0],
+        ]
+
+        direction = sweep.compute_layer_direction(
+            layer_hiddens=layer_hiddens,
+            direction_method="mean_difference",
+        )
+
+        self.assertAlmostEqual(1.0, direction[0])
+        self.assertAlmostEqual(0.0, direction[1])
 
     def test_add_template_control_metrics_measures_excess_over_template_signal(self) -> None:
         sweep = load_layer_sweep_module()

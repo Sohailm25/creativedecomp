@@ -58,6 +58,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("Olson-style", CURRENT_STATE)
         self.assertTrue("mean-difference" in CURRENT_STATE or "CAA" in CURRENT_STATE)
 
+    def test_current_state_tracks_mean_difference_recovery_as_new_phase1_path(self) -> None:
+        self.assertIn("mean_difference", CURRENT_STATE)
+        self.assertIn("layer `23`", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

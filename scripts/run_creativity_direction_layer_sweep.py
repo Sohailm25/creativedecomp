@@ -51,6 +51,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-id", default=DEFAULT_MODEL_ID)
     parser.add_argument("--split-path", type=Path, default=DEFAULT_SPLIT_PATH)
     parser.add_argument("--templates-path", type=Path, default=DEFAULT_TEMPLATES_PATH)
+    parser.add_argument(
+        "--direction-method",
+        default="pca",
+        choices=["pca", "mean_difference"],
+        help="Dense direction extraction method to compare on the same pair slice.",
+    )
     parser.add_argument("--layers", default=None, help="Comma-separated layer ids to evaluate; defaults to all layers.")
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
     parser.add_argument("--max-pairs", type=int, default=DEFAULT_MAX_PAIRS)
@@ -58,6 +64,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
+
+
+def parse_direction_method(raw_value: str) -> str:
+    if raw_value not in {"pca", "mean_difference"}:
+        raise ValueError(f"unsupported direction method: {raw_value}")
+    return raw_value
 
 
 def parse_layers_argument(layers_arg: str | None, num_hidden_layers: int) -> list[int]:
@@ -131,6 +143,19 @@ def compute_difference_direction(positive_hidden: np.ndarray, negative_hidden: n
     return (direction / direction_norm).astype(np.float32)
 
 
+def compute_mean_difference_direction(
+    positive_hidden: list[list[float]] | np.ndarray,
+    negative_hidden: list[list[float]] | np.ndarray,
+) -> np.ndarray:
+    positive_array = np.asarray(positive_hidden, dtype=np.float64)
+    negative_array = np.asarray(negative_hidden, dtype=np.float64)
+    mean_difference = positive_array.mean(axis=0) - negative_array.mean(axis=0)
+    difference_norm = float(np.linalg.norm(mean_difference))
+    if difference_norm == 0.0:
+        raise ValueError("mean-difference direction has zero norm")
+    return (mean_difference / difference_norm).astype(np.float32)
+
+
 def compute_cosine_similarity(lhs: list[float] | np.ndarray, rhs: list[float] | np.ndarray) -> float:
     lhs_array = np.asarray(lhs, dtype=np.float64)
     rhs_array = np.asarray(rhs, dtype=np.float64)
@@ -171,15 +196,31 @@ def add_template_control_metrics(
     return controlled_row
 
 
+def compute_layer_direction(
+    layer_hiddens: list[list[float]] | np.ndarray,
+    direction_method: str,
+) -> np.ndarray:
+    layer_hidden_array = np.asarray(layer_hiddens, dtype=np.float32)
+    positive_hidden = layer_hidden_array[::2]
+    negative_hidden = layer_hidden_array[1::2]
+    if direction_method == "pca":
+        train_matrix = positive_hidden.astype(np.float64) - negative_hidden.astype(np.float64)
+        direction = compute_pca_direction(train_matrix)
+    elif direction_method == "mean_difference":
+        direction = compute_mean_difference_direction(positive_hidden, negative_hidden)
+    else:
+        raise ValueError(f"unsupported direction method: {direction_method}")
+    return align_direction_sign(layer_hidden_array, direction)
+
+
 def build_layer_row(
     hidden_layer: int,
     prompt_rows: list[dict[str, Any]],
     layer_hiddens: np.ndarray,
     template_control_hiddens: np.ndarray,
+    direction_method: str,
 ) -> tuple[dict[str, Any], np.ndarray, np.ndarray, list[dict[str, Any]]]:
-    train_matrix = layer_hiddens[::2].astype(np.float64) - layer_hiddens[1::2].astype(np.float64)
-    direction = compute_pca_direction(train_matrix)
-    direction = align_direction_sign(layer_hiddens, direction)
+    direction = compute_layer_direction(layer_hiddens, direction_method=direction_method)
     projections = project_onto_direction_safe(layer_hiddens, direction)
     summary = summarize_pairwise_projections(prompt_rows, projections)
     margins = np.asarray([detail["margin"] for detail in summary["pair_details"]], dtype=np.float64)
@@ -269,6 +310,7 @@ def write_readme(path: Path, summary: dict[str, Any]) -> None:
         f"- Generated at: `{summary['created_at']}`",
         f"- Model: `{summary['model_id']}`",
         f"- Device: `{summary['device']}`",
+        f"- Direction method: `{summary['direction_method']}`",
         f"- Candidate layers: `{summary['candidate_layers']}`",
         f"- Pair count: `{summary['pair_count']}`",
         f"- Raw ranking rule: `{', '.join(summary['raw_ranking_rule'])}`",
@@ -329,6 +371,7 @@ def main() -> int:
     args = parse_args()
     output_dir = args.output_dir or default_output_dir()
     prepare_output_dir(output_dir, overwrite=args.overwrite)
+    direction_method = parse_direction_method(args.direction_method)
 
     prompt_rows = load_prompt_rows(args.split_path, max_pairs=args.max_pairs)
     templates = load_templates(args.templates_path)
@@ -366,6 +409,7 @@ def main() -> int:
                 template_control_hidden_state_map[layer],
                 dtype=np.float32,
             ),
+            direction_method=direction_method,
         )
         layer_rows.append(row)
         pair_details_by_layer[layer] = pair_details
@@ -384,6 +428,7 @@ def main() -> int:
         "created_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "model_id": args.model_id,
         "device": device,
+        "direction_method": direction_method,
         "batch_size": args.batch_size,
         "pair_count": len(prompt_rows),
         "split_path": path_for_summary(args.split_path),

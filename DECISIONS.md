@@ -139,3 +139,10 @@
 - Decision: close `creativedecomp-02c` as completed, keep `creativedecomp-roq` and `creativedecomp-npt` blocked, and make one bounded Olson-style mean-difference or CAA sensitivity the next ready task.
 - Rationale: `v3` removes most of the old pair-quality excuses, so the next honest uncertainty is whether the extraction method is the last major mismatch to the strongest prior creativity-steering paper rather than whether decomposition or output gating should start anyway.
 - Impact: the next ready task is now `creativedecomp-173`, not `creativedecomp-roq`, and a failure there will count as the first serious negative result for the Gemma 2 2B MacBook lane.
+
+## [2026-03-18T15:00:00-0500] DECISION: Promote the full-text `mean_difference` v3 path to the primary Phase 1 dense-direction candidate
+
+- Trigger: the bounded Olson-style extraction sensitivity recovered controlled winners on the landed `v3` slice, and the full-text `mean_difference` calibration is substantially cleaner than the failed PCA calibration.
+- Decision: treat the full-text `mean_difference` path at layer `23` as the primary dense-direction candidate for the pilot output gate, use the `0.5` to `1.0` steering band as the bounded coefficient range to evaluate first, and keep the response-only `mean_difference` path as a diagnostic support lane rather than the main claim path.
+- Rationale: the research review said the last major mismatch to Olson was the extraction method, and the new artifacts show that this mismatch was real. The full-text `mean_difference` path is the strongest recovered signal on the same data slice.
+- Impact: `creativedecomp-173` can close, `creativedecomp-roq` becomes the next ready task, and decomposition remains blocked until the output-level gate runs on the recovered direction.

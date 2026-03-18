@@ -388,6 +388,126 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: the alternative sweep view changes the candidate layers but not the instability, which strengthens the negative interpretation rather than rescuing it
 - Next step: update the repo truth, perform the secondary research alignment review, and decide whether one bounded Olson-style extraction sensitivity is still warranted before a phase-level negative conclusion
+
+## 2026-03-18T14:45:00-0500 PRE-RUN: v3 mean-difference full-text layer sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --direction-method mean_difference --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction extraction
+- Data slice: `creative_direction_v3_pilot_pairs / 31 accepted rows / all layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference`
+- What I'm testing: whether Olson-style mean-difference extraction recovers a stronger or cleaner dense creativity direction than the current PCA path on the same `v3` counterpart slice.
+- Expected outcome: if extraction method is the remaining mismatch, the raw fraction or margin signal should improve enough to justify bounded calibration.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session013.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --direction-method mean_difference --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference --overwrite`
+- Main confound to watch: a better raw winner alone is not enough if the method still yields inverted margins or unstable calibration.
+- Implementation verified: YES - targeted layer-sweep tests now cover `mean_difference` extraction support
+- Status: LAUNCHING
+
+## 2026-03-18T14:45:30-0500 PRE-RUN: v3 mean-difference response-only layer sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --direction-method mean_difference --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction extraction
+- Data slice: `creative_direction_v3_response_only_pairs / 31 accepted rows / all layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference`
+- What I'm testing: whether the mean-difference method behaves differently when the same `v3` counterpart slice is viewed through response-only extraction.
+- Expected outcome: if the response-only view is the cleaner object, it should either stabilize the same band or clearly beat the full-text view.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session013.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --direction-method mean_difference --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference --overwrite`
+- Main confound to watch: method sensitivity can still leave the view-dependence unresolved, which would strengthen the negative result rather than weaken it.
+- Implementation verified: YES - targeted layer-sweep tests now cover `mean_difference` extraction support
+- Status: LAUNCHING
+
+## 2026-03-18T14:51:00-0500 PRE-RUN: v3 mean-difference full-text calibration
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_calibration.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction steering before decomposition
+- Data slice: `creative_direction_v3_pilot_pairs / first 6 prompts / mean-difference candidate layers`
+- Output path: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference`
+- What I'm testing: whether the recovered full-text `mean_difference` direction behaves like a usable control signal rather than just a better layer-ranking heuristic.
+- Expected outcome: the top late-layer band should show a cleaner, more interpretable coefficient-response pattern than the failed PCA calibration.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session013.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference --overwrite`
+- Main confound to watch: a recovered sweep winner still fails the thesis if positive coefficients do not move outputs or probe projections coherently.
+- Implementation verified: YES - existing calibration tests plus landed `mean_difference` sweep artifact
+- Status: LAUNCHING
+
+## 2026-03-18T14:51:30-0500 PRE-RUN: v3 mean-difference response-only calibration
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_calibration.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction steering before decomposition
+- Data slice: `creative_direction_v3_response_only_pairs / first 6 prompts / mean-difference candidate layers`
+- Output path: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference`
+- What I'm testing: whether the response-only `mean_difference` signal is as stable as the recovered full-text signal or still weaker and view-dependent.
+- Expected outcome: either the response-only band should corroborate the full-text recovery or the calibration should show that the rescue is narrower than the sweep metrics alone imply.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session013.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference --overwrite`
+- Main confound to watch: a sweep-level recovery that collapses under calibration would still count as a narrow negative for the response-only view.
+- Implementation verified: YES - existing calibration tests plus landed `mean_difference` sweep artifact
+- Status: LAUNCHING
+
+## 2026-03-18T14:49:39-0500 POST-RUN: v3 mean-difference full-text layer sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --direction-method mean_difference --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference --overwrite`
+- Outcome: SUCCESS
+- Key metric: controlled best layer `23` with `0.580645` positive-greater-than-negative fraction, mean margin `58.126850`, and margin z-score `0.829265`
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference/`
+- Latest checkpoint: none
+- Anomalies: none obvious; the same `v3` slice that failed under PCA now recovers a clear controlled winner, which means the extraction-method mismatch was genuinely material
+- Next step: run the response-only `mean_difference` sweep to test whether the recovery is robust across views
+
+## 2026-03-18T14:49:54-0500 POST-RUN: v3 mean-difference response-only layer sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --direction-method mean_difference --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference --overwrite`
+- Outcome: SUCCESS
+- Key metric: controlled best layer `9` with `0.548387` positive-greater-than-negative fraction, mean margin `13.131884`, and margin z-score `0.828694`
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference/`
+- Latest checkpoint: none
+- Anomalies: the response-only view also recovers under `mean_difference`, but it remains weaker than the full-text path
+- Next step: calibrate both recovered winner bands before changing the phase order
+
+## 2026-03-18T14:54:27-0500 POST-RUN: v3 mean-difference full-text calibration
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference --overwrite`
+- Outcome: SUCCESS
+- Key metric: layer `23` mean probe projection moved from `15.270608` unsteered to `26.416735` at coeff `0.5` and `34.472979` at coeff `1.0`, then overshot to `-7.573171` at coeff `2.0`
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference/`
+- Latest checkpoint: none
+- Anomalies: the recovered direction still has an overshoot regime at `2.0`, so the useful coefficient range appears bounded rather than open-ended
+- Next step: run the response-only `mean_difference` calibration before deciding how much of the recovery is view-specific
+
+## 2026-03-18T14:58:12-0500 POST-RUN: v3 mean-difference response-only calibration
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference --overwrite`
+- Outcome: SUCCESS
+- Key metric: layer `9` mean probe projection improved from `-5.527642` unsteered to `-2.083943` at coeff `0.5`, then slipped to `-9.066536` at coeff `1.0`
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference/`
+- Latest checkpoint: none
+- Anomalies: the response-only branch improves over PCA but remains noticeably weaker and more view-dependent than the full-text `mean_difference` path
+- Next step: update the repo truth and promote the full-text `mean_difference` path to the pilot output-gate candidate
 - Log path: `sessions/20260318-session007.md`
 - Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control --overwrite`
 - Main confound to watch: this control isolates template-prefix leakage, not every possible prompt-format confound.

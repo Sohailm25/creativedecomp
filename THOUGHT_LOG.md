@@ -249,3 +249,24 @@ Suggested entry format:
   - medium that a bounded Olson-style extraction sensitivity is the right last serious Phase 1 check
 - Interesting facts:
   - The full-text `v3` sweep lands on layer `6`, while the response-only view shifts to layer `22`, which is exactly the kind of view-dependence that should stop us from pretending we have a settled creativity direction.
+
+## [2026-03-18T15:03:00-0500] The Extraction Method Mismatch Was Real
+
+- Stage: synthesis
+- Feel of the Experiment: This is the first time in a while that the experiment got stricter and stronger at the same time. The data did not change, but the phase picture did.
+- Working Hypotheses:
+  - The Olson-style `mean_difference` path is much closer to the right Phase 1 object on this stack than PCA-on-pair-differences.
+  - The full-text view is the primary claim path now, while the response-only view is useful but still weaker.
+- Hunches and Guesses:
+  - The output gate now has a real chance to pass on the full-text `mean_difference` path.
+  - If the output gate still fails after this rescue, that negative result will be much more meaningful than any of the earlier failures.
+- Predictions:
+  - Layer `23` with a coefficient in the `0.5` to `1.0` band will be the best candidate for the next pilot evaluation.
+- Surprises and Tensions:
+  - The same `v3` slice went from no controlled winner under PCA to a clear controlled winner under `mean_difference`, which is a larger method effect than I expected.
+  - The response-only path also improved, but not enough to make the view-dependence disappear.
+- Confidence:
+  - high that `creativedecomp-roq` is now the right next task
+  - medium that the recovered direction will translate cleanly into output-level gains
+- Interesting facts:
+  - Full-text layer `23` moves from `15.27` unsteered to `26.42` at coeff `0.5` and `34.47` at coeff `1.0`, then collapses at coeff `2.0`, which looks like a bounded useful regime rather than random behavior.

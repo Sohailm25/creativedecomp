@@ -3,13 +3,13 @@
 **Last updated:** 2026-03-18
 **Updated by:** codex-gpt5
 **Status:** in_progress
-**Current phase:** Phase 1 - The audited `v3` counterpart contrast fixed most pair-quality confounds, but the dense creativity direction is still unstable enough that a bounded Olson-style extraction sensitivity now precedes the output gate and decomposition
+**Current phase:** Phase 1 - The bounded Olson-style `mean_difference` sensitivity rescued the dense creativity direction on the landed `v3` slice strongly enough to reopen the pilot output gate, while keeping decomposition blocked
 
 ## Active Thesis Lock
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
 - `known`: the active task branch is `wip/creativedecomp-scaffold-lock`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, and `creativedecomp-02c` are closed; `creativedecomp-173` is the next ready task; `creativedecomp-roq` is still the required pilot output-evaluation gate after that; and `creativedecomp-npt` remains blocked behind the Phase 1 gates.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, and `creativedecomp-173` are closed; `creativedecomp-roq` is now the next ready task; and `creativedecomp-npt` remains blocked behind the output-gate and decomposition-phase requirements.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -47,7 +47,13 @@
 - `observed`: the response-only `v3` calibration under `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only/` is also non-monotone; layer `22` moves from `95.376869` unsteered to `119.561817` at coeff `0.5`, `82.285971` at coeff `1.0`, and `91.711067` at coeff `2.0`, while layer `0` flips sign at coeff `1.0`.
 - `inferred`: `v3` did what it was supposed to do methodologically, but it did not rescue the dense-direction claim. The experiment is now in a stronger negative state: contrast quality improved, yet the direction remains weak, unstable, and view-dependent.
 - `inferred`: the most important remaining mismatch to the strongest research path is no longer counterpart construction alone. It is the extraction method. Olson-style mean-difference or CAA extraction is now the one bounded Phase 1 sensitivity worth running before treating this as a meaningful negative result for the Gemma 2 2B MacBook lane.
-- `known`: contrast quality and output-level validation are still part of the live gate logic, but the next blocker is now bounded Olson-style extraction sensitivity rather than immediate output-gate work.
+- `observed`: the full-text Olson-style `mean_difference` sweep under `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference/` recovers layer `23` as both the raw and controlled winner with `0.580645` positive-greater-than-negative fraction, mean margin `58.126850`, and margin z-score `0.829265`; this is a material improvement over the failed PCA sweep on the same `v3` slice.
+- `observed`: the response-only `mean_difference` sweep under `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference/` also recovers a controlled winner, layer `9`, with `0.548387` positive-greater-than-negative fraction, mean margin `13.131884`, and margin z-score `0.828694`.
+- `observed`: the full-text `mean_difference` calibration under `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference/` is substantially cleaner than the PCA calibration. For layer `23`, mean probe projection moves from `15.270608` unsteered to `26.416735` at coeff `0.5` and `34.472979` at coeff `1.0`, then overshoots at coeff `2.0` to `-7.573171`.
+- `observed`: the response-only `mean_difference` calibration under `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference/` improves over the PCA response-only branch but remains weaker and more view-dependent. Layer `9` improves from `-5.527642` unsteered to `-2.083943` at coeff `0.5`, then slips to `-9.066536` at coeff `1.0`.
+- `inferred`: the extraction-method mismatch was real. Olson-style `mean_difference` rescues the Phase 1 dense-direction path on the landed `v3` slice strongly enough to move the experiment forward, especially on the full-text view.
+- `inferred`: the current primary dense-direction candidate for the pilot output gate is the full-text `mean_difference` path at layer `23`, with the `0.5` to `1.0` steering band as the most defensible bounded coefficient range. The response-only `mean_difference` result is useful diagnostic support but is not as strong as the full-text path.
+- `known`: contrast quality is no longer the live blocker. The next blocker is the pilot output-level gate, using the recovered full-text `mean_difference` direction and comparing against the prompt-only creativity baseline before decomposition work reopens.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -55,7 +61,7 @@
 
 ## Immediate Next Steps
 
-1. Run the bounded Olson-style extraction sensitivity (`creativedecomp-173`) on the landed `v3` counterpart slice: compare the current PCA-on-pair-differences extraction against an Olson-style mean-difference or CAA direction, and use a tiny hand-audited subset only if the automatic rewrite slice still looks qualitatively weak.
-2. Freeze the missing pilot output-level gate (`creativedecomp-roq`) only if the sensitivity step recovers a defensible dense direction: run at least one locked creativity-side metric plus one coherence/usefulness check, compare against the prompt-only creativity baseline explicitly, and do not treat output-level readiness as interchangeable with internal probe movement.
-3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until both the extraction-sensitivity gate and the output-level gate pass.
-4. If the bounded Olson-style sensitivity also fails, log that as the first serious negative result for the Gemma 2 2B MacBook lane before considering broader stack changes or stronger-model escalation.
+1. Run the pilot output-level gate (`creativedecomp-roq`) on the recovered full-text `mean_difference` direction: use layer `23` as the primary dense-direction site, test the bounded `0.5` to `1.0` coefficient band, compare against the prompt-only creativity baseline explicitly, and pair the creativity-side metric with a coherence/usefulness check.
+2. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until the output-level gate passes.
+3. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless the output-level gate shows it is equally strong.
+4. If the output-level gate fails even after the `mean_difference` rescue, record that as the main negative result for the Gemma 2 2B MacBook lane before escalating the stack.

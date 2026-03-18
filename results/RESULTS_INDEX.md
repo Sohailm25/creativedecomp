@@ -31,6 +31,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Audited `v3` counterpart rewrite artifact with `31 / 32` accepted rows and high content-preservation overlap | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot/README.md` |
 | Full-text `v3` layer sweep showing that the cleaner counterpart contrast still does not recover a usable dense creativity direction | creativity direction | fail | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3/README.md` |
 | Response-only `v3` layer sweep showing view-dependent raw winners without a stable dense creativity direction | creativity direction | fail | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only/README.md` |
+| Full-text `v3` Olson-style `mean_difference` sweep recovering layer `23` as a controlled dense-direction winner on the same counterpart slice | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference/README.md` |
+| Response-only `v3` Olson-style `mean_difference` sweep recovering layer `9` while remaining weaker than the full-text path | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference/README.md` |
 
 ## Feature Decomposition
 
@@ -56,6 +58,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Bounded steering-scale calibration sweep on the response-centered `v2` late-layer band showing unstable coefficient-response behavior | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-v2-direction-calibration/README.md` |
 | Full-text `v3` calibration sweep showing that the cleaner counterpart contrast still yields non-monotone dense-direction control behavior | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration/README.md` |
 | Response-only `v3` calibration sweep showing that the alternative view changes candidate layers but not the instability | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only/README.md` |
+| Full-text `v3` Olson-style `mean_difference` calibration showing a usable bounded control regime around layer `23` and coeffs `0.5` to `1.0` | steering evaluation | pass | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference/README.md` |
+| Response-only `v3` Olson-style `mean_difference` calibration improving over PCA but remaining weaker and more view-dependent | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference/README.md` |
 
 ## Creativity Benchmarks
 
