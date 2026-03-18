@@ -3,13 +3,13 @@
 **Last updated:** 2026-03-18
 **Updated by:** codex-gpt5
 **Status:** in_progress
-**Current phase:** Phase 1 - The bounded Olson-style `mean_difference` sensitivity rescued the dense creativity direction on the landed `v3` slice strongly enough to reopen the pilot output gate, while keeping decomposition blocked
+**Current phase:** Phase 1 - The dense creativity direction is recovered at the hidden-state level on the landed `v3` slice, but the corrected order-robust pilot output gate still fails to show a usable sequence-level effect with the current local judge, so decomposition remains blocked and evaluation sensitivity is now the live bottleneck
 
 ## Active Thesis Lock
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
 - `known`: the active task branch is `wip/creativedecomp-scaffold-lock`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, and `creativedecomp-173` are closed; `creativedecomp-roq` is now the next ready task; and `creativedecomp-npt` remains blocked behind the output-gate and decomposition-phase requirements.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, and `creativedecomp-roq` are complete as finished gates; `creativedecomp-8o1` is now the next ready task; and `creativedecomp-npt` remains blocked behind the output-metric follow-up and decomposition-phase requirements.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -53,7 +53,14 @@
 - `observed`: the response-only `mean_difference` calibration under `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference/` improves over the PCA response-only branch but remains weaker and more view-dependent. Layer `9` improves from `-5.527642` unsteered to `-2.083943` at coeff `0.5`, then slips to `-9.066536` at coeff `1.0`.
 - `inferred`: the extraction-method mismatch was real. Olson-style `mean_difference` rescues the Phase 1 dense-direction path on the landed `v3` slice strongly enough to move the experiment forward, especially on the full-text view.
 - `inferred`: the current primary dense-direction candidate for the pilot output gate is the full-text `mean_difference` path at layer `23`, with the `0.5` to `1.0` steering band as the most defensible bounded coefficient range. The response-only `mean_difference` result is useful diagnostic support but is not as strong as the full-text path.
-- `known`: contrast quality is no longer the live blocker. The next blocker is the pilot output-level gate, using the recovered full-text `mean_difference` direction and comparing against the prompt-only creativity baseline before decomposition work reopens.
+- `observed`: the pilot output-gate artifact now exists under `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`, using the recovered full-text `mean_difference` direction at layer `23`, the bounded `0.5` and `1.0` coefficient settings, the prompt-only creativity baseline, and saved local judge prompts plus side-effect heuristics.
+- `observed`: the first single-order label-judge pass on that artifact looked weakly positive, but the secondary review showed that the local judge was heavily biased toward story `A` (`152 / 155` creativity labels), which made the initial automatic pass signal invalid as evidence.
+- `observed`: the corrected order-robust rerun on the same generated outputs requires the same condition to win under both A/B orderings or the result becomes `tie`. Under that rule, prompt-only creativity versus neutral is `31 / 31` ties on both creativity and coherence, dense `0.5` versus neutral is `31 / 31` ties on both axes, and dense `1.0` versus neutral is also `31 / 31` ties on both axes.
+- `observed`: the only non-tie signal left after order-robust judging is dense `0.5` versus the prompt-only baseline, where dense wins `2 / 31` creativity comparisons and loses `1 / 31`, but it also loses `1 / 31` coherence comparisons and stays tied on the rest.
+- `observed`: the condition-level side-effect heuristics remain clean on prompt-meta contamination, but they do not rescue the gate: dense `1.0` is slightly longer and more repetitive than neutral, while dense `0.5` is only slightly more lexically diverse.
+- `inferred`: the corrected pilot output gate does not currently pass, so decomposition remains blocked even after the hidden-state recovery at layer `23`.
+- `inferred`: because the same order-robust judge also collapses the prompt-only creativity baseline versus neutral to ties, the current local creativity-side metric is too insensitive to decide whether the Gemma 2 2B MacBook lane is a true negative result or an evaluation failure.
+- `known`: contrast quality is no longer the live blocker. The next blocker is strengthening the pilot creativity-side metric without reintroducing order bias, using `creativedecomp-8o1`, before decomposition work can honestly reopen.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -61,7 +68,7 @@
 
 ## Immediate Next Steps
 
-1. Run the pilot output-level gate (`creativedecomp-roq`) on the recovered full-text `mean_difference` direction: use layer `23` as the primary dense-direction site, test the bounded `0.5` to `1.0` coefficient band, compare against the prompt-only creativity baseline explicitly, and pair the creativity-side metric with a coherence/usefulness check.
-2. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until the output-level gate passes.
-3. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless the output-level gate shows it is equally strong.
-4. If the output-level gate fails even after the `mean_difference` rescue, record that as the main negative result for the Gemma 2 2B MacBook lane before escalating the stack.
+1. Run `creativedecomp-8o1` to strengthen the pilot creativity-side metric after the order-robust gate collapse, using one bounded follow-up such as a manual audit slice, a stronger local rubric, or a small benchmark proxy that can separate prompt-only creativity prompting from neutral.
+2. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until the strengthened pilot metric shows a real output-level effect or the MacBook lane is logged as a clean negative result.
+3. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless a stronger evaluation metric shows it matters.
+4. Do not treat the corrected output-gate collapse as a settled distributed-creativity result yet, because the current local metric is too weak to distinguish even the prompt-only baseline from neutral.

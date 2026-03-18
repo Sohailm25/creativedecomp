@@ -60,6 +60,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Response-only `v3` calibration sweep showing that the alternative view changes candidate layers but not the instability | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only/README.md` |
 | Full-text `v3` Olson-style `mean_difference` calibration showing a usable bounded control regime around layer `23` and coeffs `0.5` to `1.0` | steering evaluation | pass | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-mean-difference/README.md` |
 | Response-only `v3` Olson-style `mean_difference` calibration improving over PCA but remaining weaker and more view-dependent | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only-mean-difference/README.md` |
+| Pilot output-level gate on the recovered full-text `mean_difference` direction, corrected to order-robust paired judging and collapsing almost entirely to ties under the current local metric | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-output-gate-v1/README.md` |
 
 ## Creativity Benchmarks
 

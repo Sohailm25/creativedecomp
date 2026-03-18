@@ -1,0 +1,4 @@
+{
+  "pairwise_creativity_label_judge": "You are comparing two short story continuations written for the same prompt.\n\nOriginal prompt:\n{prompt}\n\nStory A:\n{story_a}\n\nStory B:\n{story_b}\n\nWhich story is more creative? Creativity means more original, vivid, and surprising while still fitting the prompt.\nAnswer with exactly one label: A, B, or tie.\nAnswer:",
+  "pairwise_coherence_label_judge": "You are comparing two short story continuations written for the same prompt.\n\nOriginal prompt:\n{prompt}\n\nStory A:\n{story_a}\n\nStory B:\n{story_b}\n\nWhich story is more coherent and readable? Consider clarity, internal consistency, and whether the text avoids obvious repetition or breakage.\nAnswer with exactly one label: A, B, or tie.\nAnswer:"
+}

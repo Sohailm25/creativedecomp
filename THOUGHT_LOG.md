@@ -270,3 +270,24 @@ Suggested entry format:
   - medium that the recovered direction will translate cleanly into output-level gains
 - Interesting facts:
   - Full-text layer `23` moves from `15.27` unsteered to `26.42` at coeff `0.5` and `34.47` at coeff `1.0`, then collapses at coeff `2.0`, which looks like a bounded useful regime rather than random behavior.
+
+## [2026-03-18T16:04:00-0500] The Judge Was Weaker Than The Direction
+
+- Stage: synthesis
+- Feel of the Experiment: The first output-gate result looked barely positive, but the second look was more important than the first number. The gate did not really fail because steering obviously does nothing; it failed because the local judge was not strong enough to be trusted without order controls.
+- Working Hypotheses:
+  - The dense direction may still have a weak real output effect, but the current local pairwise metric cannot separate that effect from order bias and general indecision.
+  - If a stronger bounded metric still cannot distinguish prompt-only creativity prompting from neutral, then the MacBook lane becomes much closer to a clean negative result.
+- Hunches and Guesses:
+  - The right next step is not decomposition and not another hidden-state sweep. It is a tighter pilot creativity metric or manual audit slice that can discriminate obvious prompting differences before it is asked to judge dense steering.
+- Predictions:
+  - Order-robust judging will collapse most current comparisons to ties whenever the local judge is dominated by positional preference.
+  - The next meaningful signal will come from improving the metric, not from slightly retuning the same layer-23 coefficients.
+- Surprises and Tensions:
+  - The first single-order gate recommended `True`, but almost all of that signal disappeared as soon as the judge had to agree under both A/B orderings.
+  - Even the prompt-only creativity baseline versus neutral collapsed to ties, which means the evaluation bottleneck is now stronger than I expected.
+- Confidence:
+  - high that decomposition must remain blocked
+  - medium that a bounded stronger local metric can still rescue Phase 1 without escalating the stack
+- Interesting facts:
+  - Under order-robust judging, prompt-only versus neutral is `31 / 31` ties on both creativity and coherence, and dense versus neutral is also `31 / 31` ties for both tested coefficients.

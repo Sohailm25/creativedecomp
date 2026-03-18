@@ -62,6 +62,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("mean_difference", CURRENT_STATE)
         self.assertIn("layer `23`", CURRENT_STATE)
 
+    def test_current_state_keeps_decomposition_blocked_after_order_robust_output_gate(self) -> None:
+        self.assertIn("order-robust", CURRENT_STATE)
+        self.assertIn("decomposition remains blocked", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

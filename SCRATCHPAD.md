@@ -673,3 +673,43 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: all conditions stayed free of prompt-meta contamination, but the coefficient-response pattern was not cleanly monotone or stable enough to justify decomposition
 - Next step: keep decomposition blocked and create a new contrast-quality task to build an audited `v3` pair set before rerunning layer selection and calibration
+
+## 2026-03-18T17:33:00-0500 PRE-RUN: pilot output-level gate on recovered v3 mean-difference direction
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_output_gate.py`
+- Command: `.venv/bin/python scripts/run_creativity_output_gate.py --output-dir results/steering_eval/20260318-gemma2-2b-output-gate-v1`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is the dense-direction pilot output gate before any feature decomposition
+- Data slice: `creative_direction_v3_pilot_pairs / full 31-row accepted slice / full-text mean-difference layer 23 / coeffs 0.5 and 1.0`
+- Output path: `results/steering_eval/20260318-gemma2-2b-output-gate-v1`
+- What I'm testing: whether the recovered dense direction changes generated stories at the sequence level on creativity without collapsing coherence, and how it compares with the prompt-only creativity baseline
+- Expected outcome: at least one dense condition should show positive creativity preference versus neutral with non-catastrophic coherence loss; beating the prompt-only baseline is not required
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session014.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_output_gate.py --output-dir results/steering_eval/20260318-gemma2-2b-output-gate-v1 --overwrite`
+- Main confound to watch: because the same local model is doing both generation and pairwise judging, the gate is still pilot-grade evidence and must be interpreted with the saved prompts and side-effect heuristics
+- Implementation verified: YES - focused unit tests for condition construction, repo judge-template formatting, judgment parsing, repetition heuristics, and pairwise summary aggregation
+- Status: LAUNCHING
+
+## 2026-03-18T15:50:19-0500 POST-RUN: single-order pilot output gate on recovered v3 mean-difference direction
+
+- Command: `.venv/bin/python scripts/run_creativity_output_gate.py --output-dir results/steering_eval/20260318-gemma2-2b-output-gate-v1 --overwrite`
+- Outcome: INVALIDATED
+- Key metric: the first artifact reported an automatic pass with dense `1.0` as the best condition, but secondary review found the local creativity judge chose story `A` on `152 / 155` comparisons
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`
+- Latest checkpoint: initial gate artifact kept for overwrite-corrected rerun
+- Anomalies: the pairwise label judge was dominated by story-order bias, so the first positive-looking summary could not be treated as evidence
+- Next step: fix the gate by requiring agreement under both A/B orderings and reuse the saved generated outputs so the correction only reruns judging
+
+## 2026-03-18T15:58:38-0500 POST-RUN: order-robust pilot output gate rerun on cached generated outputs
+
+- Command: `.venv/bin/python scripts/run_creativity_output_gate.py --output-dir results/steering_eval/20260318-gemma2-2b-output-gate-v1 --overwrite`
+- Outcome: SUCCESS
+- Key metric: after requiring the same winner under both A/B orderings, prompt-only creativity versus neutral is `31 / 31` ties on both axes, dense `0.5` versus neutral is `31 / 31` ties, dense `1.0` versus neutral is `31 / 31` ties, and the automatic pass recommendation flips to `False`
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`
+- Latest checkpoint: cached `generated_outputs.jsonl` reused; only judging reran
+- Anomalies: the corrected gate is now dominated by ties, including the prompt-only baseline, which means the current local creativity-side metric is too insensitive to settle whether the MacBook lane is truly negative
+- Next step: keep decomposition blocked and open a bounded follow-up to strengthen the pilot creativity metric before deciding whether Phase 1 is genuinely negative or merely under-evaluated
