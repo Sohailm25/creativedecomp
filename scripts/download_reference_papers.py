@@ -4,14 +4,25 @@
 from __future__ import annotations
 
 import argparse
+import base64
 from dataclasses import dataclass
 from pathlib import Path
 import re
-from urllib.request import urlretrieve
+import shutil
+from tempfile import NamedTemporaryFile
+from urllib.parse import parse_qs, urlparse
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 
 MANIFEST_LINE = re.compile(
     r"^- \[(?P<checked>[ xX])\] (?P<title>.+?) \| (?P<url>\S+) \| (?P<filename>.+)$"
+)
+MIN_FILE_SIZE_BYTES = 1_024
+DOWNLOAD_USER_AGENT = "creativedecomp-paper-downloader/1.0"
+DEFAULT_CHROME_PATHS = (
+    Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"),
+    Path("/Applications/Chromium.app/Contents/MacOS/Chromium"),
 )
 
 
@@ -47,24 +58,118 @@ def parse_manifest(manifest_path: Path) -> list[DownloadSpec]:
     return specs
 
 
+def verify_downloaded_artifact(target_path: Path) -> None:
+    if not target_path.exists():
+        raise FileNotFoundError(f"missing downloaded artifact: {target_path}")
+    if target_path.stat().st_size < MIN_FILE_SIZE_BYTES:
+        raise ValueError(f"artifact is too small to be a full paper file: {target_path}")
+
+    header = target_path.read_bytes()[:8]
+    if target_path.suffix.lower() == ".pdf" and not header.startswith(b"%PDF"):
+        raise ValueError(f"expected a PDF artifact but found different content: {target_path}")
+
+
+def detect_chrome_executable() -> Path:
+    for candidate in DEFAULT_CHROME_PATHS:
+        if candidate.exists():
+            return candidate
+    raise RuntimeError(
+        "OpenReview fallback requires a local Chrome/Chromium executable in a standard macOS path."
+    )
+
+
+def extract_openreview_id(url: str) -> str | None:
+    parsed_url = urlparse(url)
+    if parsed_url.netloc != "openreview.net":
+        return None
+    if parsed_url.path != "/pdf":
+        return None
+    paper_id = parse_qs(parsed_url.query).get("id", [None])[0]
+    return paper_id
+
+
+def download_openreview_pdf_with_browser(url: str, target_path: Path) -> None:
+    paper_id = extract_openreview_id(url)
+    if paper_id is None:
+        raise ValueError(f"expected an OpenReview PDF url with an id query parameter: {url}")
+
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError as exc:  # pragma: no cover - environment-dependent fallback
+        raise RuntimeError(
+            "OpenReview downloads require `playwright` in the active .venv because raw HTTP access is blocked."
+        ) from exc
+
+    chrome_path = detect_chrome_executable()
+    forum_url = f"https://openreview.net/forum?id={paper_id}"
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            headless=True,
+            executable_path=str(chrome_path),
+        )
+        page = browser.new_page()
+        page.goto(forum_url, wait_until="networkidle", timeout=60_000)
+        encoded_body = page.evaluate(
+            """
+            async (pdfId) => {
+                const response = await fetch(`/pdf?id=${pdfId}`);
+                const buffer = await response.arrayBuffer();
+                const bytes = new Uint8Array(buffer);
+                let binary = "";
+                const chunkSize = 0x8000;
+                for (let index = 0; index < bytes.length; index += chunkSize) {
+                    binary += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
+                }
+                return btoa(binary);
+            }
+            """,
+            paper_id,
+        )
+        browser.close()
+    target_path.write_bytes(base64.b64decode(encoded_body))
+
+
+def download_file(url: str, target_path: Path) -> None:
+    request = Request(url, headers={"User-Agent": DOWNLOAD_USER_AGENT})
+    try:
+        with urlopen(request) as response, NamedTemporaryFile(
+            delete=False,
+            dir=target_path.parent,
+            prefix=f"{target_path.name}.",
+            suffix=".part",
+        ) as temp_file:
+            shutil.copyfileobj(response, temp_file)
+            temp_path = Path(temp_file.name)
+        temp_path.replace(target_path)
+    except HTTPError:
+        if extract_openreview_id(url) is None:
+            raise
+        download_openreview_pdf_with_browser(url, target_path)
+
+
 def download_specs(
     specs: list[DownloadSpec],
     output_dir: Path,
     overwrite: bool,
     dry_run: bool,
+    verify_only: bool,
 ) -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
     downloaded = 0
     for spec in specs:
         target_path = output_dir / spec.filename
-        action = "skip"
-        if target_path.exists() and not overwrite:
-            action = "exists"
-        elif dry_run:
+        if dry_run:
             action = "dry-run"
             downloaded += 1
+        elif verify_only:
+            verify_downloaded_artifact(target_path)
+            action = "verified"
+        elif target_path.exists() and not overwrite:
+            verify_downloaded_artifact(target_path)
+            action = "exists"
         else:
-            urlretrieve(spec.url, target_path)
+            download_file(spec.url, target_path)
+            verify_downloaded_artifact(target_path)
             action = "downloaded"
             downloaded += 1
         print(f"{action}: {spec.title} -> {target_path}")
@@ -95,6 +200,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Print intended downloads without writing files.",
     )
+    parser.add_argument(
+        "--verify-only",
+        action="store_true",
+        help="Validate that every manifest entry already exists locally as a full artifact.",
+    )
     return parser
 
 
@@ -110,6 +220,7 @@ def main() -> int:
         output_dir=args.output_dir,
         overwrite=args.overwrite,
         dry_run=args.dry_run,
+        verify_only=args.verify_only,
     )
     print(f"processed {len(specs)} manifest entries; actions taken for {downloaded}")
     return 0
