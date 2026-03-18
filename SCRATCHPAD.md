@@ -238,6 +238,156 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Expected outcome: the raw layer-`0` winner should be penalized if it mostly reflects instruction-template wording, and a later layer may become the controlled winner.
 - Checkpoint path: N/A
 - Checkpoint cadence: N/A
+
+## 2026-03-18T13:35:00-0500 PRE-RUN: v3 counterpart pair materialization
+
+- tmux session: N/A
+- Script: `scripts/materialize_creativity_response_pairs_v3.py`
+- Command: `.venv/bin/python scripts/materialize_creativity_response_pairs_v3.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still the dense-direction input pair construction step
+- Data slice: `creative_direction_v1_pilot / 32 prompt rows`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot`
+- What I'm testing: whether creative-source plus plain-counterpart rewrite produces cleaner, more content-preserving creativity pairs than the `v2` independently sampled negatives.
+- Expected outcome: most rows should pass the overlap and prompt-grounding filters, and accepted pairs should be visibly closer in content than `v2`.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session012.md`
+- Resume command: `.venv/bin/python scripts/materialize_creativity_response_pairs_v3.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot --overwrite`
+- Main confound to watch: the rewrite prompt could flatten the story so aggressively that the negative side becomes too short or formulaic to remain a meaningful counterpart.
+- Implementation verified: YES - targeted `v3` unit tests for template construction and quality heuristics
+- Status: LAUNCHING
+
+## 2026-03-18T13:35:30-0500 PRE-RUN: v3 full-text layer sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction extraction
+- Data slice: `creative_direction_v3_pilot_pairs / accepted rows / all layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3`
+- What I'm testing: whether the counterpart-style `v3` contrast strengthens late-layer pair separation on the full-text extraction view.
+- Expected outcome: pair separation should improve over `v2`, and the best layer should look more stable than the failed `v2` calibration candidate.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session012.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3 --overwrite`
+- Main confound to watch: stronger raw separation could still come from the rewrite template rather than the creativity contrast, so the template-control outputs still matter.
+- Implementation verified: YES - existing layer-sweep tests plus green `v3` pair-builder tests
+- Status: LAUNCHING
+
+## 2026-03-18T13:36:00-0500 PRE-RUN: v3 response-only layer sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is a diagnostic rerun without prompt text in the contrast rows
+- Data slice: `creative_direction_v3_response_only_pairs / accepted rows / all layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only`
+- What I'm testing: whether the `v3` layer signal survives when only the response text is kept.
+- Expected outcome: the best layer should stay in the same late-layer band if the recovered signal is not mainly prompt-wrapper dependent.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session012.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only --overwrite`
+- Main confound to watch: the response-only view has no meaningful template-control difference, so agreement with the full-text view matters more than the control delta itself.
+- Implementation verified: YES - existing layer-sweep tests plus green `v3` pair-builder tests
+- Status: LAUNCHING
+
+## 2026-03-18T13:36:30-0500 PRE-RUN: v3 bounded calibration
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_calibration.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3 --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction steering before decomposition
+- Data slice: `creative_direction_v3_pilot_pairs / first 6 prompts / full-text sweep winner band`
+- Output path: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration`
+- What I'm testing: whether the `v3` late-layer candidate shows a saner coefficient-response pattern than the unstable `v2` direction.
+- Expected outcome: the selected layer should move in a more interpretable direction as coefficient changes, even if the effect remains modest.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session012.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3 --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration --overwrite`
+- Main confound to watch: internal probe movement may still look cleaner than the actual outputs, which is not enough to reopen Phase 2.
+- Implementation verified: YES - existing calibration tests plus green `v3` pair-builder tests
+- Status: LAUNCHING
+
+## 2026-03-18T14:27:15-0500 PRE-RUN: v3 response-only bounded calibration
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_calibration.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction steering before decomposition
+- Data slice: `creative_direction_v3_response_only_pairs / first 6 prompts / response-only sweep winner band`
+- Output path: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only`
+- What I'm testing: whether the response-only winner band behaves any more cleanly under steering than the full-text view after the `v3` diagnostic split.
+- Expected outcome: if the response-only sweep found a real signal, its calibration should look less erratic than the full-text band.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session012.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only --overwrite`
+- Main confound to watch: agreement on a raw best layer is still not enough if the coefficient-response pattern or outputs remain unstable.
+- Implementation verified: YES - existing calibration tests plus landed `v3` sweep artifacts
+- Status: LAUNCHING
+
+## 2026-03-18T14:25:12-0500 POST-RUN: v3 counterpart pair materialization
+
+- Command: `.venv/bin/python scripts/materialize_creativity_response_pairs_v3.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot --overwrite`
+- Outcome: SUCCESS
+- Key metric: accepted `31 / 32` rows with mean counterpart overlap `0.913658`
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot/`, `prompts/creative_direction_v3_*.json*`
+- Latest checkpoint: none
+- Anomalies: the lone rejected row drifted semantically despite the rewrite instruction, which is useful evidence that the filter is catching real failures instead of silently trusting the rewrite prompt
+- Next step: rerun dense-direction layer selection on the landed `v3` slice in full-text and response-only form
+
+## 2026-03-18T14:25:39-0500 POST-RUN: v3 full-text layer sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3 --overwrite`
+- Outcome: SUCCESS
+- Key metric: raw best layer `6` with `0.354839` positive-greater-than-negative fraction and no controlled winner
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3/`
+- Latest checkpoint: none
+- Anomalies: the contrast got cleaner but the dense direction got weaker rather than stronger, which is exactly the opposite of what a rescued Phase 1 signal would look like
+- Next step: run the response-only sweep before deciding whether the failure is prompt-wrapper specific
+
+## 2026-03-18T14:26:29-0500 POST-RUN: v3 response-only layer sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only --overwrite`
+- Outcome: SUCCESS
+- Key metric: raw best layer `22` with `0.387097` positive-greater-than-negative fraction and no controlled winner
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only/`
+- Latest checkpoint: none
+- Anomalies: the best raw layer changed from `6` to `22`, but the weakness did not disappear, which points to view-dependence rather than a hidden robust direction
+- Next step: calibrate both winner bands rather than pretending one of the sweeps is obviously authoritative
+
+## 2026-03-18T14:30:37-0500 POST-RUN: v3 bounded calibration
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_pilot_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3 --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration --overwrite`
+- Outcome: SUCCESS
+- Key metric: layer `6` mean probe projection moved from `-1.633606` unsteered to `-7.025127`, `-15.897805`, and `-3.596284` across positive coefficients, which is not a sane monotone control pattern
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration/`
+- Latest checkpoint: none
+- Anomalies: the candidate layer band came from a weak sweep and behaved like one; positive coefficients did not create a consistent movement toward a clearer creativity-like state
+- Next step: run the response-only calibration before finalizing the Phase 1 interpretation
+
+## 2026-03-18T14:34:08-0500 POST-RUN: v3 response-only bounded calibration
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --split-path prompts/creative_direction_v3_response_only_pairs.jsonl --templates-path prompts/creative_direction_v3_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only --output-dir results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only --overwrite`
+- Outcome: SUCCESS
+- Key metric: layer `22` mean probe projection moved from `95.376869` unsteered to `119.561817`, `82.285971`, and `91.711067`, while layer `0` flipped sign at coeff `1.0`
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only/`
+- Latest checkpoint: none
+- Anomalies: the alternative sweep view changes the candidate layers but not the instability, which strengthens the negative interpretation rather than rescuing it
+- Next step: update the repo truth, perform the secondary research alignment review, and decide whether one bounded Olson-style extraction sensitivity is still warranted before a phase-level negative conclusion
 - Log path: `sessions/20260318-session007.md`
 - Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control --overwrite`
 - Main confound to watch: this control isolates template-prefix leakage, not every possible prompt-format confound.

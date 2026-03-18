@@ -54,6 +54,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("contrast quality", CURRENT_STATE)
         self.assertIn("output-level", CURRENT_STATE)
 
+    def test_current_state_tracks_bounded_olson_style_sensitivity_before_output_gate(self) -> None:
+        self.assertIn("Olson-style", CURRENT_STATE)
+        self.assertTrue("mean-difference" in CURRENT_STATE or "CAA" in CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

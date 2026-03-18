@@ -28,6 +28,9 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Response-centered `v2` pilot artifact with matched creativity-vs-plain continuation pairs under a shared extraction wrapper | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot/README.md` |
 | Response-centered `v2` controlled layer sweep recovering a provisional late-layer candidate after removing the instruction-template confound | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2/README.md` |
 | Audit slice over the response-centered `v2` pair set showing that several strongest losses are still semantically competitive negatives rather than junk rows | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit/README.md` |
+| Audited `v3` counterpart rewrite artifact with `31 / 32` accepted rows and high content-preservation overlap | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot/README.md` |
+| Full-text `v3` layer sweep showing that the cleaner counterpart contrast still does not recover a usable dense creativity direction | creativity direction | fail | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3/README.md` |
+| Response-only `v3` layer sweep showing view-dependent raw winners without a stable dense creativity direction | creativity direction | fail | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only/README.md` |
 
 ## Feature Decomposition
 
@@ -51,6 +54,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Generation-side dense-direction smoke rerun with continuation-style neutral and creative prompt harnesses | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-generation-smoke/README.md` |
 | Generation-side dense-direction smoke rerun from the response-centered `v2` sweep using the provisional late-layer candidates | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2/README.md` |
 | Bounded steering-scale calibration sweep on the response-centered `v2` late-layer band showing unstable coefficient-response behavior | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-v2-direction-calibration/README.md` |
+| Full-text `v3` calibration sweep showing that the cleaner counterpart contrast still yields non-monotone dense-direction control behavior | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration/README.md` |
+| Response-only `v3` calibration sweep showing that the alternative view changes candidate layers but not the instability | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only/README.md` |
 
 ## Creativity Benchmarks
 

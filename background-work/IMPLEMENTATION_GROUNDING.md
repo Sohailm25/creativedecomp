@@ -33,7 +33,7 @@ This note is the pre-implementation reference audit for the active experiment. I
 - Code and tooling to use:
   `repeng`, `steering-vectors`, `SAELens`, `TransformerLens`.
 - Implementation consequence:
-  Freeze the selected layer, steering scale, and judge configuration on the pilot slice before touching the confirmatory split, and do not open Phase 2 on hidden-state probes alone; the dense direction must clear a bounded pilot output-level creativity/coherence gate first.
+  Freeze the selected layer, steering scale, and judge configuration on the pilot slice before touching the confirmatory split, and do not open Phase 2 on hidden-state probes alone; the dense direction must clear a bounded pilot output-level creativity/coherence gate first. If a counterpart-style `v3` contrast still fails to recover a stable direction, run one bounded Olson-style mean-difference or CAA sensitivity before treating the MacBook lane as a meaningful negative result.
 
 ### Phase 2: Signed Feature Decomposition
 

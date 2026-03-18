@@ -3,13 +3,13 @@
 **Last updated:** 2026-03-18
 **Updated by:** codex-gpt5
 **Status:** in_progress
-**Current phase:** Phase 1 - Response-centered contrast recovered a late-layer candidate, but deeper review says contrast repair and output-level validation still precede decomposition
+**Current phase:** Phase 1 - The audited `v3` counterpart contrast fixed most pair-quality confounds, but the dense creativity direction is still unstable enough that a bounded Olson-style extraction sensitivity now precedes the output gate and decomposition
 
 ## Active Thesis Lock
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
 - `known`: the active task branch is `wip/creativedecomp-scaffold-lock`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, and `creativedecomp-6lm` are closed; `creativedecomp-02c` is the next ready task; `creativedecomp-roq` is the required pilot output-evaluation gate after that; and `creativedecomp-npt` now explicitly depends on both `creativedecomp-02c` and `creativedecomp-roq`.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, and `creativedecomp-02c` are closed; `creativedecomp-173` is the next ready task; `creativedecomp-roq` is still the required pilot output-evaluation gate after that; and `creativedecomp-npt` remains blocked behind the Phase 1 gates.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -40,6 +40,14 @@
 - `inferred`: the current `v2` pair construction is still weaker than the Olson-style counterpart path the research docs point to, because the positive and negative sides are independently sampled continuations rather than content-preserving creative/plain counterparts of the same story material.
 - `known`: internal probe movement alone is no longer treated as a sufficient readiness signal for Phase 2; a pilot output-level creativity gate with a coherence/usefulness check is now required before any decomposition comparison reopens.
 - `known`: the pilot output-level gate must compare against the prompt-only creativity baseline explicitly, but it does not require dense steering to outperform prompting on the pilot slice; the goal is to establish a real causal output effect and characterize the tradeoff honestly.
+- `observed`: the audited `v3` counterpart artifact under `results/creativity_direction/20260318-gemma2-2b-response-pairs-v3-pilot/` accepts `31 / 32` rows, with mean counterpart overlap `0.913658`, mean prompt-grounding delta `0.002251`, and only one rejection (`low_counterpart_overlap`), so the main `v2` content-drift excuse is now substantially weaker.
+- `observed`: the full-text `v3` sweep under `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3/` still does not recover a usable dense direction; raw best moves to layer `6`, but its positive-greater-than-negative fraction is only `0.354839`, mean margin is `-0.268858`, and no controlled winner clears the threshold.
+- `observed`: the response-only `v3` sweep under `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only/` changes the raw best layer to `22`, but it is still weak and inverted by the main fraction metric (`0.387097` with mean margin `-4.458102`); no controlled winner clears the threshold there either.
+- `observed`: the full-text `v3` calibration under `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration/` keeps layers `6` and `8` unstable; for layer `6`, the mean probe projection shifts from `-1.633606` unsteered to `-7.025127` at coeff `0.5`, `-15.897805` at coeff `1.0`, and back to `-3.596284` at coeff `2.0`, which is not a sane control pattern.
+- `observed`: the response-only `v3` calibration under `results/steering_eval/20260318-gemma2-2b-v3-direction-calibration-response-only/` is also non-monotone; layer `22` moves from `95.376869` unsteered to `119.561817` at coeff `0.5`, `82.285971` at coeff `1.0`, and `91.711067` at coeff `2.0`, while layer `0` flips sign at coeff `1.0`.
+- `inferred`: `v3` did what it was supposed to do methodologically, but it did not rescue the dense-direction claim. The experiment is now in a stronger negative state: contrast quality improved, yet the direction remains weak, unstable, and view-dependent.
+- `inferred`: the most important remaining mismatch to the strongest research path is no longer counterpart construction alone. It is the extraction method. Olson-style mean-difference or CAA extraction is now the one bounded Phase 1 sensitivity worth running before treating this as a meaningful negative result for the Gemma 2 2B MacBook lane.
+- `known`: contrast quality and output-level validation are still part of the live gate logic, but the next blocker is now bounded Olson-style extraction sensitivity rather than immediate output-gate work.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -47,7 +55,7 @@
 
 ## Immediate Next Steps
 
-1. Strengthen the response-centered contrast (`creativedecomp-02c`) by defining audit-backed rejection or filtering rules, rebuilding a cleaner `v3` pair set around content-preserving creative/plain counterparts when feasible, and rerunning the controlled layer sweep plus bounded calibration in response-only and full-text form if those diagnostics diverge.
-2. Freeze the missing pilot output-level gate (`creativedecomp-roq`) before Phase 2: run at least one locked creativity-side metric plus one coherence/usefulness check on the revised dense direction, compare against the prompt-only creativity baseline explicitly, and do not treat output-level readiness as interchangeable with internal probe movement.
-3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until both the contrast-quality gate and the output-level gate pass.
-4. Lock a two-family benchmark bundle plus matched refusal/sentiment baseline plans only after the dense-direction path is honest enough to carry forward.
+1. Run the bounded Olson-style extraction sensitivity (`creativedecomp-173`) on the landed `v3` counterpart slice: compare the current PCA-on-pair-differences extraction against an Olson-style mean-difference or CAA direction, and use a tiny hand-audited subset only if the automatic rewrite slice still looks qualitatively weak.
+2. Freeze the missing pilot output-level gate (`creativedecomp-roq`) only if the sensitivity step recovers a defensible dense direction: run at least one locked creativity-side metric plus one coherence/usefulness check, compare against the prompt-only creativity baseline explicitly, and do not treat output-level readiness as interchangeable with internal probe movement.
+3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until both the extraction-sensitivity gate and the output-level gate pass.
+4. If the bounded Olson-style sensitivity also fails, log that as the first serious negative result for the Gemma 2 2B MacBook lane before considering broader stack changes or stronger-model escalation.

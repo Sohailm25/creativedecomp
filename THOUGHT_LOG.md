@@ -228,3 +228,24 @@ Suggested entry format:
   - high that the new pilot gate should be effect-and-tradeoff focused, not supremacy focused
 - Interesting facts:
   - Von Rütte weakens hidden-state optimism, and AxBench weakens benchmarking optimism in almost the opposite direction; together they give a more realistic gate than either paper alone.
+
+## [2026-03-18T14:42:00-0500] V3 Fixed The Data Problem Better Than It Fixed The Direction Problem
+
+- Stage: synthesis
+- Feel of the Experiment: This feels like progress because it narrowed the ambiguity, even though the answer is still no. The pair construction got much cleaner, but the direction did not get cleaner with it.
+- Working Hypotheses:
+  - The automatic counterpart rewrite is now good enough to weaken the old content-drift excuse substantially.
+  - The biggest remaining phase-1 uncertainty is whether PCA-on-differences is the wrong extraction object for this contrast on Gemma 2 2B.
+- Hunches and Guesses:
+  - If an Olson-style mean-difference or CAA extraction also fails on the same `v3` slice, the MacBook lane probably deserves a real negative-result write-up before any broader escalation.
+  - If that sensitivity works materially better, then the current failure mode is more about method mismatch than about creativity being absent or fully diffuse.
+- Predictions:
+  - The next bounded sensitivity will matter more than adding more pair heuristics or more calibration coefficients.
+- Surprises and Tensions:
+  - `v3` achieved mean counterpart overlap above `0.9`, yet the best raw fractions still stayed below `0.4`.
+  - The creative prompt baseline is not obviously cleaner or stronger than neutral prompting on this stack, which makes the base model feel weaker for this thesis than I wanted.
+- Confidence:
+  - high that decomposition should remain blocked
+  - medium that a bounded Olson-style extraction sensitivity is the right last serious Phase 1 check
+- Interesting facts:
+  - The full-text `v3` sweep lands on layer `6`, while the response-only view shifts to layer `22`, which is exactly the kind of view-dependence that should stop us from pretending we have a settled creativity direction.

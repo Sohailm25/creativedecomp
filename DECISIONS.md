@@ -132,3 +132,10 @@
 - Decision: treat content-preserving creative/plain counterparts or audited rewrites as the preferred `v3` contrast target when feasible, and require a pilot output-level creativity/coherence gate before any Phase 2 decomposition work becomes ready.
 - Rationale: a dense direction that only looks plausible in hidden-state probes is not yet the creativity object the thesis cares about, and a weak pair construction can make the experiment look more distributed than it really is.
 - Impact: `creativedecomp-02c` now explicitly targets a stronger counterpart-style contrast, `creativedecomp-roq` exists as a new Phase 1 gate, and `creativedecomp-npt` remains blocked until both gates pass.
+
+## [2026-03-18T14:40:00-0500] DECISION: Treat the landed `v3` contrast as a stronger negative gate and insert one bounded Olson-style extraction sensitivity before broader conclusions
+
+- Trigger: the audited `v3` counterpart slice accepted `31 / 32` rows with high lexical overlap, but both the full-text and response-only sweeps still failed to recover a stable dense creativity direction, and both calibration branches remained non-monotone.
+- Decision: close `creativedecomp-02c` as completed, keep `creativedecomp-roq` and `creativedecomp-npt` blocked, and make one bounded Olson-style mean-difference or CAA sensitivity the next ready task.
+- Rationale: `v3` removes most of the old pair-quality excuses, so the next honest uncertainty is whether the extraction method is the last major mismatch to the strongest prior creativity-steering paper rather than whether decomposition or output gating should start anyway.
+- Impact: the next ready task is now `creativedecomp-173`, not `creativedecomp-roq`, and a failure there will count as the first serious negative result for the Gemma 2 2B MacBook lane.
