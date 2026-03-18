@@ -1,0 +1,26 @@
+experiment_name: mechanistic-creativity-decomposition
+status: scaffolded
+primary_lane: creativity_direction_decomposition
+local_runtime:
+  python_env: .venv
+  device_preference:
+    - mps
+    - cpu
+primary_model:
+  model_id: google/gemma-2-2b
+  sae_release: gemma-scope-2b-pt-res-canonical
+  default_layer: 12
+  default_width: 16k
+research_sources:
+  - research/transcript.md
+  - research/experiment-ideas.md
+  - research/experiment-macbook-guide.md
+  - research/experiment-novelty.md
+primary_questions:
+  - Can a creativity steering direction be replicated on the default model?
+  - Can that direction be decomposed into interpretable SAE features with a signed method?
+  - Which of those features causally influence creative outputs?
+  - Do top creativity features bridge multiple knowledge domains?
+extension_lanes:
+  - controller_extensions
+  - basin_dynamics
