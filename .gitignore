@@ -2,4 +2,5 @@
 .venv/
 __pycache__/
 .pytest_cache/
-background-work/papers/files/
+background-work/papers/files/*
+!background-work/papers/files/.gitkeep

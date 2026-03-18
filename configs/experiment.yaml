@@ -1,6 +1,7 @@
 experiment_name: mechanistic-creativity-decomposition
 status: scaffolded
 primary_lane: creativity_direction_decomposition
+positioning_question: why_creativity_is_mechanistically_different_from_simpler_behavioral_concepts
 local_runtime:
   python_env: .venv
   device_preference:
@@ -21,6 +22,14 @@ primary_questions:
   - Can that direction be decomposed into interpretable SAE features with a signed method?
   - Which of those features causally influence creative outputs?
   - Do top creativity features bridge multiple knowledge domains?
+pilot_method_comparison:
+  - contrastive_sae_decomposition
+  - gradient_pursuit_or_fista
+reference_baselines:
+  - refusal
+  - sentiment
+required_output_filtering: true
+negative_result_publishable: true
 extension_lanes:
   - controller_extensions
   - basin_dynamics

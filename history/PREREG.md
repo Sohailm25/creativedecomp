@@ -15,6 +15,7 @@ This preregistration covers the local creativity-decomposition experiment define
 - The default experiment is not a claim about open-ended scientific discovery or autonomous novelty search.
 - A creativity-aligned feature is not automatically a creativity mechanism unless interventions support that claim.
 - Cross-domain bridge claims require explicit evidence beyond creative-writing style changes.
+- The strongest paper framing is whether creativity is mechanistically different from simpler behavioral concepts such as refusal and sentiment.
 - Extension lanes such as controller-guided latent navigation are inference or future work unless they are directly executed and validated here.
 
 ## Primary Hypothesis
@@ -28,6 +29,7 @@ A creativity steering direction on the default model can be decomposed into a si
 3. Output-filtered feature bundles will be more interpretable and more controllable than the original dense direction.
 4. Creativity gains can be measured without catastrophic coherence loss.
 5. Matched random-feature bundles will not recover the same effect size as the aligned feature bundle.
+6. Creativity decomposition differs in sparsity, interpretability, or bridge structure from refusal and sentiment baselines.
 
 ## Null and Baseline Conditions
 
@@ -37,12 +39,18 @@ A creativity steering direction on the default model can be decomposed into a si
 - matched random SAE features
 - high-activation non-aligned SAE features
 
+## Required Reference Baselines
+
+- refusal
+- sentiment
+
 ## Required Methods
 
 - frozen creative versus uncreative prompt split before claim-bearing runs
 - sequence-level paired evaluation
 - signed decomposition method
 - feature-level intervention validation
+- output-feature filtering or an equivalent output-score-based selection step
 - coherence or usefulness check alongside creativity metrics
 
 ## Phase Gates
@@ -58,6 +66,7 @@ A creativity steering direction on the default model can be decomposed into a si
 ### Phase 2: Feature Decomposition
 
 - Direct dense-vector SAE encoding is not allowed as the primary method
+- compare at least two signed decomposition methods on the pilot slice before freezing the confirmatory method
 - Report the top positive and top negative feature contributions
 - Compare at least one signed decomposition method against a matched random-feature control
 - If decomposition does not preserve the sign of the dense creativity effect under intervention, weaken the mechanistic claim accordingly
@@ -67,6 +76,8 @@ A creativity steering direction on the default model can be decomposed into a si
 - Test individual features and at least one bundled feature set
 - Compare against the dense direction and matched random-feature bundles
 - A feature is only promoted to a creativity feature if it changes output behavior, not just if it aligns with creative inputs
+- Compare output-filtered feature bundles against non-filtered candidate bundles on the pilot slice
+- Use at least one named creativity benchmark family such as `CREATE`, `NoveltyBench`, `TTCW`, or `AUT + Ocsai`; if only one is used, record why
 
 ### Phase 4: Bridge-Feature Analysis
 
@@ -74,7 +85,12 @@ A creativity steering direction on the default model can be decomposed into a si
 - Report whether bridge candidates activate across distinct domains or collapse to one narrow genre
 - Any bridge-feature claim must compare against random-feature activation breadth
 
-### Phase 5: Extension Lanes
+### Phase 5: Simpler-Concept Baselines
+
+- Compare the sparsity or interpretability profile of creativity decomposition against refusal and sentiment baselines
+- If the baseline comparison is omitted for a given run, record why in `DECISIONS.md`
+
+### Phase 6: Extension Lanes
 
 - `controller_extensions` and `basin_dynamics` are optional follow-on lanes
 - They are not allowed to replace the primary decomposition result as the central contribution
@@ -87,6 +103,7 @@ Do not claim:
 - that creativity features imply scientific discovery ability
 - that descriptive feature labels are causal explanations
 - that cross-domain activation alone proves useful analogy formation
+- that a negative result means the experiment failed; a clean distributed-creativity result is still informative
 
 ## Implementation Constraints
 

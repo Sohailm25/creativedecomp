@@ -48,3 +48,17 @@
 - Decision: trim explicit sibling-project thesis language out of the core operating docs and keep those references only in adaptation-history material.
 - Rationale: structure should be inherited; thesis language should not be.
 - Impact: the main docs now stay focused on the creativity experiment while the historical adaptation note still records where the scaffold came from.
+
+## [2026-03-18T03:05:00-0500] DECISION: Match `resattn` execution rigor more closely by restoring missing persistent scaffold pieces
+
+- Trigger: the final audit showed that the repo kept the broad top-level shape but not all of the clone-surviving and execution-surviving structure that makes `resattn` robust.
+- Decision: add tracked placeholders for empty directories, add `validation/`, add the standard runtime-freeze file locations, and expand `AGENTS.md` to the same operational section coverage as `resattn`.
+- Rationale: a directory that exists only on one machine or an operating contract that drops half the control sections is structurally weaker even if it looks similar at a glance.
+- Impact: fresh clones now preserve the intended scaffold, and the live operating contract now covers execution order, guardrails, required lanes, results registration, write-ups, and branch truth.
+
+## [2026-03-18T03:12:00-0500] DECISION: Align the live experiment framing to the strongest version in `research/experiment-novelty.md`
+
+- Trigger: the final audit found that the repo captured the decomposition idea but not the full novelty memo's strongest framing.
+- Decision: center the project on whether creativity is mechanistically different from simpler behavioral concepts, require pilot comparison of at least two signed decomposition methods, keep refusal and sentiment as required reference baselines, and preserve the publishable negative-result path.
+- Rationale: this framing is stronger and more defensible than a generic "decompose the creativity vector" story.
+- Impact: `CURRENT_STATE.md`, `history/PREREG.md`, `background-work/RESEARCH_POSITIONING.md`, `background-work/GAPS_SYNTHESIS.md`, and `configs/experiment.yaml` now all reflect the same novelty-backed direction.

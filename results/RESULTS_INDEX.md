@@ -15,6 +15,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 |---|---|---|---|
 | Scaffold adaptation from `resattn` plus structure regression test | infrastructure | pass | `results/infrastructure/20260318-scaffold-adaptation.md` |
 | Standalone repo bootstrap plus core-doc baggage cleanup | infrastructure | pass | `results/infrastructure/20260318-standalone-repo-bootstrap.md` |
+| Final structural and novelty-alignment rigor audit | infrastructure | pass | `results/infrastructure/20260318-final-rigor-audit.md` |
 
 ## Creativity Direction
 

@@ -1,0 +1,2 @@
+# Fully resolved dependency lock pending `creativedecomp-1ie`.
+# Keep this file present so future runtime freezes land in the same reproducibility location as the source scaffold.

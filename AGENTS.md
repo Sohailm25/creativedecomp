@@ -96,6 +96,7 @@ creativedecomp/
 │   ├── REFERENCES.md
 │   ├── MECH_INTERP_GUIDANCE.md
 │   ├── GAPS_SYNTHESIS.md
+│   ├── PROPOSAL_REVIEW.md
 │   ├── RESEARCH_POSITIONING.md
 │   ├── SAFETY_PUBLICATION_POLICY.md
 │   └── papers/
@@ -105,14 +106,22 @@ creativedecomp/
 │   └── experiment.yaml
 ├── history/
 │   ├── PREREG.md
-│   └── 20260318-resattn-scaffold-adaptation.md
+│   ├── 20260318-resattn-scaffold-adaptation.md
+│   └── 20260318-final-rigor-audit.md
 ├── journal/
 │   ├── current_state.md
 │   └── logs/
 ├── knowledge/
+│   └── general/
+│       ├── accomplishments/
+│       ├── insights/
+│       ├── learnings/
+│       └── references/
 ├── notebooks/
 ├── prompts/
 ├── research/
+├── requirements.txt
+├── requirements.lock.txt
 ├── results/
 │   ├── infrastructure/
 │   ├── creativity_direction/
@@ -129,6 +138,8 @@ creativedecomp/
 │   └── download_reference_papers.py
 ├── sessions/
 │   └── SESSION_TEMPLATE.md
+├── validation/
+│   └── __init__.py
 └── tests/
 ```
 
@@ -145,6 +156,7 @@ The source material is split across a transcript, an experiment landscape, a loc
 5. `DECISIONS.md`
 6. `history/PREREG.md`
 7. `history/20260318-resattn-scaffold-adaptation.md`
+8. `history/20260318-final-rigor-audit.md`
 
 ### Read by question
 
@@ -179,16 +191,60 @@ Before starting a non-trivial work session:
 During work:
 
 - Update `SCRATCHPAD.md` before and after any substantial local run.
-- Use `THOUGHT_LOG.md` for research reflections throughout the project.
+- Use `THOUGHT_LOG.md` for research reflections throughout the project. Record hunches, predictions, surprises, confidence shifts, and the current feel of the experiment when those would be useful later.
+- Agents may launch bounded parallel sidecar work for literature review, benchmark checking, or methodological validation when it materially improves the experiment without blocking the critical path.
 - Log non-obvious pivots in `DECISIONS.md` before proceeding.
 - Update `CURRENT_STATE.md` whenever the actual project state changes.
 - Register durable outputs in `results/RESULTS_INDEX.md`.
+
+`THOUGHT_LOG.md` rules:
+
+- This file is for research reflections, not claim-bearing evidence.
+- It is the right place for hunches, predictions, guesses, interesting facts, surprising failures, qualitative impressions, and “I think this is going to break because...” notes.
+- It should preserve the feel of the experiment as it unfolds, including confidence changes and competing hypotheses.
+- Keep it high-signal and readable. Write concrete reflections, not filler.
+- Label speculative content clearly enough that no one confuses it with validated findings.
+- If sidecar research or parallel exploration turns up something useful, summarize the takeaway here or in a durable background-work note instead of letting it vanish.
 
 Long-running process rules:
 
 - Any run that is expensive enough to care about surviving laptop movement, terminal closure, or disconnects must run inside `tmux`.
 - Long-running runs must save resumable checkpoints on a defined cadence.
 - Before launch, record the `tmux` session name, checkpoint path, checkpoint cadence, log path, and resume command in `SCRATCHPAD.md`.
+- After launch, verify that checkpoints are actually being written and that the resume command works against the latest checkpoint.
+- Prefer durable checkpoint locations under the relevant `results/` lane rather than ephemeral temp directories.
+
+Pre-run checkpoint format for `SCRATCHPAD.md`:
+
+```text
+## [TIMESTAMP] PRE-RUN: [run name]
+- tmux session: [session name or N/A]
+- Script: scripts/[filename].py
+- Command: [exact command]
+- Config: [key hyperparameters]
+- What I'm testing: [one-sentence hypothesis]
+- Expected outcome: [what success looks like]
+- Expected duration: ~X minutes
+- Checkpoint path: [path or N/A]
+- Checkpoint cadence: [every N steps / minutes / epochs]
+- Log path: [path]
+- Resume command: [exact command]
+- Main confound to watch: [one sentence]
+- Implementation verified: YES/NO - [what independent check was run]
+- Status: LAUNCHING
+```
+
+Post-run checkpoint format for `SCRATCHPAD.md`:
+
+```text
+## [TIMESTAMP] POST-RUN: [run name]
+- Outcome: SUCCESS / FAILURE / PARTIAL
+- Key metric: [the number that matters]
+- Artifacts saved: [paths]
+- Latest checkpoint: [path or none]
+- Anomalies: [anything unexpected, or none]
+- Next step: [what follows from this result]
+```
 
 ### 2. Session Check-In Protocol
 
@@ -201,6 +257,88 @@ If context is thin or the session resumed after compaction:
 5. Read the latest session log in `sessions/`
 6. Check `results/RESULTS_INDEX.md`
 7. Only then return to the research documents
+
+Do not re-explore the whole repo if the state docs already answer the question.
+
+### 3. The Research Documents Are the Spec
+
+- `research/experiment-novelty.md` defines the novelty claim and the main methodological traps.
+- `research/experiment-macbook-guide.md` defines the default local-feasibility stack.
+- `research/transcript.md` defines the motivating problem and the broader conceptual target.
+- `history/PREREG.md` defines what is pre-registered locally.
+- If these documents conflict, resolve the conflict explicitly in `DECISIONS.md` before coding.
+
+### 4. Execution Order
+
+Use this as the default phase flow:
+
+1. Phase 0: scaffold, prereg, runtime freeze, prompt freeze, and validation scaffolding
+2. Phase 1: creativity-direction replication on the default local model
+3. Phase 2: pilot comparison of signed decomposition methods, then confirm-method freeze
+4. Phase 3: feature validation, output-feature filtering, and benchmark evaluation
+5. Phase 4: cross-domain bridge-feature analysis plus comparisons against simpler behavioral baselines
+6. Phase 5: optional controller-extension and basin-dynamics follow-ons
+7. Phase 6: synthesis, writing, and artifact cleanup
+
+Do not skip ahead to bridge claims or controller work until the direction-replication and decomposition gates are honestly cleared.
+
+### 5. Experiment Design Defaults
+
+- When a question is materially underspecified or multiple experimental approaches seem plausible, draft a short plan collaboratively with Sohail before execution.
+- That plan should include the motivation, the concrete comparison or measurement, and a mock-up of the main plot or table using fake numbers if needed.
+- Approved non-trivial new sprints should create or update a bd issue before execution so the work is visible to future sessions.
+- Start with the smallest experiment that can genuinely falsify or support the idea. Do not scale up before the tiny version shows signs of life.
+- Prefer tight feedback loops. A five-minute run is excellent, an hour is acceptable, and anything longer than a day requires explicit justification in `DECISIONS.md`.
+- Treat most early-stage work as exploratory: the goal is often to gain surface area, expose unknown unknowns, and sharpen the ontology before expensive runs.
+- Freeze a pilot/confirmatory split before claim-bearing prompt tuning, judge tuning, or method selection.
+- Use parallel sidecar agents for bounded tangential work when helpful, especially for papers, tool caveats, and benchmark details that illuminate the main experiment without blocking it.
+
+### 6. Run Design Guardrails
+
+- Never naively encode a dense steering vector through an SAE and treat the coefficients as mechanistic evidence.
+- Never ignore negative feature contributions. Suppressed features are part of the mechanism.
+- Never rely on a single signed decomposition method if multiple plausible methods disagree on the pilot slice. Compare at least two before freezing the confirm path.
+- Never promote an input feature to a creativity feature without output-facing intervention evidence.
+- Never use judge-only creativity gains without at least one coherence, usefulness, or benchmark-based check.
+- Never let cross-domain bridge claims rest on creative-writing style drift alone; use domain-breadth evidence and matched random controls.
+- Never skip baseline comparisons to simpler behavioral concepts such as refusal or sentiment when making the "creativity is mechanistically different" argument.
+- Never let extension lanes such as `controller_extensions` or `basin_dynamics` replace the primary creativity-direction decomposition result.
+- Never run claim-bearing analysis on the same prompts used to tune the method. Use a pilot/confirmatory split for thresholds, prompt curation, and design choices.
+- Never escalate away from the default `Gemma 2 2B + GemmaScope` local path without logging why the MacBook-feasible lane is insufficient.
+- Never treat a negative result as experimental failure if it cleanly supports the thesis that creativity is more distributed or decomposition-resistant than simpler concepts.
+
+### 7. Required Experiment Lanes
+
+The following lanes must remain visible in `CURRENT_STATE.md`, `history/PREREG.md`, and `results/RESULTS_INDEX.md`:
+
+- creativity-direction replication against frozen prompt splits
+- signed feature decomposition
+- feature validation with output-facing interventions
+- benchmark-facing creativity and coherence evaluation
+- cross-domain bridge-feature analysis
+- baseline comparisons against simpler behavioral concepts
+- optional controller-extension follow-up
+- optional basin-dynamics follow-up
+
+### 8. Results Registration
+
+Every saved artifact belongs in `results/RESULTS_INDEX.md`.
+Do not delete old entries; mark them superseded.
+
+### 9. Experiment Write-Ups
+
+Every non-trivial experiment should end with a concise technical write-up stored near the relevant artifacts. The default structure is:
+
+- Motivation / Methods / Results / Limitations / Next Steps
+
+The main figure or table should be easy to identify from a quick scan of the directory.
+
+### 10. Branch Truth
+
+- `main` is the canonical mainline branch for this repo.
+- Completed work branches must be merged back into `main` so that branch remains the source of truth.
+- In-progress work may remain on a task branch until the task is actually done. Do not force premature merges for work that is still active.
+- Do not leave completed work stranded only on a WIP branch.
 
 ## Landing the Plane (Session Completion)
 

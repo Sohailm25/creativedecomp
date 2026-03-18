@@ -1,0 +1,2 @@
+# Direct dependency freeze pending `creativedecomp-1ie`.
+# Keep this file present so the experiment uses a stable, expected location for direct dependencies.

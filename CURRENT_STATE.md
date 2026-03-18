@@ -13,15 +13,20 @@
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope SAEs on local MPS.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
+- `known`: the strongest novelty framing is explaining why creativity is mechanistically different from simpler behavioral concepts such as refusal and sentiment.
 - `known`: input-feature and output-feature separation is a hard requirement for any claim about creativity features.
+- `known`: output-feature filtering is part of the planned primary path, not an optional cleanup step.
 - `known`: cross-domain bridge features are in scope, but only as a tested hypothesis after the base decomposition lane is live.
-- `known`: the local operating files now exist for state tracking, preregistration, session logging, and result indexing.
-- `known`: the full local test suite is currently green, including scaffold structure, helper-script parsing, and core-doc baggage checks.
+- `known`: the experiment has an explicit publishable negative result path if creativity turns out to be more distributed or decomposition-resistant than simpler behavioral concepts.
+- `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
+- `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
+- `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
+- `known`: the full local test suite is currently green, including scaffold structure, helper-script parsing, core-doc baggage checks, AGENTS rigor coverage, and novelty-alignment checks.
 
 ## Immediate Next Steps
 
 1. Freeze a minimal local environment for the first replication slice.
 2. Curate the first creative versus uncreative prompt set and lock the evaluation split.
 3. Implement the smallest creativity-direction extraction smoke on Gemma 2 2B.
-4. Choose and codify the first legal decomposition method before any claim-bearing SAE analysis.
-5. Add the first benchmark-facing evaluation artifact under `results/creativity_direction/`.
+4. Compare at least two legal signed decomposition methods on the pilot slice before freezing the confirm path.
+5. Add baseline comparison plans for refusal and sentiment so the "mechanistically different" framing stays testable.
