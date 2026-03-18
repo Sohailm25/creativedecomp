@@ -50,9 +50,9 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("output-feature", CURRENT_STATE)
         self.assertIn("negative result", CURRENT_STATE)
 
-    def test_current_state_tracks_contrast_quality_as_current_blocker(self) -> None:
-        self.assertIn("contrast quality", CURRENT_STATE)
-        self.assertIn("output-level", CURRENT_STATE)
+    def test_current_state_tracks_first_strong_negative_result_after_metric_followup(self) -> None:
+        self.assertIn("first strong Phase 1 negative result", CURRENT_STATE)
+        self.assertIn("prompt-grounded creativity", CURRENT_STATE)
 
     def test_current_state_tracks_bounded_olson_style_sensitivity_before_output_gate(self) -> None:
         self.assertIn("Olson-style", CURRENT_STATE)

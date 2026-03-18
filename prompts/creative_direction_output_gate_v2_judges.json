@@ -1,0 +1,4 @@
+{
+  "pairwise_creativity_label_judge": "Compare two story continuations for the same prompt.\n\nPrompt:\n{prompt}\n\nStory A:\n{story_a}\n\nStory B:\n{story_b}\n\nWhich story is better on prompt-grounded creativity: more specific and concrete, less generic, and more surprisingly aligned to the prompt? Ignore rhyme, line breaks, or dramatic tone by themselves. If unclear, answer tie.\nReply with exactly one label: A, B, or tie.\nAnswer:",
+  "pairwise_coherence_label_judge": "You are comparing two short story continuations written for the same prompt.\n\nOriginal prompt:\n{prompt}\n\nStory A:\n{story_a}\n\nStory B:\n{story_b}\n\nWhich story is more coherent and readable? Consider clarity, internal consistency, and whether the text avoids obvious repetition or breakage.\nAnswer with exactly one label: A, B, or tie.\nAnswer:"
+}

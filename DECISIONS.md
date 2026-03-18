@@ -160,3 +160,10 @@
 - Decision: force the next-step order to be: first a small blinded manual audit on the cached output-gate stories; then one stronger creativity-side pilot metric grounded in that audit and the evaluation papers; then a gate rerun on the same cached generated outputs. Do not generate new stories or retune layer `23` / coeffs `0.5` and `1.0` until that sequence is complete.
 - Rationale: if we change the outputs and the metric at the same time, we lose the ability to tell whether the failure is in the dense direction, the evaluation setup, or both. Reusing the cached outputs keeps the next test falsifiable.
 - Impact: `creativedecomp-8o1` is now a narrower and more trustworthy blocker, and any later negative conclusion about the Gemma 2 2B lane will be much harder to dismiss as evaluation drift.
+
+## [2026-03-18T16:43:00-0500] DECISION: Treat the prompt-grounded-creativity rerun as the first strong Phase 1 negative result for the Gemma 2 2B lane
+
+- Trigger: the cached-output follow-up required by `creativedecomp-8o1` is complete: a blinded manual audit weakly favored the prompt-only creativity baseline over neutral, and the stricter prompt-grounded-creativity rerun on the same cached stories also weakly recovered that baseline while still showing no dense effect versus neutral.
+- Decision: close `creativedecomp-8o1`, keep `creativedecomp-npt` blocked, and treat the Gemma 2 2B MacBook lane as the first strong Phase 1 negative result rather than as an unresolved evaluation ambiguity.
+- Rationale: the repo's own decision rule said that if a stronger metric can distinguish prompt-only creativity prompting from neutral but still shows no dense effect, the result becomes a strong negative for this lane. That condition is now met.
+- Impact: the next task is no longer "fix the metric." It is to synthesize what this negative result means and choose one bounded next lane before any new implementation begins.

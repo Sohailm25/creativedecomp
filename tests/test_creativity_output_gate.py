@@ -105,6 +105,17 @@ class CreativityOutputGateTest(unittest.TestCase):
         self.assertIn("Story A:", creativity_prompt)
         self.assertIn("coherent", coherence_prompt.lower())
 
+    def test_v2_judge_templates_tighten_creativity_definition(self) -> None:
+        gate = load_output_gate_module()
+        judge_templates_path = ROOT / "prompts" / "creative_direction_output_gate_v2_judges.json"
+        judge_templates = gate.load_judge_templates(judge_templates_path)
+
+        creativity_prompt = judge_templates["pairwise_creativity_label_judge"].lower()
+
+        self.assertIn("specific", creativity_prompt)
+        self.assertIn("concrete", creativity_prompt)
+        self.assertIn("generic", creativity_prompt)
+
     def test_parse_label_judgment_accepts_single_label_or_short_phrase(self) -> None:
         gate = load_output_gate_module()
 

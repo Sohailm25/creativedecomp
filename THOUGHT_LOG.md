@@ -311,3 +311,24 @@ Suggested entry format:
   - medium that the stronger metric will still leave dense steering negative versus neutral
 - Interesting facts:
   - The right falsification test now is whether the metric can recover the prompt-only creativity baseline on the existing stories, not whether a new generation run can be made to look better.
+
+## [2026-03-18T16:44:00-0500] The Strong Negative Result Is Narrower Than Failure And More Useful Than Ambiguity
+
+- Stage: synthesis
+- Feel of the Experiment: This is the cleanest no we have gotten so far. It is not a collapse of the whole thesis. It is a bounded refusal from one lane after the ambiguity was stripped away.
+- Working Hypotheses:
+  - The Gemma 2 2B lane can recover a hidden-state creativity direction and a weak prompt-only output baseline, but that is still not enough to make dense steering behaviorally real on the current slice.
+  - The next useful work is comparative and strategic, not more local prompt tweaking on the same lane.
+- Hunches and Guesses:
+  - A bigger model or a matched simpler-concept baseline is now more informative than another tiny evaluation iteration on Gemma 2 2B.
+  - The negative result will read strongest if we keep it narrow: "this lane failed after metric tightening," not "creativity steering is impossible."
+- Predictions:
+  - If we touch decomposition before a bounded next-lane decision, we will just contaminate the negative result with impatience.
+- Surprises and Tensions:
+  - The blinded manual audit was harsher than I expected, yet it still gave prompt-only a small edge.
+  - The stricter automated rerun agreed with the direction of that edge while staying much weaker than the human audit, which is exactly enough to resolve the old ambiguity without pretending the scorer is ideal.
+- Confidence:
+  - high that `creativedecomp-8o1` is complete
+  - high that decomposition should stay blocked
+- Interesting facts:
+  - The `v2` prompt-grounded-creativity gate recovers `2 / 31` prompt-only wins versus neutral and still `0 / 31` dense wins versus neutral at both tested coefficients.

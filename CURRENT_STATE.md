@@ -3,13 +3,13 @@
 **Last updated:** 2026-03-18
 **Updated by:** codex-gpt5
 **Status:** in_progress
-**Current phase:** Phase 1 - The dense creativity direction is recovered at the hidden-state level on the landed `v3` slice, but the corrected order-robust pilot output gate still fails to show a usable sequence-level effect with the current local judge, so decomposition remains blocked and evaluation sensitivity is now the live bottleneck
+**Current phase:** Phase 1 - The dense creativity direction is recovered at the hidden-state level on the landed `v3` slice, but after a blinded manual audit and a stricter prompt-grounded creativity rerun on the same cached stories, only the prompt-only baseline shows a weak sequence-level effect. Dense steering still shows no output-level effect versus neutral, so this is now the first strong Phase 1 negative result for the Gemma 2 2B MacBook lane and decomposition remains blocked
 
 ## Active Thesis Lock
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
 - `known`: the active task branch is `wip/creativedecomp-scaffold-lock`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, and `creativedecomp-roq` are complete as finished gates; `creativedecomp-8o1` is now the next ready task; and `creativedecomp-npt` remains blocked behind the output-metric follow-up and decomposition-phase requirements.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, `creativedecomp-roq`, and `creativedecomp-8o1` are complete as finished gates; `creativedecomp-ty9` is now the next bounded decision task; and `creativedecomp-npt` remains blocked behind the negative-result synthesis and next-lane decision.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -60,10 +60,11 @@
 - `observed`: the condition-level side-effect heuristics remain clean on prompt-meta contamination, but they do not rescue the gate: dense `1.0` is slightly longer and more repetitive than neutral, while dense `0.5` is only slightly more lexically diverse.
 - `inferred`: the corrected pilot output gate does not currently pass, so decomposition remains blocked even after the hidden-state recovery at layer `23`.
 - `inferred`: because the same order-robust judge also collapses the prompt-only creativity baseline versus neutral to ties, the current local creativity-side metric is too insensitive to decide whether the Gemma 2 2B MacBook lane is a true negative result or an evaluation failure.
-- `known`: contrast quality is no longer the live blocker. The next blocker is strengthening the pilot creativity-side metric without reintroducing order bias, using `creativedecomp-8o1`, before decomposition work can honestly reopen.
-- `known`: the next evaluation step must be falsifiable rather than metric-shopping. It must start from the already saved output-gate artifact, not from new story generation.
-- `known`: the required order for `creativedecomp-8o1` is: first run a small blinded manual audit on the cached generated outputs from `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`; then choose one stronger creativity-side metric grounded in that audit and the creativity-evaluation papers; then rerun the gate on the same cached generated outputs before changing prompts, layers, or coefficients.
-- `inferred`: if the stronger metric can distinguish prompt-only creativity prompting from neutral but still shows no dense effect, that becomes the first strong Phase 1 negative result for the Gemma 2 2B MacBook lane. If the stronger metric still cannot separate prompt-only from neutral, evaluation sensitivity or prompt-harness quality remains the blocker rather than the dense direction alone.
+- `observed`: the blinded manual audit under `results/steering_eval/20260318-gemma2-2b-output-gate-v1-manual-audit/` scored `12` cached prompt-only-versus-neutral pairs with a locked prompt-grounded creativity plus coherence rubric. On that slice, prompt-only wins `0.500` of prompt-grounded creativity judgments versus `0.417` for neutral, and `0.583` of coherence judgments versus `0.333` for neutral.
+- `observed`: the stricter prompt-grounded creativity rerun under `results/steering_eval/20260318-gemma2-2b-output-gate-v2-prompt-grounded-creativity/` reuses the same cached generated outputs and weakly recovers the prompt-only baseline on the full `31`-prompt slice: prompt-only versus neutral now shows `0.064516` creativity candidate win fraction, `0.000000` reference win fraction, and `0.935484` ties, while coherence remains all ties.
+- `observed`: the same stricter rerun still shows no dense creativity effect versus neutral at either tested coefficient. Both dense-vs-neutral comparisons remain `31 / 31` ties on creativity and coherence, and the best dense condition (`0.5`) still loses `0.032258` coherence net preference versus the prompt-only baseline.
+- `inferred`: the stronger pilot metric now does what `creativedecomp-8o1` required it to do: it weakly separates prompt-only creativity prompting from neutral on cached stories without rescuing dense steering. Under the prereg and current-state decision rule, that makes this the first strong Phase 1 negative result for the Gemma 2 2B MacBook lane.
+- `known`: evaluation sensitivity is no longer the main ambiguity for this lane. The live question is what bounded next step should follow this strong negative result without reopening decomposition prematurely.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -71,7 +72,7 @@
 
 ## Immediate Next Steps
 
-1. Run `creativedecomp-8o1` on the cached generated outputs from `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`, starting with a small blinded manual audit slice that asks whether prompt-only creativity versus neutral is visibly separable under a locked rubric.
-2. Choose one stronger pilot creativity-side metric from that audit and the existing evaluation papers, keep the order-bias controls, and rerun the gate on the same cached generated outputs before generating any new stories or retuning layer `23` / coeffs `0.5` and `1.0`.
-3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until that stronger metric either shows a real dense output effect or supports a clean negative-result write-up for the Gemma 2 2B lane.
-4. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless the stronger evaluation metric shows it matters.
+1. Treat `creativedecomp-8o1` as resolved: the cached-output manual audit and the stricter prompt-grounded-creativity gate both say the same thing. Prompt-only creativity prompting shows a weak output-level effect, but dense steering on layer `23` still does not.
+2. Keep signed decomposition comparison (`creativedecomp-npt`) blocked, and treat the Gemma 2 2B MacBook lane as the first strong Phase 1 negative result rather than as an unresolved evaluation artifact.
+3. Run `creativedecomp-ty9` next: synthesize what this negative result does and does not establish, compare the legitimate bounded follow-ups, and choose one next lane before any new implementation.
+4. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless the next bounded follow-up shows a reason to elevate it.
