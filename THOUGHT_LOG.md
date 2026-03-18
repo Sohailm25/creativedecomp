@@ -191,3 +191,22 @@ Suggested entry format:
   - medium that a cleaner `v3` pair set can recover a usable dense direction
 - Interesting facts:
   - On the bounded calibration slice, the unsteered neutral baseline had a more positive mean layer-24 probe projection than most of the positive-coefficient steering conditions, which is a strong sign that the current `v2` direction is not yet a stable control handle.
+
+## [2026-03-18T13:02:00-0500] The Hidden Drift Was Treating Internal Recovery As Enough
+
+- Stage: synthesis
+- Feel of the Experiment: The repo has been honest about failures, but the phase order was still one step too eager. We had started acting as if "cleaner contrast plus internal calibration" would be enough to reopen decomposition, and that is weaker than both the prereg and the novelty framing.
+- Working Hypotheses:
+  - A better `v3` pair set should look more like Olson-style counterparts than two independently sampled stories with different stylistic instructions.
+  - The real handoff to Phase 2 should be output-level behavior, not hidden-state plausibility alone.
+- Hunches and Guesses:
+  - If the dense direction cannot clear an output-level pilot gate after a stronger counterpart-style contrast, that negative result will be much more meaningful than the current `v2` failure.
+- Predictions:
+  - Tightening pair construction and forcing a pilot output gate will slow the repo down in the short term but make any eventual decomposition result more novel and much harder to dismiss.
+- Surprises and Tensions:
+  - The prereg already implied this stricter order, but the issue graph and immediate-next-step language had drifted toward a looser interpretation.
+- Confidence:
+  - high that the revised gate order is more faithful to the original experiment path
+  - medium that the model will still yield a usable dense direction after the stronger gate
+- Interesting facts:
+  - The current weak point is not tooling anymore; it is whether the data construction and gating discipline are strong enough to keep "mechanistic creativity" from collapsing into "mechanistic style control."

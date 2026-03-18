@@ -29,11 +29,11 @@ This note is the pre-implementation reference audit for the active experiment. I
 - What we must not redo:
   Extracting a creativity direction and stopping there. That is already known territory.
 - What must be inherited:
-  Contrastive prompt construction, paired evaluation, pilot-only layer/scale sweeps, and frozen confirmatory splits.
+  Contrastive prompt construction, paired evaluation, pilot-only layer/scale sweeps, frozen confirmatory splits, and pair construction that preserves topic/content tightly enough that creativity is not reduced to specificity drift.
 - Code and tooling to use:
   `repeng`, `steering-vectors`, `SAELens`, `TransformerLens`.
 - Implementation consequence:
-  Freeze the selected layer, steering scale, and judge configuration on the pilot slice before touching the confirmatory split.
+  Freeze the selected layer, steering scale, and judge configuration on the pilot slice before touching the confirmatory split, and do not open Phase 2 on hidden-state probes alone; the dense direction must clear a bounded pilot output-level creativity/coherence gate first.
 
 ### Phase 2: Signed Feature Decomposition
 

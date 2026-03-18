@@ -9,3 +9,5 @@ This is the short list of thesis-level non-negotiables for the current experimen
 5. Output-feature filtering is part of the core method, not an optional polish step.
 6. Controller-style creativity navigation is extension work unless the base decomposition lane is already solid.
 7. MacBook feasibility is part of the story, so the default stack should stay realistic and reproducible.
+8. Contrast construction must preserve topic and core content tightly enough that creativity is not confounded with specificity or plot drift; content-preserving counterparts are preferred when feasible.
+9. Output-level validation of the dense direction must happen before feature decomposition; internal probe shifts alone are insufficient.

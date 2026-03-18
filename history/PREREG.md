@@ -47,6 +47,7 @@ A creativity steering direction on the default model can be decomposed into a si
 ## Required Methods
 
 - frozen creative versus uncreative prompt split before claim-bearing runs
+- paired contrast rows must preserve prompt topic and core content tightly enough that creativity is not confounded with specificity or plot drift; content-preserving counterparts or audited rewrites are preferred when feasible
 - sequence-level paired evaluation
 - pilot-only sweep over candidate layers and steering scales before confirmatory runs
 - Freeze the selected layer and steering scale before touching the confirmatory split
@@ -63,6 +64,7 @@ A creativity steering direction on the default model can be decomposed into a si
 
 - Minimum confirmatory sample size: `100` prompts
 - Tune layer choice, steering scale, and judge settings only on the pilot slice
+- Before Phase 2 opens, the selected dense direction must show a bounded output-level creativity effect on the pilot slice using at least one locked creativity-side metric plus a coherence/usefulness check; internal projection movement alone is insufficient
 - Primary metric: paired creativity score delta on the frozen confirmatory split
 - Required secondary metrics: coherence/usefulness delta plus at least one diversity or creativity benchmark metric
 - Significance gate: `p < 0.01` on the sequence-level paired test

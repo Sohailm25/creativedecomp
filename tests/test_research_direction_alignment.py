@@ -39,12 +39,20 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
     def test_prereg_requires_pilot_only_layer_and_scale_freeze(self) -> None:
         self.assertIn("Freeze the selected layer and steering scale", PREREG)
 
+    def test_prereg_requires_output_level_gate_before_phase2(self) -> None:
+        self.assertIn("internal projection movement alone is insufficient", PREREG)
+        self.assertIn("output-level creativity effect", PREREG)
+
     def test_prereg_requires_matched_pipeline_baselines(self) -> None:
         self.assertIn("same model, SAE release, layer/site, and decomposition pipeline", PREREG)
 
     def test_current_state_tracks_output_filtering_and_negative_result_path(self) -> None:
         self.assertIn("output-feature", CURRENT_STATE)
         self.assertIn("negative result", CURRENT_STATE)
+
+    def test_current_state_tracks_contrast_quality_as_current_blocker(self) -> None:
+        self.assertIn("contrast quality", CURRENT_STATE)
+        self.assertIn("output-level", CURRENT_STATE)
 
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)

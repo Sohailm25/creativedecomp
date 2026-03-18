@@ -125,3 +125,10 @@
 - Decision: close the calibration task as a completed negative gate, but do not unblock decomposition. Instead, create a new blocker to strengthen the response-centered contrast before rerunning layer selection and calibration.
 - Rationale: the current `v2` direction recovered a layer candidate, but the coefficient-response behavior is not cleanly monotone and the audit slice shows that several strong losses come from pair-quality weakness rather than simple model noise.
 - Impact: `creativedecomp-6lm` is closed, `creativedecomp-02c` is the new critical-path task, and `creativedecomp-npt` now depends on `creativedecomp-02c` instead of treating `v2` as decomposition-ready.
+
+## [2026-03-18T13:00:00-0500] DECISION: Tighten Phase 1 around counterpart quality and an output-level gate before decomposition
+
+- Trigger: the deep progress review found two remaining sources of optimism drift: the current `v2` pair construction is weaker than the Olson-style counterpart path in the research docs, and the issue graph still treated internal calibration as the last gate before decomposition.
+- Decision: treat content-preserving creative/plain counterparts or audited rewrites as the preferred `v3` contrast target when feasible, and require a pilot output-level creativity/coherence gate before any Phase 2 decomposition work becomes ready.
+- Rationale: a dense direction that only looks plausible in hidden-state probes is not yet the creativity object the thesis cares about, and a weak pair construction can make the experiment look more distributed than it really is.
+- Impact: `creativedecomp-02c` now explicitly targets a stronger counterpart-style contrast, `creativedecomp-roq` exists as a new Phase 1 gate, and `creativedecomp-npt` remains blocked until both gates pass.
