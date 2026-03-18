@@ -11,7 +11,7 @@
 - `known`: the active task branch is `wip/creativedecomp-scaffold-lock`.
 - `known`: `bd` is initialized locally; `creativedecomp-bql` is closed, and the next ready tasks are `creativedecomp-1ie` and `creativedecomp-9cm`.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
-- `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope SAEs on local MPS.
+- `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
 - `known`: the strongest novelty framing is explaining why creativity is mechanistically different from simpler behavioral concepts such as refusal and sentiment.
 - `known`: input-feature and output-feature separation is a hard requirement for any claim about creativity features.

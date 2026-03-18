@@ -11,7 +11,9 @@ primary_model:
   model_id: google/gemma-2-2b
   sae_release: gemma-scope-2b-pt-res-canonical
   default_layer: 12
-  default_width: 16k
+  default_width: 65k
+  narrower_width_fallbacks:
+    - 16k
 research_sources:
   - research/transcript.md
   - research/experiment-ideas.md

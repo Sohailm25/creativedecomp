@@ -25,7 +25,7 @@ Execute the mechanistic creativity experiment defined by:
 - `research/experiment-macbook-guide.md`
 - `research/experiment-novelty.md`
 
-The goal is to show, as rigorously as possible, whether a creativity steering direction in a small open model can be decomposed into interpretable SAE features and whether those features support controlled, cross-domain creative generation.
+The goal is to show, as rigorously as possible, whether a creativity steering direction in a small open model can be decomposed into interpretable SAE features and whether that decomposition shows creativity is mechanistically different from simpler behavioral concepts. Controlled cross-domain generation is a downstream hypothesis, not the first claim.
 
 The default paper-shaped framing is not "we solved machine creativity." It is: creativity steering appears to rely on specific latent features, and those features may be analyzable as a distinct mechanistic object.
 
@@ -47,7 +47,7 @@ Quick reference:
 These are not optional. Every implementation and write-up must preserve them.
 
 1. The primary experiment is creativity-direction decomposition, not a broad latent-navigation program.
-2. The default implementation path is `Gemma 2 2B + GemmaScope + RepE/CAA + SAE decomposition`, because that is the best-supported MacBook-feasible lane.
+2. The default implementation path is `Gemma 2 2B + GemmaScope 65K + RepE/CAA + signed SAE decomposition`, because that is the best-supported MacBook-feasible lane.
 3. The first claim is about interpretable latent structure, not about autonomous scientific discovery.
 4. Do not naively encode a dense steering vector through an SAE and call the result mechanistic. Use contrastive decomposition, gradient pursuit, FISTA, or another method that respects signed contributions and out-of-distribution risk.
 5. Treat positive and negative feature contributions as first-class objects. Suppressed features matter.
@@ -266,6 +266,13 @@ Do not re-explore the whole repo if the state docs already answer the question.
 - `research/experiment-macbook-guide.md` defines the default local-feasibility stack.
 - `research/transcript.md` defines the motivating problem and the broader conceptual target.
 - `history/PREREG.md` defines what is pre-registered locally.
+- For current-phase execution disputes, priority order is:
+  - `research/experiment-novelty.md`
+  - `research/experiment-macbook-guide.md`
+  - `history/PREREG.md`
+  - `research/transcript.md`
+  - `research/experiment-ideas.md`
+- Treat `research/transcript.md` and `research/experiment-ideas.md` as motivation and extension-space documents unless a narrower spec explicitly promotes one of their ideas into the active phase.
 - If these documents conflict, resolve the conflict explicitly in `DECISIONS.md` before coding.
 
 ### 4. Execution Order

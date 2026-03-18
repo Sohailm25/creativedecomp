@@ -12,6 +12,8 @@ POSITIONING = (ROOT / "background-work/RESEARCH_POSITIONING.md").read_text(
     encoding="utf-8"
 )
 CURRENT_STATE = (ROOT / "CURRENT_STATE.md").read_text(encoding="utf-8")
+CONFIG = (ROOT / "configs/experiment.yaml").read_text(encoding="utf-8")
+AGENTS = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
 
 
 class ResearchDirectionAlignmentTest(unittest.TestCase):
@@ -31,6 +33,14 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
     def test_current_state_tracks_output_filtering_and_negative_result_path(self) -> None:
         self.assertIn("output-feature", CURRENT_STATE)
         self.assertIn("negative result", CURRENT_STATE)
+
+    def test_config_uses_65k_as_base_sae_configuration(self) -> None:
+        self.assertIn("default_width: 65k", CONFIG)
+
+    def test_agents_defines_current_phase_doc_priority(self) -> None:
+        self.assertIn("priority order is", AGENTS)
+        self.assertIn("research/experiment-novelty.md", AGENTS)
+        self.assertIn("research/experiment-macbook-guide.md", AGENTS)
 
 
 if __name__ == "__main__":

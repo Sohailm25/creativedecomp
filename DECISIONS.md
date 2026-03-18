@@ -62,3 +62,10 @@
 - Decision: center the project on whether creativity is mechanistically different from simpler behavioral concepts, require pilot comparison of at least two signed decomposition methods, keep refusal and sentiment as required reference baselines, and preserve the publishable negative-result path.
 - Rationale: this framing is stronger and more defensible than a generic "decompose the creativity vector" story.
 - Impact: `CURRENT_STATE.md`, `history/PREREG.md`, `background-work/RESEARCH_POSITIONING.md`, `background-work/GAPS_SYNTHESIS.md`, and `configs/experiment.yaml` now all reflect the same novelty-backed direction.
+
+## [2026-03-18T03:24:00-0500] DECISION: Resolve the internal doc hierarchy explicitly
+
+- Trigger: the research set mixes broad-program documents with tighter execution documents, and they are not equally binding for the current phase.
+- Decision: treat `research/experiment-novelty.md` and `research/experiment-macbook-guide.md` as the highest-priority current-phase documents; treat `research/transcript.md` and `research/experiment-ideas.md` as motivation and extension-space docs unless a narrower spec promotes one of their ideas into the active phase.
+- Rationale: without an explicit hierarchy, the repo can drift back toward broad controller or basin-hopping work before the novelty-backed primary experiment is honestly executed.
+- Impact: `AGENTS.md` now states the priority order directly, reducing ambiguity for future sessions.
