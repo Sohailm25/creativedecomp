@@ -39,6 +39,7 @@
 - `inferred`: the experiment has moved past the original template confound, but the current response-centered pair construction is still too noisy and weak to justify decomposition. The blocker is now contrast quality, not merely layer choice.
 - `inferred`: the current `v2` pair construction is still weaker than the Olson-style counterpart path the research docs point to, because the positive and negative sides are independently sampled continuations rather than content-preserving creative/plain counterparts of the same story material.
 - `known`: internal probe movement alone is no longer treated as a sufficient readiness signal for Phase 2; a pilot output-level creativity gate with a coherence/usefulness check is now required before any decomposition comparison reopens.
+- `known`: the pilot output-level gate must compare against the prompt-only creativity baseline explicitly, but it does not require dense steering to outperform prompting on the pilot slice; the goal is to establish a real causal output effect and characterize the tradeoff honestly.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -47,6 +48,6 @@
 ## Immediate Next Steps
 
 1. Strengthen the response-centered contrast (`creativedecomp-02c`) by defining audit-backed rejection or filtering rules, rebuilding a cleaner `v3` pair set around content-preserving creative/plain counterparts when feasible, and rerunning the controlled layer sweep plus bounded calibration in response-only and full-text form if those diagnostics diverge.
-2. Freeze the missing pilot output-level gate (`creativedecomp-roq`) before Phase 2: run at least one locked creativity-side metric plus one coherence/usefulness check on the revised dense direction, and do not treat output-level readiness as interchangeable with internal probe movement.
+2. Freeze the missing pilot output-level gate (`creativedecomp-roq`) before Phase 2: run at least one locked creativity-side metric plus one coherence/usefulness check on the revised dense direction, compare against the prompt-only creativity baseline explicitly, and do not treat output-level readiness as interchangeable with internal probe movement.
 3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until both the contrast-quality gate and the output-level gate pass.
 4. Lock a two-family benchmark bundle plus matched refusal/sentiment baseline plans only after the dense-direction path is honest enough to carry forward.

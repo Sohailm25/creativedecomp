@@ -210,3 +210,21 @@ Suggested entry format:
   - medium that the model will still yield a usable dense direction after the stronger gate
 - Interesting facts:
   - The current weak point is not tooling anymore; it is whether the data construction and gating discipline are strong enough to keep "mechanistic creativity" from collapsing into "mechanistic style control."
+
+## [2026-03-18T13:12:00-0500] The Papers Suggest A Narrower Success Criterion Than My Intuition Wanted
+
+- Stage: synthesis
+- Feel of the Experiment: The literature is useful here because it trims both optimism and perfectionism. It says our current gate is too weak if it only trusts hidden-state movement, but it also says the next gate should not demand that steering already beat prompting at everything.
+- Working Hypotheses:
+  - A dense creativity direction can still be mechanistically interesting even if prompt-only creativity remains stronger on average in pilot evaluation.
+  - What matters first is whether the direction causes a measurable output effect with an honest tradeoff profile.
+- Hunches and Guesses:
+  - If `v3` works, the strongest early result may be "steering has a distinct effect with different failure modes than prompting," not "steering is simply better than prompting."
+- Predictions:
+  - Forcing the pilot gate to compare against prompting without requiring superiority will keep the experiment more truthful and less likely to die on an unnecessary bar.
+- Surprises and Tensions:
+  - AxBench is a good reminder that many steering methods lose to prompting on average, which means "beats prompting" is the wrong default pilot criterion.
+- Confidence:
+  - high that the new pilot gate should be effect-and-tradeoff focused, not supremacy focused
+- Interesting facts:
+  - Von Rütte weakens hidden-state optimism, and AxBench weakens benchmarking optimism in almost the opposite direction; together they give a more realistic gate than either paper alone.
