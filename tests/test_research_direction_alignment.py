@@ -66,6 +66,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("order-robust", CURRENT_STATE)
         self.assertIn("decomposition remains blocked", CURRENT_STATE)
 
+    def test_current_state_requires_cached_output_reuse_before_new_generation(self) -> None:
+        self.assertIn("cached generated outputs", CURRENT_STATE)
+        self.assertIn("manual audit", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

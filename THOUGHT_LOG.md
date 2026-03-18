@@ -291,3 +291,23 @@ Suggested entry format:
   - medium that a bounded stronger local metric can still rescue Phase 1 without escalating the stack
 - Interesting facts:
   - Under order-robust judging, prompt-only versus neutral is `31 / 31` ties on both creativity and coherence, and dense versus neutral is also `31 / 31` ties for both tested coefficients.
+
+## [2026-03-18T16:19:00-0500] The Next Risk Is Metric-Shopping, Not Just Metric Weakness
+
+- Stage: synthesis
+- Feel of the Experiment: The repo is now at a subtle fork. The danger is no longer “we might naively decompose a bad direction.” The danger is “we might keep changing the evaluation setup until something looks positive.”
+- Working Hypotheses:
+  - Some of the cached output-gate stories do look meaningfully different by eye, especially prompt-only versus neutral on a subset of prompts.
+  - That means the next step should begin by testing metric sensitivity on the existing outputs, not by regenerating better-looking stories.
+- Hunches and Guesses:
+  - A small blinded manual audit with a tighter rubric will probably show that the current local label judge is under-sensitive rather than that every condition is truly indistinguishable.
+  - If even a human-rubric audit cannot separate prompt-only from neutral on the cached outputs, then the stack is in worse shape than the hidden-state recovery made it appear.
+- Predictions:
+  - Reusing cached outputs will make the next conclusion much cleaner: either the metric improves and isolates the dense failure, or the metric still fails and the evaluation stack becomes the explicit blocker.
+- Surprises and Tensions:
+  - The sample outputs look more separable than the order-robust summary does, which is exactly the kind of mismatch that tempts bad metric iteration if it is not controlled carefully.
+- Confidence:
+  - high that the next step should reuse cached outputs
+  - medium that the stronger metric will still leave dense steering negative versus neutral
+- Interesting facts:
+  - The right falsification test now is whether the metric can recover the prompt-only creativity baseline on the existing stories, not whether a new generation run can be made to look better.

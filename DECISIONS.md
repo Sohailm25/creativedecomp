@@ -153,3 +153,10 @@
 - Decision: rerun the gate with order-robust paired judging that requires the same winner under both A/B orderings, treat the corrected artifact as the new source of truth, and keep decomposition blocked because the corrected gate collapses prompt-only versus neutral and dense versus neutral almost entirely to ties.
 - Rationale: a gate that can be passed by label-order bias is not a real gate. The corrected artifact also shows that the current local creativity-side metric is too insensitive to distinguish even the prompt-only creativity baseline from neutral, so the next honest blocker is evaluation sensitivity rather than decomposition.
 - Impact: `creativedecomp-roq` can close as a completed gate-definition task, `creativedecomp-8o1` is now the next ready follow-up, and `creativedecomp-npt` remains blocked until a stronger pilot creativity metric either recovers a real output-level effect or supports a clean negative-result write-up.
+
+## [2026-03-18T16:18:00-0500] DECISION: The next evaluation follow-up must reuse cached gate outputs before any new generation or retuning
+
+- Trigger: the deep post-gate review confirmed that the current bottleneck is evaluation sensitivity, not pair construction or hidden-state recovery, and the existing `creativedecomp-8o1` task was still broad enough to invite metric-shopping.
+- Decision: force the next-step order to be: first a small blinded manual audit on the cached output-gate stories; then one stronger creativity-side pilot metric grounded in that audit and the evaluation papers; then a gate rerun on the same cached generated outputs. Do not generate new stories or retune layer `23` / coeffs `0.5` and `1.0` until that sequence is complete.
+- Rationale: if we change the outputs and the metric at the same time, we lose the ability to tell whether the failure is in the dense direction, the evaluation setup, or both. Reusing the cached outputs keeps the next test falsifiable.
+- Impact: `creativedecomp-8o1` is now a narrower and more trustworthy blocker, and any later negative conclusion about the Gemma 2 2B lane will be much harder to dismiss as evaluation drift.

@@ -61,6 +61,9 @@
 - `inferred`: the corrected pilot output gate does not currently pass, so decomposition remains blocked even after the hidden-state recovery at layer `23`.
 - `inferred`: because the same order-robust judge also collapses the prompt-only creativity baseline versus neutral to ties, the current local creativity-side metric is too insensitive to decide whether the Gemma 2 2B MacBook lane is a true negative result or an evaluation failure.
 - `known`: contrast quality is no longer the live blocker. The next blocker is strengthening the pilot creativity-side metric without reintroducing order bias, using `creativedecomp-8o1`, before decomposition work can honestly reopen.
+- `known`: the next evaluation step must be falsifiable rather than metric-shopping. It must start from the already saved output-gate artifact, not from new story generation.
+- `known`: the required order for `creativedecomp-8o1` is: first run a small blinded manual audit on the cached generated outputs from `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`; then choose one stronger creativity-side metric grounded in that audit and the creativity-evaluation papers; then rerun the gate on the same cached generated outputs before changing prompts, layers, or coefficients.
+- `inferred`: if the stronger metric can distinguish prompt-only creativity prompting from neutral but still shows no dense effect, that becomes the first strong Phase 1 negative result for the Gemma 2 2B MacBook lane. If the stronger metric still cannot separate prompt-only from neutral, evaluation sensitivity or prompt-harness quality remains the blocker rather than the dense direction alone.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -68,7 +71,7 @@
 
 ## Immediate Next Steps
 
-1. Run `creativedecomp-8o1` to strengthen the pilot creativity-side metric after the order-robust gate collapse, using one bounded follow-up such as a manual audit slice, a stronger local rubric, or a small benchmark proxy that can separate prompt-only creativity prompting from neutral.
-2. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until the strengthened pilot metric shows a real output-level effect or the MacBook lane is logged as a clean negative result.
-3. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless a stronger evaluation metric shows it matters.
-4. Do not treat the corrected output-gate collapse as a settled distributed-creativity result yet, because the current local metric is too weak to distinguish even the prompt-only baseline from neutral.
+1. Run `creativedecomp-8o1` on the cached generated outputs from `results/steering_eval/20260318-gemma2-2b-output-gate-v1/`, starting with a small blinded manual audit slice that asks whether prompt-only creativity versus neutral is visibly separable under a locked rubric.
+2. Choose one stronger pilot creativity-side metric from that audit and the existing evaluation papers, keep the order-bias controls, and rerun the gate on the same cached generated outputs before generating any new stories or retuning layer `23` / coeffs `0.5` and `1.0`.
+3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until that stronger metric either shows a real dense output effect or supports a clean negative-result write-up for the Gemma 2 2B lane.
+4. Keep the response-only `mean_difference` path as a diagnostic support lane rather than the primary claim path unless the stronger evaluation metric shows it matters.
