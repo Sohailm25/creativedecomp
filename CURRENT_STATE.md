@@ -3,13 +3,13 @@
 **Last updated:** 2026-03-18
 **Updated by:** codex-gpt5
 **Status:** in_progress
-**Current phase:** Phase 1 - Response-centered contrast landed; provisional late-layer recovered but not yet calibrated
+**Current phase:** Phase 1 - Response-centered contrast recovered a late-layer candidate, but calibration rejected decomposition readiness
 
 ## Active Thesis Lock
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
 - `known`: the active task branch is `wip/creativedecomp-scaffold-lock`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, and `creativedecomp-wtf` are closed; `creativedecomp-6lm` is the next ready task; and `creativedecomp-npt` now explicitly depends on `creativedecomp-6lm`.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, and `creativedecomp-6lm` are closed; `creativedecomp-02c` is the next ready task; and `creativedecomp-npt` now explicitly depends on `creativedecomp-02c`.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -33,7 +33,10 @@
 - `known`: the `v2` sweep removes the template-only control signal by construction because both sides share the same extraction wrapper; this fixes the original instruction-template confound but does not by itself prove that the recovered signal is strong enough for decomposition.
 - `inferred`: layer `24` is now a legitimate late-layer candidate, but the separation is still weak enough that decomposition would be premature without a bounded calibration step.
 - `observed`: the bounded `v2` generation smoke under `results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2/` stays story-like with `0.000000` meta fraction across all four conditions, but the steered-vs-unsteered differences are subtle rather than decisive.
-- `inferred`: the experiment has moved past the structural confound and into a calibration problem; the honest blocker is not "find any layer" anymore but "show the recovered late-layer direction matters enough to justify decomposition."
+- `observed`: the bounded calibration sweep under `results/steering_eval/20260318-gemma2-2b-v2-direction-calibration/` shows no clean monotone coefficient-response pattern on the top late-layer band; for layer `24`, the mean probe projection moves from `13.361952` unsteered to `-13.657598` at coeff `0.5`, `-42.777972` at coeff `1.0`, and only back to `1.912126` at coeff `2.0`.
+- `observed`: the layer `20` calibration trend is cleaner only in the wrong way; its mean probe projection becomes steadily more negative as positive coefficient increases and is still more negative than the unsteered baseline even at coeff `-1.0`, which does not support a stable creativity-control interpretation.
+- `observed`: the `v2` pair audit under `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit/` surfaces `7` informative rows and shows that several strongest losses are not garbage negatives; they are often as prompt-specific or more prompt-specific than the paired positives, while the positives often remain generic.
+- `inferred`: the experiment has moved past the original template confound, but the current response-centered pair construction is still too noisy and weak to justify decomposition. The blocker is now contrast quality, not merely layer choice.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
@@ -41,6 +44,6 @@
 
 ## Immediate Next Steps
 
-1. Calibrate the recovered `v2` late-layer direction (`creativedecomp-6lm`) with a bounded steering-scale sanity sweep plus a small pair-quality or creativity-side audit before allowing decomposition.
-2. Reopen signed decomposition comparison (`creativedecomp-npt`) only if the calibration step shows that the provisional late-layer direction is real enough to matter beyond a weak pair-separation metric.
-3. Lock a two-family benchmark bundle plus matched refusal/sentiment baseline plans so the "mechanistically different" framing stays testable once the dense-direction path is honest enough to carry forward.
+1. Strengthen the response-centered contrast (`creativedecomp-02c`) by defining audit-backed rejection or filtering rules, rebuilding a cleaner `v3` pair set, and rerunning the controlled layer sweep plus bounded calibration.
+2. Keep signed decomposition comparison (`creativedecomp-npt`) blocked until the revised contrast produces both stronger pair separation and a saner coefficient-response pattern.
+3. Lock a two-family benchmark bundle plus matched refusal/sentiment baseline plans only after the dense-direction path is honest enough to carry forward.

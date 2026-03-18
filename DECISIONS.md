@@ -118,3 +118,10 @@
 - Decision: record layer `24` as the current best late-layer candidate and use it for bounded smoke-level follow-up, but require a calibration step before any decomposition or mechanistic claim treats it as settled.
 - Rationale: a real but weak signal is better than a confounded win, but `19 / 32` pair separation is not strong enough to support decomposition by default.
 - Impact: `creativedecomp-wtf` is closed, `creativedecomp-6lm` is now the critical-path task, and `creativedecomp-npt` remains blocked until the recovered direction is calibrated.
+
+## [2026-03-18T12:44:00-0500] DECISION: Keep decomposition blocked after the v2 calibration sweep
+
+- Trigger: the bounded `v2` calibration sweep and audit slice finished, and they did not show a stable enough late-layer creativity-control signal.
+- Decision: close the calibration task as a completed negative gate, but do not unblock decomposition. Instead, create a new blocker to strengthen the response-centered contrast before rerunning layer selection and calibration.
+- Rationale: the current `v2` direction recovered a layer candidate, but the coefficient-response behavior is not cleanly monotone and the audit slice shows that several strong losses come from pair-quality weakness rather than simple model noise.
+- Impact: `creativedecomp-6lm` is closed, `creativedecomp-02c` is the new critical-path task, and `creativedecomp-npt` now depends on `creativedecomp-02c` instead of treating `v2` as decomposition-ready.

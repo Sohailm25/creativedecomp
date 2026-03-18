@@ -169,3 +169,25 @@ Suggested entry format:
   - medium that layer `24` will survive a bounded calibration step strongly enough to justify decomposition
 - Interesting facts:
   - The top five `v2` layers by the controlled rule are all late layers and all share the same `0.593750` pair-separation fraction, which feels more like a weak distributed band than a single canonical creativity site.
+
+## [2026-03-18T12:44:30-0500] Calibration Was Honest, And The Honest Answer Is Still No
+
+- Stage: analysis
+- Feel of the Experiment: This is a useful refusal, not a dead end. The response-centered redesign rescued the experiment from a structural confound, but the next gate exposed that the rescued signal is still not disciplined enough for feature work.
+- Working Hypotheses:
+  - The main weakness is pair quality and contrast sharpness more than total absence of a late-layer creativity-relevant variable.
+  - Some of the current dense-direction instability is caused by positive completions that are generic rather than distinctly more creative.
+- Hunches and Guesses:
+  - An audited `v3` pair set with rejection rules will matter more than more coefficient sweeps on the current `v2` direction.
+  - Response-only probing may end up being a cleaner calibration diagnostic than full prompt-plus-response probing once the pair set is rebuilt.
+- Predictions:
+  - If the pair set is tightened, the late-layer band will probably remain late, but the ranking will compress less and the coefficient-response pattern will get easier to read.
+  - If a tightened pair set still fails, that will be much stronger evidence against fast decomposition than the current `v2` failure is.
+- Surprises and Tensions:
+  - The top recovered layer survived the control sweep but still did not behave cleanly under coefficient scaling.
+  - The pair audit is awkward in exactly the right way: several "plain" negatives are not low-quality junk, which means the experiment still has to earn a better contrast.
+- Confidence:
+  - high that decomposition should remain blocked
+  - medium that a cleaner `v3` pair set can recover a usable dense direction
+- Interesting facts:
+  - On the bounded calibration slice, the unsteered neutral baseline had a more positive mean layer-24 probe projection than most of the positive-coefficient steering conditions, which is a strong sign that the current `v2` direction is not yet a stable control handle.

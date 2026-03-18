@@ -343,3 +343,63 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: the recovered late-layer directions from the `v2` sweep do not produce an obvious qualitative steering jump on the bounded four-prompt smoke, so calibration is now the honest blocker
 - Next step: start `creativedecomp-6lm` and test whether a bounded scale sweep or pair-quality audit strengthens the provisional late-layer signal enough for decomposition
+
+## 2026-03-18T12:37:30-0500 PRE-RUN: v2 late-layer direction calibration sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_calibration.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --output-dir results/steering_eval/20260318-gemma2-2b-v2-direction-calibration`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this remains dense-direction calibration before decomposition
+- Data slice: `creative_direction_v2_pilot / first 6 prompts / top two late-layer candidates / steering coeffs -1.0, 0.5, 1.0, 2.0`
+- Output path: `results/steering_eval/20260318-gemma2-2b-v2-direction-calibration`
+- What I'm testing: whether the recovered `v2` late-layer direction shows a sane scale-response pattern in probe-layer projections without immediately collapsing output quality.
+- Expected outcome: at least one late-layer candidate should show more positive mean probe projection at positive coefficients than at the unsteered baseline, with low prompt-meta contamination.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session009.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --output-dir results/steering_eval/20260318-gemma2-2b-v2-direction-calibration --overwrite`
+- Main confound to watch: a monotone internal probe shift could still reflect generic verbosity or stylistic drift rather than a useful creativity-related change.
+- Implementation verified: YES - focused unit tests for coefficient parsing, condition construction, and projection-aware condition summaries
+- Status: LAUNCHING
+
+## 2026-03-18T12:38:00-0500 PRE-RUN: v2 response-pair audit slice
+
+- tmux session: N/A
+- Script: `scripts/audit_creativity_response_pairs_v2.py`
+- Command: `.venv/bin/python scripts/audit_creativity_response_pairs_v2.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit`
+- Device: `cpu`
+- Model: `N/A`; this is an artifact selection pass over saved pair and sweep outputs
+- SAE: `N/A`
+- Data slice: `creative_direction_v2_pilot / strongest wins / strongest losses / flagged rows`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit`
+- What I'm testing: whether the weak `v2` signal looks like noisy or contaminated pair construction rather than total absence of a late-layer contrast.
+- Expected outcome: the audit slice should expose whether the largest failures cluster around generic positives, stronger-than-expected negatives, or contaminated continuations.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session009.md`
+- Resume command: `.venv/bin/python scripts/audit_creativity_response_pairs_v2.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit --overwrite`
+- Main confound to watch: an audit slice can surface problems but does not by itself prove which replacement contrast will fix them.
+- Implementation verified: YES - focused unit tests for audit-row selection and audit summary counts
+- Status: LAUNCHING
+
+## 2026-03-18T12:40:11-0500 POST-RUN: v2 response-pair audit slice
+
+- Command: `.venv/bin/python scripts/audit_creativity_response_pairs_v2.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit`
+- Outcome: SUCCESS
+- Key metric: `7` audit rows selected, including `3` strongest losses and `1` flagged negative-meta row
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit/`
+- Latest checkpoint: none
+- Anomalies: several strongest losses are not low-quality negatives; they remain as prompt-specific or more prompt-specific than the paired positives, which means pair quality is still a live blocker
+- Next step: compare the audit diagnosis against the bounded calibration sweep before deciding whether decomposition remains blocked
+
+## 2026-03-18T12:43:30-0500 POST-RUN: v2 late-layer direction calibration sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_calibration.py --output-dir results/steering_eval/20260318-gemma2-2b-v2-direction-calibration`
+- Outcome: SUCCESS
+- Key metric: layer `24` remained the best available candidate, but its mean probe projection moved from `13.361952` unsteered to `-13.657598` at coeff `0.5`, `-42.777972` at coeff `1.0`, and only `1.912126` at coeff `2.0`
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-v2-direction-calibration/`
+- Latest checkpoint: none
+- Anomalies: all conditions stayed free of prompt-meta contamination, but the coefficient-response pattern was not cleanly monotone or stable enough to justify decomposition
+- Next step: keep decomposition blocked and create a new contrast-quality task to build an audited `v3` pair set before rerunning layer selection and calibration

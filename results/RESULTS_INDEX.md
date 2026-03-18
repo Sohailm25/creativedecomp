@@ -27,6 +27,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Template-controlled layer sweep showing no layer clears the instruction-template leakage control | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control/README.md` |
 | Response-centered `v2` pilot artifact with matched creativity-vs-plain continuation pairs under a shared extraction wrapper | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot/README.md` |
 | Response-centered `v2` controlled layer sweep recovering a provisional late-layer candidate after removing the instruction-template confound | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2/README.md` |
+| Audit slice over the response-centered `v2` pair set showing that several strongest losses are still semantically competitive negatives rather than junk rows | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-audit/README.md` |
 
 ## Feature Decomposition
 
@@ -49,6 +50,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 |---|---|---|---|
 | Generation-side dense-direction smoke rerun with continuation-style neutral and creative prompt harnesses | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-generation-smoke/README.md` |
 | Generation-side dense-direction smoke rerun from the response-centered `v2` sweep using the provisional late-layer candidates | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2/README.md` |
+| Bounded steering-scale calibration sweep on the response-centered `v2` late-layer band showing unstable coefficient-response behavior | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-v2-direction-calibration/README.md` |
 
 ## Creativity Benchmarks
 
