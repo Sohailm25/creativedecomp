@@ -1,0 +1,74 @@
+{
+  "created_at": "2026-03-18T11:00:35-05:00",
+  "model_id": "google/gemma-2-2b",
+  "device": "mps",
+  "prompt_count": 4,
+  "candidate_layers": [
+    0,
+    7
+  ],
+  "steering_coeff": 1.0,
+  "max_new_tokens": 96,
+  "seed": 1729,
+  "split_path": "prompts/creative_direction_v1_pilot.jsonl",
+  "templates_path": "prompts/creative_direction_v1_templates.json",
+  "sweep_dir": "results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot",
+  "neutral_generation_template": "Write a short story inspired by the prompt below.\n\nPrompt: {prompt}",
+  "conditions": [
+    {
+      "condition_id": "neutral_unsteered",
+      "prompt_mode": "neutral",
+      "hidden_layer": null,
+      "steering_coeff": 0.0,
+      "normalize_control": false
+    },
+    {
+      "condition_id": "creative_prompt_unsteered",
+      "prompt_mode": "prompt_only_creativity",
+      "hidden_layer": null,
+      "steering_coeff": 0.0,
+      "normalize_control": false
+    },
+    {
+      "condition_id": "neutral_steered_layer0",
+      "prompt_mode": "neutral",
+      "hidden_layer": 0,
+      "steering_coeff": 1.0,
+      "normalize_control": true
+    },
+    {
+      "condition_id": "neutral_steered_layer7",
+      "prompt_mode": "neutral",
+      "hidden_layer": 7,
+      "steering_coeff": 1.0,
+      "normalize_control": true
+    }
+  ],
+  "condition_summaries": [
+    {
+      "condition_id": "creative_prompt_unsteered",
+      "sample_count": 4,
+      "mean_completion_word_count": 69.5,
+      "mean_completion_char_count": 375.75
+    },
+    {
+      "condition_id": "neutral_steered_layer0",
+      "sample_count": 4,
+      "mean_completion_word_count": 69.5,
+      "mean_completion_char_count": 361.5
+    },
+    {
+      "condition_id": "neutral_steered_layer7",
+      "sample_count": 4,
+      "mean_completion_word_count": 75.25,
+      "mean_completion_char_count": 386.25
+    },
+    {
+      "condition_id": "neutral_unsteered",
+      "sample_count": 4,
+      "mean_completion_word_count": 71.0,
+      "mean_completion_char_count": 361.5
+    }
+  ],
+  "outputs_path": "outputs.jsonl"
+}

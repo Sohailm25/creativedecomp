@@ -103,3 +103,63 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: the first implementation path produced projection warnings from BLAS-backed matrix multiply even though all values were finite; the run artifact was regenerated with a stable multiply-plus-sum projection path to remove that confound
 - Next step: run a pilot layer sweep before treating layer 12 as anything more than the scaffold default
+
+## 2026-03-18T10:50:30-0500 PRE-RUN: creativity-direction pilot layer sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A for this run`; this is still the dense-direction pilot selection step before decomposition
+- Data slice: `creative_direction_v1_pilot / 32 prompt pairs / all transformer layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot`
+- What I'm testing: which dense-direction extraction layer best separates creative and uncreative prompt pairs on the frozen pilot split under the same extraction math used in the first smoke artifact.
+- Expected outcome: a ranked layer table, saved directions, and a provisional best layer for the next generation-side steering smoke.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session006.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --overwrite`
+- Main confound to watch: training-pair separation is a pilot heuristic for layer choice, not a claim that the chosen layer produces genuinely more creative generations.
+- Implementation verified: YES - unit tests for layer parsing/ranking plus prior dense-direction smoke on the same prompt split
+- Status: LAUNCHING
+
+## 2026-03-18T10:50:00-0500 POST-RUN: creativity-direction pilot layer sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot`
+- Outcome: SUCCESS
+- Key metric: raw sweep winner `layer 0` with `1.000000` positive-greater-than-negative fraction; best later-layer candidate `layer 7` with `0.906250`
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot/`
+- Latest checkpoint: none
+- Anomalies: the raw winner is likely confounded by lexical differences between the creative and uncreative instruction templates, so it should not be treated as a frozen creativity layer
+- Next step: compare layer `0` and layer `7` in a generation-side smoke before promoting either one
+
+## 2026-03-18T10:58:30-0500 PRE-RUN: generation-side creativity smoke
+
+- tmux session: N/A
+- Script: `scripts/run_generation_side_creativity_smoke.py`
+- Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A for this run`; this is dense-direction steering before SAE decomposition
+- Data slice: `creative_direction_v1_pilot / first 4 prompts / neutral prompt comparison plus prompt-only creativity baseline`
+- Output path: `results/steering_eval/20260318-gemma2-2b-generation-smoke`
+- What I'm testing: whether the raw sweep winner layer `0` and the next-ranked layer `7` produce meaningfully different generation behavior under the same neutral prompt setup.
+- Expected outcome: a small saved comparison showing whether early-layer steering looks like lexical template leakage rather than a usable creativity control.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session006.md`
+- Resume command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke --overwrite`
+- Main confound to watch: sampled generations are noisy, so a tiny smoke run can only surface obvious failure modes or gross qualitative differences, not establish a real creativity effect.
+- Implementation verified: YES - unit tests for condition construction plus saved layer-sweep artifact and saved directions
+- Status: LAUNCHING
+
+## 2026-03-18T11:00:35-0500 POST-RUN: generation-side creativity smoke
+
+- Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke --overwrite`
+- Outcome: PARTIAL
+- Key metric: all four conditions completed on four prompts, but the outputs were mostly prompt-meta continuations instead of clean short stories
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-generation-smoke/`
+- Latest checkpoint: none
+- Anomalies: `repeng` control wrapping on Gemma 2 required restoring `attention_type` on wrapped layers for generation to work, and the resulting outputs exposed a base-model prompting mismatch rather than a clean creativity-steering effect
+- Next step: repair the base-model story prompting harness before interpreting any steering-side creativity differences

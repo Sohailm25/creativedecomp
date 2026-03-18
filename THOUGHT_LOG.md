@@ -107,3 +107,23 @@ Suggested entry format:
   - low in any strong interpretation of the current layer-12 metric
 - Interesting facts:
   - Switching from BLAS-backed matrix multiply to explicit multiply-plus-sum removed the projection warnings without changing the metric.
+
+## [2026-03-18T11:05:00-0500] The Prompting Channel Is Still Louder Than The Creativity Claim
+
+- Stage: implementation
+- Feel of the Experiment: This is the useful kind of annoying. The repo is doing its job because the artifacts are surfacing confounds early enough to fix, instead of letting them fossilize into a paper-shaped story.
+- Working Hypotheses:
+  - Layer `0` is mostly detecting template wording, not a mechanistic creativity variable.
+  - The base Gemma prompt harness is still too continuation-like to serve as a credible steering evaluation setup.
+- Hunches and Guesses:
+  - Once the prompt format is made continuation-compatible, the apparent gap between layer `0` and layer `7` will shrink or flip.
+- Predictions:
+  - A better story scaffold will make the generation-side differences easier to interpret than any extra steering coefficient sweep would right now.
+- Surprises and Tensions:
+  - The cleanest layer on the pilot objective was the least believable mechanistically.
+  - The first generation smoke was informative precisely because it failed to produce the kind of outputs we wanted.
+- Confidence:
+  - high that the current layer-`0` result is confounded
+  - medium that layer `7` is the right later-layer candidate to carry forward
+- Interesting facts:
+  - The neutral prompt and the prompt-only creativity prompt both elicited writing-forum/meta continuations from the base model, which means prompt-format repair is a real prerequisite rather than polish.

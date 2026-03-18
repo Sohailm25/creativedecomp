@@ -76,3 +76,17 @@
 - Decision: freeze the initial runtime around Python `3.14.2`, `torch==2.10.0`, `transformers==5.3.0`, `sae-lens==6.38.0`, `repeng==0.4.0`, `datasets==4.8.2`, `accelerate==1.13.0`, `safetensors==0.7.0`, `sentencepiece==0.2.1`, and `scipy==1.17.1`, and leave `steering-vectors` out of the base freeze for now.
 - Rationale: this exact stack installs and imports locally, while `steering-vectors` resolves against the `transformers<5` line and would make the initial freeze ambiguous before the first experiment run.
 - Impact: the repo now has a real reproducible runtime freeze in `requirements.txt` and `requirements.lock.txt`, and any later addition of `steering-vectors` must be logged as an intentional runtime revision rather than silently folded into the base environment.
+
+## [2026-03-18T10:55:00-0500] DECISION: Do not treat the raw layer-0 winner from the pilot sweep as the provisional creativity layer
+
+- Trigger: the all-layer pilot sweep ranked layer `0` first with perfect training-pair separation.
+- Decision: record layer `0` as the raw sweep winner, but do not freeze it as the creativity layer; instead, carry both layer `0` and the next-ranked layer `7` into the first generation-side smoke and treat the result as a confound check.
+- Rationale: perfect separation at the earliest layer is more plausibly explained by lexical differences between the creative and uncreative instruction templates than by a clean creativity representation.
+- Impact: the next steering smoke compares two candidate layers rather than blindly promoting layer `0`, and a new follow-up issue now tracks explicit lexical-confound control.
+
+## [2026-03-18T11:02:00-0500] DECISION: Treat the current base-model prompting harness as invalid for steering-side creativity interpretation
+
+- Trigger: the first generation-side smoke on neutral prompts plus layers `0` and `7` produced mostly prompt-meta continuations and writing-forum style text rather than clean short stories.
+- Decision: do not interpret the current generation smoke as evidence for or against creativity steering; treat it as a harness-validation artifact and prioritize a base-model-compatible story prompting redesign before deeper steering claims.
+- Rationale: if the model is not reliably producing the target output mode, steering differences cannot be cleanly attributed to creativity rather than prompt-format mismatch.
+- Impact: a new prompt-harness repair issue is now on the critical path ahead of deeper steering evaluation, while the saved smoke artifact remains a useful negative checkpoint.
