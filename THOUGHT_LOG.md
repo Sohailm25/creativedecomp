@@ -68,3 +68,42 @@ Suggested entry format:
 
 - The feasibility review strongly favors `Gemma 2 2B + GemmaScope` as the MacBook path.
 - The novelty review makes naive direct SAE encoding of steering vectors look methodologically indefensible.
+
+## [2026-03-18T10:08:00-0500] First Runtime Freeze Landed
+
+- Stage: implementation
+- Feel of the Experiment: The project finally feels like an experiment instead of a scaffold. The first real risk is no longer "can this repo stay organized?" but "does the frozen stack actually let us recover a creativity direction honestly?"
+- Working Hypotheses:
+  - The first blocked step is more likely to be model access or generation throughput than package compatibility.
+- Hunches and Guesses:
+  - If the first smoke run fails, the failure will probably come from Gemma access or the creativity contrast construction rather than the SAE tooling itself.
+- Predictions:
+  - The frozen WritingPrompts slice will be good enough for the first direction smoke, but not yet good enough to support the final benchmark claim on its own.
+- Surprises and Tensions:
+  - Python `3.14.2` was less of a blocker than expected for the base stack.
+  - Optional steering packages already want a different `transformers` line, so environment discipline is going to matter early.
+- Confidence:
+  - medium in the frozen runtime
+  - low-to-medium in immediate model-access smoothness
+- Interesting facts:
+  - `repeng` imported cleanly on the frozen stack, which is enough to start the first bounded creativity-direction replication slice without adding more tooling.
+
+## [2026-03-18T10:40:00-0500] First Dense Creativity Smoke Is Alive But Not Clean Enough To Overinterpret
+
+- Stage: implementation
+- Feel of the Experiment: This is the first point where the research question touches the actual model instead of the plan. The result feels encouraging as an execution checkpoint and underwhelming as evidence, which is exactly the kind of distinction the repo needs to preserve.
+- Working Hypotheses:
+  - Layer 12 may be usable as a baseline extraction site but is not obviously the cleanest creativity layer on this model.
+- Hunches and Guesses:
+  - The interesting signal is not that the default layer works, but that it only separates `23 / 32` training pairs despite being trained on them.
+- Predictions:
+  - A small layer sweep will probably find stronger separation than the scaffold-default layer.
+  - The first generation-side smoke may expose that some of the current contrast is style control rather than deeper creativity.
+- Surprises and Tensions:
+  - The main numerical instability was in the projection math path, not the model itself.
+  - A bounded smoke artifact can succeed and still argue against complacent "we already replicated it" language.
+- Confidence:
+  - high in the local runtime path
+  - low in any strong interpretation of the current layer-12 metric
+- Interesting facts:
+  - Switching from BLAS-backed matrix multiply to explicit multiply-plus-sum removed the projection warnings without changing the metric.

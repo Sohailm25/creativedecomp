@@ -16,11 +16,13 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Scaffold adaptation from `resattn` plus structure regression test | infrastructure | pass | `results/infrastructure/20260318-scaffold-adaptation.md` |
 | Standalone repo bootstrap plus core-doc baggage cleanup | infrastructure | pass | `results/infrastructure/20260318-standalone-repo-bootstrap.md` |
 | Final structural and novelty-alignment rigor audit | infrastructure | pass | `results/infrastructure/20260318-final-rigor-audit.md` |
+| Initial runtime freeze plus deterministic WritingPrompts pilot/confirm split | infrastructure | pass | `results/infrastructure/20260318-initial-runtime-and-prompt-freeze.md` |
 
 ## Creativity Direction
 
 | Artifact | Lane | Status | Path |
 |---|---|---|---|
+| First dense creativity-direction smoke on `google/gemma-2-2b` layer 12 over the frozen pilot split | creativity direction | partial | `results/creativity_direction/20260318-gemma2-2b-repeng-smoke-layer12/README.md` |
 
 ## Feature Decomposition
 

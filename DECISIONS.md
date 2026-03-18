@@ -69,3 +69,10 @@
 - Decision: treat `research/experiment-novelty.md` and `research/experiment-macbook-guide.md` as the highest-priority current-phase documents; treat `research/transcript.md` and `research/experiment-ideas.md` as motivation and extension-space docs unless a narrower spec promotes one of their ideas into the active phase.
 - Rationale: without an explicit hierarchy, the repo can drift back toward broad controller or basin-hopping work before the novelty-backed primary experiment is honestly executed.
 - Impact: `AGENTS.md` now states the priority order directly, reducing ambiguity for future sessions.
+
+## [2026-03-18T10:06:00-0500] DECISION: Freeze the initial runtime on the stack that actually imports locally, and defer optional steering tooling that conflicts with it
+
+- Trigger: the first runtime-freeze task required moving from placeholder dependency files to a real local stack on the MacBook path.
+- Decision: freeze the initial runtime around Python `3.14.2`, `torch==2.10.0`, `transformers==5.3.0`, `sae-lens==6.38.0`, `repeng==0.4.0`, `datasets==4.8.2`, `accelerate==1.13.0`, `safetensors==0.7.0`, `sentencepiece==0.2.1`, and `scipy==1.17.1`, and leave `steering-vectors` out of the base freeze for now.
+- Rationale: this exact stack installs and imports locally, while `steering-vectors` resolves against the `transformers<5` line and would make the initial freeze ambiguous before the first experiment run.
+- Impact: the repo now has a real reproducible runtime freeze in `requirements.txt` and `requirements.lock.txt`, and any later addition of `steering-vectors` must be logged as an intentional runtime revision rather than silently folded into the base environment.

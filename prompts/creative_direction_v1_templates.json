@@ -1,0 +1,5 @@
+{
+  "creative_instruction": "Write a short story inspired by the prompt below. Be imaginative, original, vivid, and surprising while staying coherent.\n\nPrompt: {prompt}",
+  "uncreative_instruction": "Write a short story inspired by the prompt below. Keep it conventional, literal, unsurprising, and stylistically plain. Avoid figurative language and unusual twists.\n\nPrompt: {prompt}",
+  "prompt_only_creativity_baseline": "Write a creative short story inspired by the prompt below.\n\nPrompt: {prompt}"
+}
