@@ -95,6 +95,7 @@ creativedecomp/
 ├── background-work/
 │   ├── REFERENCES.md
 │   ├── MECH_INTERP_GUIDANCE.md
+│   ├── IMPLEMENTATION_GROUNDING.md
 │   ├── GAPS_SYNTHESIS.md
 │   ├── PROPOSAL_REVIEW.md
 │   ├── RESEARCH_POSITIONING.md
@@ -175,6 +176,7 @@ The source material is split across a transcript, an experiment landscape, a loc
 - `background-work/papers/DOWNLOAD_MANIFEST.md` when you need the local paper cache index
 - `background-work/papers/files/*` when you need to read a locally cached paper directly
 - `background-work/MECH_INTERP_GUIDANCE.md` when decomposition methods or evaluation choices feel shaky
+- `background-work/IMPLEMENTATION_GROUNDING.md` when you need the phase-by-phase paper and methodology crosswalk before implementation
 - `background-work/GAPS_SYNTHESIS.md` when you need the short list of non-negotiables
 - `background-work/SAFETY_PUBLICATION_POLICY.md` before writing anything that leans on refusal, sycophancy, or other safety-adjacent baselines
 

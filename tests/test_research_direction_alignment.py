@@ -30,6 +30,18 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
             or "compare at least two" in PREREG
         )
 
+    def test_prereg_requires_multiple_benchmark_families(self) -> None:
+        self.assertTrue(
+            "at least two benchmark families" in PREREG
+            or "two complementary benchmark families" in PREREG
+        )
+
+    def test_prereg_requires_pilot_only_layer_and_scale_freeze(self) -> None:
+        self.assertIn("Freeze the selected layer and steering scale", PREREG)
+
+    def test_prereg_requires_matched_pipeline_baselines(self) -> None:
+        self.assertIn("same model, SAE release, layer/site, and decomposition pipeline", PREREG)
+
     def test_current_state_tracks_output_filtering_and_negative_result_path(self) -> None:
         self.assertIn("output-feature", CURRENT_STATE)
         self.assertIn("negative result", CURRENT_STATE)

@@ -48,16 +48,21 @@ A creativity steering direction on the default model can be decomposed into a si
 
 - frozen creative versus uncreative prompt split before claim-bearing runs
 - sequence-level paired evaluation
+- pilot-only sweep over candidate layers and steering scales before confirmatory runs
+- Freeze the selected layer and steering scale before touching the confirmatory split
 - signed decomposition method
 - feature-level intervention validation
 - output-feature filtering or an equivalent output-score-based selection step
 - coherence or usefulness check alongside creativity metrics
+- at least two benchmark families for claim-bearing evaluation, with one association/divergent-thinking style family and one writing/diversity style family unless a logged constraint prevents it
+- refusal and sentiment baselines should use the same model, SAE release, layer/site, and decomposition pipeline whenever feasible
 
 ## Phase Gates
 
 ### Phase 1: Creativity Direction Replication
 
 - Minimum confirmatory sample size: `100` prompts
+- Tune layer choice, steering scale, and judge settings only on the pilot slice
 - Primary metric: paired creativity score delta on the frozen confirmatory split
 - Required secondary metrics: coherence/usefulness delta plus at least one diversity or creativity benchmark metric
 - Significance gate: `p < 0.01` on the sequence-level paired test
@@ -70,6 +75,7 @@ A creativity steering direction on the default model can be decomposed into a si
 - Report the top positive and top negative feature contributions
 - Compare at least one signed decomposition method against a matched random-feature control
 - If decomposition does not preserve the sign of the dense creativity effect under intervention, weaken the mechanistic claim accordingly
+- If the default `65K residual` lane fails cleanly, run one bounded sensitivity check over nearby SAE width/site choices before treating the result as evidence for distributed creativity rather than simple SAE mismatch
 
 ### Phase 3: Feature Validation
 
@@ -77,17 +83,21 @@ A creativity steering direction on the default model can be decomposed into a si
 - Compare against the dense direction and matched random-feature bundles
 - A feature is only promoted to a creativity feature if it changes output behavior, not just if it aligns with creative inputs
 - Compare output-filtered feature bundles against non-filtered candidate bundles on the pilot slice
-- Use at least one named creativity benchmark family such as `CREATE`, `NoveltyBench`, `TTCW`, or `AUT + Ocsai`; if only one is used, record why
+- Use at least two complementary benchmark families such as `CREATE` or `AUT + Ocsai` plus `TTCW`, `NoveltyBench`, or `CreativityPrism`; if only one is used, record why
+- Record formatting and verbosity side effects alongside creativity gains so style drift does not masquerade as creativity
 
 ### Phase 4: Bridge-Feature Analysis
 
 - Use a frozen multi-domain corpus before searching for bridge features
 - Report whether bridge candidates activate across distinct domains or collapse to one narrow genre
 - Any bridge-feature claim must compare against random-feature activation breadth
+- Treat `LatentQA` or `Activation Oracles` outputs as descriptive support only unless intervention evidence and benchmark behavior point in the same direction
+- Any bridge-feature claim should be paired with at least one task-grounded output check such as `CREATE` or `ParallelPARC`
 
 ### Phase 5: Simpler-Concept Baselines
 
 - Compare the sparsity or interpretability profile of creativity decomposition against refusal and sentiment baselines
+- Use the same model, SAE release, layer/site, and decomposition pipeline for refusal and sentiment whenever feasible so the comparison is mechanistic rather than anecdotal
 - If the baseline comparison is omitted for a given run, record why in `DECISIONS.md`
 
 ### Phase 6: Extension Lanes
@@ -103,6 +113,7 @@ Do not claim:
 - that creativity features imply scientific discovery ability
 - that descriptive feature labels are causal explanations
 - that cross-domain activation alone proves useful analogy formation
+- that a failed result on one SAE width/site settles the distributed-creativity question
 - that a negative result means the experiment failed; a clean distributed-creativity result is still informative
 
 ## Implementation Constraints

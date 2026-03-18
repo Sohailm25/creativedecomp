@@ -26,7 +26,7 @@
 ## Immediate Next Steps
 
 1. Freeze a minimal local environment for the first replication slice.
-2. Curate the first creative versus uncreative prompt set and lock the evaluation split.
-3. Implement the smallest creativity-direction extraction smoke on Gemma 2 2B.
+2. Curate the first creative versus uncreative prompt set, then freeze the pilot/confirm split before tuning layer or scale.
+3. Implement the smallest creativity-direction extraction smoke on Gemma 2 2B and use the pilot slice to freeze layer choice and steering scale.
 4. Compare at least two legal signed decomposition methods on the pilot slice before freezing the confirm path.
-5. Add baseline comparison plans for refusal and sentiment so the "mechanistically different" framing stays testable.
+5. Lock a two-family benchmark bundle plus matched refusal/sentiment baseline plans so the "mechanistically different" framing stays testable.
