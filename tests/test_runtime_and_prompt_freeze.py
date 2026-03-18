@@ -78,6 +78,8 @@ class RuntimeAndPromptFreezeTest(unittest.TestCase):
         self.assertIn("creative_instruction", templates)
         self.assertIn("uncreative_instruction", templates)
         self.assertIn("prompt_only_creativity_baseline", templates)
+        self.assertIn("generation_neutral_story_opening", templates)
+        self.assertIn("generation_creative_story_opening", templates)
 
 
 if __name__ == "__main__":

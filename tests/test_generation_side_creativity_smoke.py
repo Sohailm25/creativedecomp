@@ -76,6 +76,33 @@ class GenerationSideCreativitySmokeTest(unittest.TestCase):
         self.assertEqual(0, conditions[2]["hidden_layer"])
         self.assertEqual(1.0, conditions[2]["steering_coeff"])
 
+    def test_build_prompt_text_uses_story_opening_harnesses(self) -> None:
+        smoke = load_generation_smoke_module()
+        templates = {
+            "generation_neutral_story_opening": "Prompt: {prompt}\n\nStory:\nOnce",
+            "generation_creative_story_opening": "Prompt: {prompt}\n\nCreative story:\nOnce",
+        }
+
+        neutral_prompt = smoke.build_prompt_text(
+            prompt_text="A strange man asks for the word yes.",
+            prompt_mode="neutral",
+            templates=templates,
+        )
+        creative_prompt = smoke.build_prompt_text(
+            prompt_text="A strange man asks for the word yes.",
+            prompt_mode="prompt_only_creativity",
+            templates=templates,
+        )
+
+        self.assertEqual(
+            "Prompt: A strange man asks for the word yes.\n\nStory:\nOnce",
+            neutral_prompt,
+        )
+        self.assertEqual(
+            "Prompt: A strange man asks for the word yes.\n\nCreative story:\nOnce",
+            creative_prompt,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-03-18T11:13:49-05:00",
+  "model_id": "google/gemma-2-2b",
+  "device": "mps",
+  "prompt_count": 3,
+  "max_new_tokens": 96,
+  "seed": 1729,
+  "split_path": "prompts/creative_direction_v1_pilot.jsonl",
+  "template_ids": [
+    "instruction_v1",
+    "story_label_v1",
+    "writing_prompt_v1",
+    "bare_prompt_v1",
+    "story_opening_once_v1"
+  ],
+  "best_template_id": "story_opening_once_v1",
+  "template_summaries": [
+    {
+      "template_id": "story_opening_once_v1",
+      "sample_count": 3,
+      "mean_meta_marker_score": 0.0,
+      "meta_marker_fraction": 0.0,
+      "mean_completion_word_count": 82.33333333333333
+    },
+    {
+      "template_id": "writing_prompt_v1",
+      "sample_count": 3,
+      "mean_meta_marker_score": 0.0,
+      "meta_marker_fraction": 0.0,
+      "mean_completion_word_count": 76.66666666666667
+    },
+    {
+      "template_id": "story_label_v1",
+      "sample_count": 3,
+      "mean_meta_marker_score": 0.0,
+      "meta_marker_fraction": 0.0,
+      "mean_completion_word_count": 76.33333333333333
+    },
+    {
+      "template_id": "bare_prompt_v1",
+      "sample_count": 3,
+      "mean_meta_marker_score": 0.0,
+      "meta_marker_fraction": 0.0,
+      "mean_completion_word_count": 69.0
+    },
+    {
+      "template_id": "instruction_v1",
+      "sample_count": 3,
+      "mean_meta_marker_score": 2.0,
+      "meta_marker_fraction": 1.0,
+      "mean_completion_word_count": 67.66666666666667
+    }
+  ],
+  "outputs_path": "outputs.jsonl"
+}

@@ -38,7 +38,6 @@ DEFAULT_MAX_PROMPTS = 4
 DEFAULT_MAX_NEW_TOKENS = 96
 DEFAULT_STEERING_COEFF = 1.0
 DEFAULT_SEED = 1729
-NEUTRAL_GENERATION_TEMPLATE = "Write a short story inspired by the prompt below.\n\nPrompt: {prompt}"
 DEFAULT_SWEEP_DIR = ROOT / "results" / "creativity_direction" / "20260318-gemma2-2b-layer-sweep-pilot"
 
 
@@ -162,9 +161,9 @@ def copy_wrapped_layer_attributes(
 
 def build_prompt_text(prompt_text: str, prompt_mode: str, templates: dict[str, str]) -> str:
     if prompt_mode == "neutral":
-        return NEUTRAL_GENERATION_TEMPLATE.format(prompt=prompt_text)
+        return templates["generation_neutral_story_opening"].format(prompt=prompt_text)
     if prompt_mode == "prompt_only_creativity":
-        return templates["prompt_only_creativity_baseline"].format(prompt=prompt_text)
+        return templates["generation_creative_story_opening"].format(prompt=prompt_text)
     raise ValueError(f"unknown prompt mode: {prompt_mode}")
 
 
@@ -258,7 +257,8 @@ def write_readme(path: Path, summary: dict[str, Any]) -> None:
         f"- Steering coefficient: `{summary['steering_coeff']}`",
         f"- Max new tokens: `{summary['max_new_tokens']}`",
         f"- Seed base: `{summary['seed']}`",
-        f"- Neutral prompt template: `{summary['neutral_generation_template']}`",
+        f"- Neutral prompt template: `{summary['generation_prompt_templates']['neutral']}`",
+        f"- Creative baseline prompt template: `{summary['generation_prompt_templates']['prompt_only_creativity']}`",
         "",
         "Conditions:",
     ]
@@ -364,7 +364,10 @@ def main() -> int:
         "split_path": path_for_summary(args.split_path),
         "templates_path": path_for_summary(args.templates_path),
         "sweep_dir": path_for_summary(args.sweep_dir),
-        "neutral_generation_template": NEUTRAL_GENERATION_TEMPLATE,
+        "generation_prompt_templates": {
+            "neutral": templates["generation_neutral_story_opening"],
+            "prompt_only_creativity": templates["generation_creative_story_opening"],
+        },
         "conditions": conditions,
         "condition_summaries": summarize_outputs(output_rows),
         "outputs_path": "outputs.jsonl",

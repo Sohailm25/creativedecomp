@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-03-18T11:00:35-05:00",
+  "created_at": "2026-03-18T11:23:13-05:00",
   "model_id": "google/gemma-2-2b",
   "device": "mps",
   "prompt_count": 4,
@@ -13,7 +13,10 @@
   "split_path": "prompts/creative_direction_v1_pilot.jsonl",
   "templates_path": "prompts/creative_direction_v1_templates.json",
   "sweep_dir": "results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot",
-  "neutral_generation_template": "Write a short story inspired by the prompt below.\n\nPrompt: {prompt}",
+  "generation_prompt_templates": {
+    "neutral": "Prompt: {prompt}\n\nStory:\nOnce",
+    "prompt_only_creativity": "Prompt: {prompt}\n\nCreative story:\nOnce"
+  },
   "conditions": [
     {
       "condition_id": "neutral_unsteered",
@@ -48,26 +51,26 @@
     {
       "condition_id": "creative_prompt_unsteered",
       "sample_count": 4,
-      "mean_completion_word_count": 69.5,
-      "mean_completion_char_count": 375.75
+      "mean_completion_word_count": 80.25,
+      "mean_completion_char_count": 395.5
     },
     {
       "condition_id": "neutral_steered_layer0",
       "sample_count": 4,
-      "mean_completion_word_count": 69.5,
-      "mean_completion_char_count": 361.5
+      "mean_completion_word_count": 78.0,
+      "mean_completion_char_count": 390.5
     },
     {
       "condition_id": "neutral_steered_layer7",
       "sample_count": 4,
-      "mean_completion_word_count": 75.25,
-      "mean_completion_char_count": 386.25
+      "mean_completion_word_count": 82.0,
+      "mean_completion_char_count": 409.0
     },
     {
       "condition_id": "neutral_unsteered",
       "sample_count": 4,
-      "mean_completion_word_count": 71.0,
-      "mean_completion_char_count": 361.5
+      "mean_completion_word_count": 80.5,
+      "mean_completion_char_count": 392.5
     }
   ],
   "outputs_path": "outputs.jsonl"

@@ -67,6 +67,8 @@ TEMPLATES = {
         "Write a creative short story inspired by the prompt below.\n\n"
         "Prompt: {prompt}"
     ),
+    "generation_neutral_story_opening": "Prompt: {prompt}\n\nStory:\nOnce",
+    "generation_creative_story_opening": "Prompt: {prompt}\n\nCreative story:\nOnce",
 }
 
 

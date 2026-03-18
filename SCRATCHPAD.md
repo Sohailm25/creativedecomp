@@ -163,3 +163,93 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: `repeng` control wrapping on Gemma 2 required restoring `attention_type` on wrapped layers for generation to work, and the resulting outputs exposed a base-model prompting mismatch rather than a clean creativity-steering effect
 - Next step: repair the base-model story prompting harness before interpreting any steering-side creativity differences
+
+## 2026-03-18T11:10:30-0500 PRE-RUN: base-model story prompt harness probe
+
+- tmux session: N/A
+- Script: `scripts/probe_base_model_story_prompts.py`
+- Command: `.venv/bin/python scripts/probe_base_model_story_prompts.py --output-dir results/steering_eval/20260318-gemma2-2b-prompt-harness-probe`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is an unsteered harness repair probe
+- Data slice: `creative_direction_v1_pilot / first 3 prompts / 5 prompt scaffold candidates`
+- Output path: `results/steering_eval/20260318-gemma2-2b-prompt-harness-probe`
+- What I'm testing: which base-model-compatible story prompt scaffold minimizes prompt-meta continuation behavior on a tiny pilot slice.
+- Expected outcome: a ranked prompt-template artifact with one candidate clearly less contaminated by meta/forum-style continuation markers.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session007.md`
+- Resume command: `.venv/bin/python scripts/probe_base_model_story_prompts.py --output-dir results/steering_eval/20260318-gemma2-2b-prompt-harness-probe --overwrite`
+- Main confound to watch: the meta-marker heuristic is only a harness-selection aid, not a real creativity metric.
+- Implementation verified: YES - unit tests for candidate template coverage and meta-marker scoring
+- Status: LAUNCHING
+
+## 2026-03-18T11:13:49-0500 POST-RUN: base-model story prompt harness probe
+
+- Command: `.venv/bin/python scripts/probe_base_model_story_prompts.py --output-dir results/steering_eval/20260318-gemma2-2b-prompt-harness-probe`
+- Outcome: SUCCESS
+- Key metric: `story_opening_once_v1` ranked first with `0.000` meta-marker fraction and `82.33` mean completion words; the old instruction-style harness had `1.000` meta-marker fraction
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-prompt-harness-probe/`
+- Latest checkpoint: none
+- Anomalies: the creative baseline was not part of the saved probe, so I separately spot-checked continuation-style creative variants before selecting the repaired creative prompt harness
+- Next step: move the generation smoke to continuation-style neutral and creative prompt scaffolds and rerun it
+
+## 2026-03-18T11:20:45-0500 PRE-RUN: repaired generation-side creativity smoke
+
+- tmux session: N/A
+- Script: `scripts/run_generation_side_creativity_smoke.py`
+- Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke --overwrite`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A for this run`; this remains dense-direction steering before SAE decomposition
+- Data slice: `creative_direction_v1_pilot / first 4 prompts / repaired continuation-style neutral and creative prompt baselines`
+- Output path: `results/steering_eval/20260318-gemma2-2b-generation-smoke`
+- What I'm testing: whether replacing the assignment-style harness with continuation-style story openings removes the prompt-meta failure mode enough to make the smoke artifact interpretable.
+- Expected outcome: the saved smoke run should contain mostly story-like continuations instead of forum or homework-style prompt reflections.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session007.md`
+- Resume command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke --overwrite`
+- Main confound to watch: layer `0` is still in the condition set because the lexical-confound control issue is not resolved yet.
+- Implementation verified: YES - unit tests for repaired prompt templates and generation condition construction
+- Status: LAUNCHING
+
+## 2026-03-18T11:23:13-0500 POST-RUN: repaired generation-side creativity smoke
+
+- Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke --overwrite`
+- Outcome: SUCCESS
+- Key metric: all four conditions completed with `0.000` prompt-meta marker fraction under the repaired continuation-style harness
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-generation-smoke/`
+- Latest checkpoint: none
+- Anomalies: outputs are now story-like, but the layer set still inherits the unresolved lexical-confound risk from the raw layer sweep
+- Next step: add template-control to the layer sweep before using any layer as a real creativity candidate
+
+## 2026-03-18T11:32:15-0500 PRE-RUN: template-controlled creativity layer sweep
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this is still dense-direction extraction
+- Data slice: `creative_direction_v1_pilot / 32 prompt pairs / all layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control`
+- What I'm testing: whether early-layer wins survive after subtracting a template-only control signal built from the creative vs uncreative instruction prefixes with empty prompt content.
+- Expected outcome: the raw layer-`0` winner should be penalized if it mostly reflects instruction-template wording, and a later layer may become the controlled winner.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session007.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control --overwrite`
+- Main confound to watch: this control isolates template-prefix leakage, not every possible prompt-format confound.
+- Implementation verified: YES - unit tests for controlled-metric computation and controlled ranking
+- Status: LAUNCHING
+
+## 2026-03-18T11:39:32-0500 POST-RUN: template-controlled creativity layer sweep
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control --overwrite`
+- Outcome: SUCCESS
+- Key metric: raw winner remained `layer 0`, but no layer cleared the template-control threshold; the best controlled excess score was `0.000000`
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-template-control/`
+- Latest checkpoint: none
+- Anomalies: template-only control directions separated the actual creative-vs-uncreative prompt pairs nearly as well as or better than the learned directions at every layer, so the current instruction-template contrast is not clean enough for freezing a creativity layer; a stale optional controlled-pair-details file from an earlier intermediate run was explicitly removed before the final overwrite artifact was accepted
+- Next step: redesign the contrastive extraction templates or selection procedure before any decomposition run that assumes a settled dense creativity direction layer

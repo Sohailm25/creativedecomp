@@ -127,3 +127,23 @@ Suggested entry format:
   - medium that layer `7` is the right later-layer candidate to carry forward
 - Interesting facts:
   - The neutral prompt and the prompt-only creativity prompt both elicited writing-forum/meta continuations from the base model, which means prompt-format repair is a real prerequisite rather than polish.
+
+## [2026-03-18T11:36:00-0500] One Confound Is Gone, The Other Just Got Stronger
+
+- Stage: implementation
+- Feel of the Experiment: This is better than a fake win. The steering harness is now credible enough to use, and the layer-selection path is less comfortable because the control says the current contrast is still not honest enough.
+- Working Hypotheses:
+  - The current instruction-pair extraction setup is mostly teaching the model to distinguish prompt wording, not creativity as a stable mechanism.
+  - A more tightly matched creativity-vs-plain continuation contrast may still recover a usable later-layer direction.
+- Hunches and Guesses:
+  - The next real progress is more likely to come from redesigning the extraction prompt pair than from more steering sweeps on the current layer set.
+- Predictions:
+  - If a revised contrast survives the template control, the surviving layer will be later than `0` and possibly later than `7`.
+- Surprises and Tensions:
+  - The generation harness fix worked cleanly and quickly, but the layer-control result became harsher rather than softer once measured honestly.
+  - Very low cosine with the template-control direction at some later layers did not rescue them, because the template-control projections still separated the pairs too well.
+- Confidence:
+  - high that the generation harness is now fit for smoke-level evaluation
+  - high that no current layer should be frozen from the existing instruction-template contrast
+- Interesting facts:
+  - The template-only control achieved `1.0` positive-greater-than-negative fraction at layers `0`, `7`, `9`, `15`, `20`, and `25`, which is strong evidence that prompt-template leakage remains dominant in the current extraction setup.

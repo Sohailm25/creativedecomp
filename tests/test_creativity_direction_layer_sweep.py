@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
 
 
@@ -50,6 +51,92 @@ class CreativityDirectionLayerSweepTest(unittest.TestCase):
         ranked = sweep.rank_layer_rows(rows)
 
         self.assertEqual([12, 4, 20], [row["hidden_layer"] for row in ranked])
+
+    def test_add_template_control_metrics_measures_excess_over_template_signal(self) -> None:
+        sweep = load_layer_sweep_module()
+        row = {
+            "hidden_layer": 7,
+            "positive_gt_negative_fraction": 0.90625,
+            "margin_zscore": 1.75,
+            "mean_margin": 1.2,
+        }
+        template_control_summary = {
+            "positive_gt_negative_fraction": 0.625,
+            "margin_zscore": 0.5,
+            "mean_margin": 0.2,
+        }
+
+        controlled_row = sweep.add_template_control_metrics(
+            row=row,
+            template_control_summary=template_control_summary,
+            direction=[1.0, 1.0],
+            template_direction=[1.0, 0.0],
+        )
+
+        self.assertAlmostEqual(0.28125, controlled_row["controlled_fraction_delta"])
+        self.assertAlmostEqual(1.25, controlled_row["controlled_margin_zscore_delta"])
+        self.assertAlmostEqual(0.2, controlled_row["template_control_mean_margin"])
+        self.assertAlmostEqual(0.70710678, controlled_row["template_direction_cosine"], places=6)
+
+    def test_rank_controlled_layers_penalizes_template_lexical_winners(self) -> None:
+        sweep = load_layer_sweep_module()
+        rows = [
+            {
+                "hidden_layer": 0,
+                "controlled_fraction_delta": 0.0,
+                "controlled_margin_zscore_delta": 0.0,
+                "template_direction_cosine": 0.99,
+                "positive_gt_negative_fraction": 1.0,
+            },
+            {
+                "hidden_layer": 7,
+                "controlled_fraction_delta": 0.25,
+                "controlled_margin_zscore_delta": 0.8,
+                "template_direction_cosine": 0.25,
+                "positive_gt_negative_fraction": 0.90625,
+            },
+            {
+                "hidden_layer": 12,
+                "controlled_fraction_delta": 0.25,
+                "controlled_margin_zscore_delta": 0.8,
+                "template_direction_cosine": 0.55,
+                "positive_gt_negative_fraction": 0.96875,
+            },
+        ]
+
+        ranked = sweep.rank_controlled_layer_rows(rows)
+
+        self.assertEqual([7, 12, 0], [row["hidden_layer"] for row in ranked])
+
+    def test_select_controlled_best_layer_requires_positive_excess_signal(self) -> None:
+        sweep = load_layer_sweep_module()
+        rows = [
+            {
+                "hidden_layer": 0,
+                "controlled_fraction_delta": 0.0,
+                "controlled_margin_zscore_delta": -1.8,
+            },
+            {
+                "hidden_layer": 7,
+                "controlled_fraction_delta": -0.09375,
+                "controlled_margin_zscore_delta": -2.3,
+            },
+        ]
+
+        selected = sweep.select_controlled_best_layer(rows)
+
+        self.assertIsNone(selected)
+
+    def test_cleanup_optional_output_files_removes_stale_controlled_pair_details(self) -> None:
+        sweep = load_layer_sweep_module()
+        with TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            stale_path = output_dir / "controlled_best_layer_pair_details.jsonl"
+            stale_path.write_text("stale\n", encoding="utf-8")
+
+            sweep.cleanup_optional_output_files(output_dir, has_controlled_best_layer=False)
+
+            self.assertFalse(stale_path.exists())
 
 
 if __name__ == "__main__":

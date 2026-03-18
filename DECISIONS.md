@@ -90,3 +90,17 @@
 - Decision: do not interpret the current generation smoke as evidence for or against creativity steering; treat it as a harness-validation artifact and prioritize a base-model-compatible story prompting redesign before deeper steering claims.
 - Rationale: if the model is not reliably producing the target output mode, steering differences cannot be cleanly attributed to creativity rather than prompt-format mismatch.
 - Impact: a new prompt-harness repair issue is now on the critical path ahead of deeper steering evaluation, while the saved smoke artifact remains a useful negative checkpoint.
+
+## [2026-03-18T11:24:00-0500] DECISION: Use continuation-style story-opening harnesses for generation-side steering smoke
+
+- Trigger: the prompt-harness probe showed the instruction-style generation prompt continuing into assignment/forum text, while continuation-style story openings produced story-like completions.
+- Decision: move the neutral generation harness to `Prompt: {prompt}\n\nStory:\nOnce` and the prompt-only creativity baseline to `Prompt: {prompt}\n\nCreative story:\nOnce`, and record both in the frozen prompt registry.
+- Rationale: the steering smoke needs a base-model-compatible output mode before any qualitative creativity differences can be interpreted.
+- Impact: the saved generation smoke artifact is now a real story-generation comparison instead of a prompt-format failure artifact.
+
+## [2026-03-18T11:35:00-0500] DECISION: Do not freeze any dense creativity layer from the current instruction-template contrast
+
+- Trigger: the template-controlled layer sweep found that raw layer `0` still wins the uncorrected sweep, but no layer has positive excess over the template-only control.
+- Decision: treat the current creative-vs-uncreative instruction pair as too confounded to freeze any dense creativity layer, and require a revised contrastive extraction setup before decomposition work assumes a settled layer.
+- Rationale: a control that yields no surviving layer is a negative result, not a license to quietly keep the raw winner.
+- Impact: `creativedecomp-npt` is now blocked on a cleaner extraction contrast, and the template-controlled sweep becomes the current truth artifact for layer selection.

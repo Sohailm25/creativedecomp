@@ -1,6 +1,6 @@
 # Generation-Side Creativity Smoke
 
-- Generated at: `2026-03-18T11:00:35-05:00`
+- Generated at: `2026-03-18T11:23:13-05:00`
 - Model: `google/gemma-2-2b`
 - Device: `mps`
 - Prompt count: `4`
@@ -8,9 +8,14 @@
 - Steering coefficient: `1.0`
 - Max new tokens: `96`
 - Seed base: `1729`
-- Neutral prompt template: `Write a short story inspired by the prompt below.
+- Neutral prompt template: `Prompt: {prompt}
 
-Prompt: {prompt}`
+Story:
+Once`
+- Creative baseline prompt template: `Prompt: {prompt}
+
+Creative story:
+Once`
 
 Conditions:
 - `neutral_unsteered`: prompt mode `neutral`, layer `None`, coeff `0.0`
@@ -19,10 +24,10 @@ Conditions:
 - `neutral_steered_layer7`: prompt mode `neutral`, layer `7`, coeff `1.0`
 
 Condition summaries:
-- `creative_prompt_unsteered`: mean words `69.50`, mean chars `375.75`
-- `neutral_steered_layer0`: mean words `69.50`, mean chars `361.50`
-- `neutral_steered_layer7`: mean words `75.25`, mean chars `386.25`
-- `neutral_unsteered`: mean words `71.00`, mean chars `361.50`
+- `creative_prompt_unsteered`: mean words `80.25`, mean chars `395.50`
+- `neutral_steered_layer0`: mean words `78.00`, mean chars `390.50`
+- `neutral_steered_layer7`: mean words `82.00`, mean chars `409.00`
+- `neutral_unsteered`: mean words `80.50`, mean chars `392.50`
 
 Artifacts:
 - `summary.json`
