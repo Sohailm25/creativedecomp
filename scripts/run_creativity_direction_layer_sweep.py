@@ -87,6 +87,11 @@ def prepare_output_dir(path: Path, overwrite: bool) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
+def path_for_summary(path: Path) -> str:
+    absolute_path = path if path.is_absolute() else (ROOT / path)
+    return str(absolute_path.resolve().relative_to(ROOT))
+
+
 def cleanup_optional_output_files(output_dir: Path, has_controlled_best_layer: bool) -> None:
     controlled_pair_details_path = output_dir / "controlled_best_layer_pair_details.jsonl"
     if not has_controlled_best_layer and controlled_pair_details_path.exists():
@@ -105,7 +110,13 @@ def compute_margin_zscore(margins: np.ndarray) -> float:
     return margin_mean / margin_std
 
 
-def build_template_control_strings(templates: dict[str, str]) -> tuple[str, str]:
+def build_template_control_strings(
+    prompt_rows: list[dict[str, Any]],
+    templates: dict[str, str],
+) -> tuple[str, str]:
+    if prompt_rows and {"positive_text", "negative_text"} <= set(prompt_rows[0]):
+        control_text = templates["response_pair_template_control"].format(prompt="")
+        return control_text, control_text
     return (
         templates["creative_instruction"].format(prompt=""),
         templates["uncreative_instruction"].format(prompt=""),
@@ -133,8 +144,13 @@ def add_template_control_metrics(
     row: dict[str, Any],
     template_control_summary: dict[str, Any],
     direction: list[float] | np.ndarray,
-    template_direction: list[float] | np.ndarray,
+    template_direction: list[float] | np.ndarray | None,
 ) -> dict[str, Any]:
+    template_direction_cosine = (
+        0.0
+        if template_direction is None
+        else compute_cosine_similarity(direction, template_direction)
+    )
     controlled_row = dict(row)
     controlled_row.update(
         {
@@ -143,7 +159,7 @@ def add_template_control_metrics(
             ),
             "template_control_mean_margin": float(template_control_summary["mean_margin"]),
             "template_control_margin_zscore": float(template_control_summary["margin_zscore"]),
-            "template_direction_cosine": compute_cosine_similarity(direction, template_direction),
+            "template_direction_cosine": template_direction_cosine,
             "controlled_fraction_delta": float(row["positive_gt_negative_fraction"])
             - float(template_control_summary["positive_gt_negative_fraction"]),
             "controlled_mean_margin_delta": float(row["mean_margin"])
@@ -178,17 +194,26 @@ def build_layer_row(
         "margin_zscore": compute_margin_zscore(margins),
         "vector_norm": float(np.linalg.norm(direction)),
     }
-    template_direction = compute_difference_direction(
-        template_control_hiddens[0],
-        template_control_hiddens[1],
-    )
-    template_control_projections = project_onto_direction_safe(layer_hiddens, template_direction)
-    template_control_summary = summarize_pairwise_projections(prompt_rows, template_control_projections)
-    template_control_margins = np.asarray(
-        [detail["margin"] for detail in template_control_summary["pair_details"]],
-        dtype=np.float64,
-    )
-    template_control_summary["margin_zscore"] = compute_margin_zscore(template_control_margins)
+    template_difference = template_control_hiddens[0].astype(np.float64) - template_control_hiddens[1].astype(np.float64)
+    if float(np.linalg.norm(template_difference)) == 0.0:
+        template_direction = None
+        template_control_summary = {
+            "positive_gt_negative_fraction": 0.0,
+            "mean_margin": 0.0,
+            "margin_zscore": 0.0,
+        }
+    else:
+        template_direction = compute_difference_direction(
+            template_control_hiddens[0],
+            template_control_hiddens[1],
+        )
+        template_control_projections = project_onto_direction_safe(layer_hiddens, template_direction)
+        template_control_summary = summarize_pairwise_projections(prompt_rows, template_control_projections)
+        template_control_margins = np.asarray(
+            [detail["margin"] for detail in template_control_summary["pair_details"]],
+            dtype=np.float64,
+        )
+        template_control_summary["margin_zscore"] = compute_margin_zscore(template_control_margins)
     row = add_template_control_metrics(
         row=row,
         template_control_summary=template_control_summary,
@@ -309,7 +334,7 @@ def main() -> int:
     templates = load_templates(args.templates_path)
     dataset = build_contrastive_dataset(prompt_rows, templates)
     train_strings = [text for entry in dataset for text in (entry.positive, entry.negative)]
-    template_control_strings = build_template_control_strings(templates)
+    template_control_strings = build_template_control_strings(prompt_rows, templates)
 
     device = select_device(args.device)
     model, tokenizer = load_model_and_tokenizer(args.model_id, device)
@@ -361,8 +386,8 @@ def main() -> int:
         "device": device,
         "batch_size": args.batch_size,
         "pair_count": len(prompt_rows),
-        "split_path": str(args.split_path.relative_to(ROOT)),
-        "templates_path": str(args.templates_path.relative_to(ROOT)),
+        "split_path": path_for_summary(args.split_path),
+        "templates_path": path_for_summary(args.templates_path),
         "candidate_layers": candidate_layers,
         "raw_ranking_rule": [
             "positive_gt_negative_fraction",

@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-03-18T11:59:40-05:00",
+  "model_id": "google/gemma-2-2b",
+  "device": "mps",
+  "pair_count": 32,
+  "max_new_tokens": 96,
+  "seed": 2400,
+  "split_path": "prompts/creative_direction_v1_pilot.jsonl",
+  "pair_path": "prompts/creative_direction_v2_pilot_pairs.jsonl",
+  "metadata_path": "prompts/creative_direction_v2_metadata.json",
+  "templates_path": "prompts/creative_direction_v2_templates.json",
+  "templates": {
+    "response_pair_positive_source_prompt": "Prompt: {prompt}\n\nCreative story:\nOnce",
+    "response_pair_negative_source_prompt": "Prompt: {prompt}\n\nPlain story:\nOnce",
+    "response_pair_extraction_shared_prompt": "Prompt: {prompt}\n\nStory:\nOnce"
+  },
+  "side_summaries": [
+    {
+      "side": "positive",
+      "sample_count": 32,
+      "mean_word_count": 81.75,
+      "mean_meta_marker_score": 0.0,
+      "meta_marker_fraction": 0.0
+    },
+    {
+      "side": "negative",
+      "sample_count": 32,
+      "mean_word_count": 78.125,
+      "mean_meta_marker_score": 0.03125,
+      "meta_marker_fraction": 0.03125
+    }
+  ]
+}

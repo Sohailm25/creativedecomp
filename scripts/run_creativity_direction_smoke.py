@@ -77,6 +77,14 @@ def build_contrastive_dataset(
     prompt_rows: list[dict[str, Any]],
     templates: dict[str, str],
 ) -> list[DatasetEntry]:
+    if prompt_rows and {"positive_text", "negative_text"} <= set(prompt_rows[0]):
+        return [
+            DatasetEntry(
+                positive=str(row["positive_text"]),
+                negative=str(row["negative_text"]),
+            )
+            for row in prompt_rows
+        ]
     return [
         DatasetEntry(
             positive=templates["creative_instruction"].format(prompt=row["prompt_text"]),

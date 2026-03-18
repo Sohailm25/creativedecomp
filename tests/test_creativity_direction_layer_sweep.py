@@ -26,6 +26,13 @@ def load_layer_sweep_module():
 
 
 class CreativityDirectionLayerSweepTest(unittest.TestCase):
+    def test_path_for_summary_normalizes_repo_relative_paths(self) -> None:
+        sweep = load_layer_sweep_module()
+
+        summary_path = sweep.path_for_summary(Path("prompts/creative_direction_v2_pilot_pairs.jsonl"))
+
+        self.assertEqual("prompts/creative_direction_v2_pilot_pairs.jsonl", summary_path)
+
     def test_parse_layers_argument_defaults_to_full_model(self) -> None:
         sweep = load_layer_sweep_module()
 
@@ -126,6 +133,28 @@ class CreativityDirectionLayerSweepTest(unittest.TestCase):
         selected = sweep.select_controlled_best_layer(rows)
 
         self.assertIsNone(selected)
+
+    def test_build_template_control_strings_uses_shared_control_for_response_pairs(self) -> None:
+        sweep = load_layer_sweep_module()
+        prompt_rows = [
+            {
+                "prompt_id": "p1",
+                "prompt_text": "A violinist on Mars.",
+                "positive_text": "Prompt: A violinist on Mars.\n\nStory:\nOnce red dust sang.",
+                "negative_text": "Prompt: A violinist on Mars.\n\nStory:\nOnce he played a song.",
+            }
+        ]
+        templates = {
+            "response_pair_template_control": "Prompt: {prompt}\n\nStory:\nOnce",
+        }
+
+        positive_control, negative_control = sweep.build_template_control_strings(
+            prompt_rows=prompt_rows,
+            templates=templates,
+        )
+
+        self.assertEqual("Prompt: \n\nStory:\nOnce", positive_control)
+        self.assertEqual("Prompt: \n\nStory:\nOnce", negative_control)
 
     def test_cleanup_optional_output_files_removes_stale_controlled_pair_details(self) -> None:
         sweep = load_layer_sweep_module()

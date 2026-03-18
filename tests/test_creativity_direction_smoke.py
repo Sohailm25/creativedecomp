@@ -58,6 +58,33 @@ class CreativityDirectionSmokeTest(unittest.TestCase):
         self.assertEqual("Creative: The moon writes letters.", dataset[1].positive)
         self.assertEqual("Plain: The moon writes letters.", dataset[1].negative)
 
+    def test_build_contrastive_dataset_prefers_response_centered_pair_texts(self) -> None:
+        smoke = load_smoke_module()
+        templates = {
+            "creative_instruction": "Creative: {prompt}",
+            "uncreative_instruction": "Plain: {prompt}",
+        }
+        prompt_rows = [
+            {
+                "prompt_id": "p1",
+                "prompt_text": "A violinist on Mars.",
+                "positive_text": "Prompt: A violinist on Mars.\n\nStory:\nOnce red dust sang.",
+                "negative_text": "Prompt: A violinist on Mars.\n\nStory:\nOnce he played a song.",
+            }
+        ]
+
+        dataset = smoke.build_contrastive_dataset(prompt_rows, templates)
+
+        self.assertEqual(1, len(dataset))
+        self.assertEqual(
+            "Prompt: A violinist on Mars.\n\nStory:\nOnce red dust sang.",
+            dataset[0].positive,
+        )
+        self.assertEqual(
+            "Prompt: A violinist on Mars.\n\nStory:\nOnce he played a song.",
+            dataset[0].negative,
+        )
+
     def test_project_onto_direction_safe_uses_stable_dot_products(self) -> None:
         smoke = load_smoke_module()
         hiddens = [

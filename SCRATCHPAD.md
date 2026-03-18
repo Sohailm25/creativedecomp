@@ -253,3 +253,93 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: template-only control directions separated the actual creative-vs-uncreative prompt pairs nearly as well as or better than the learned directions at every layer, so the current instruction-template contrast is not clean enough for freezing a creativity layer; a stale optional controlled-pair-details file from an earlier intermediate run was explicitly removed before the final overwrite artifact was accepted
 - Next step: redesign the contrastive extraction templates or selection procedure before any decomposition run that assumes a settled dense creativity direction layer
+
+## 2026-03-18T11:57:30-0500 PRE-RUN: response-centered creativity pair materialization v2
+
+- tmux session: N/A
+- Script: `scripts/materialize_creativity_response_pairs_v2.py`
+- Command: `.venv/bin/python scripts/materialize_creativity_response_pairs_v2.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this run materializes contrastive text pairs before any SAE decomposition
+- Data slice: `creative_direction_v1_pilot / 32 prompts / creative-source and plain-source continuation pairs`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot`, `prompts/creative_direction_v2_*`
+- What I'm testing: whether a response-centered pilot artifact can be frozen so the next layer sweep operates on matched story continuations under a shared extraction wrapper rather than mismatched instruction templates.
+- Expected outcome: a 32-pair pilot file with story-like positive and negative continuations, zero or near-zero meta contamination, and versioned v2 metadata/templates files.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session008.md`
+- Resume command: `.venv/bin/python scripts/materialize_creativity_response_pairs_v2.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot --overwrite`
+- Main confound to watch: the plain-source prompt could still collapse into awkward genre markers or malformed continuations even though the extraction wrapper itself is shared.
+- Implementation verified: YES - focused unit tests for shared-wrapper rendering, pair-row construction, pair-aware dataset loading, and response-pair template control
+- Status: LAUNCHING
+
+## 2026-03-18T11:59:40-0500 POST-RUN: response-centered creativity pair materialization v2
+
+- Command: `.venv/bin/python scripts/materialize_creativity_response_pairs_v2.py --output-dir results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot`
+- Outcome: SUCCESS
+- Key metric: `32` response-centered pilot pairs saved with `0.000` positive meta fraction and `0.03125` negative meta fraction under a shared extraction wrapper
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-response-pairs-v2-pilot/`, `prompts/creative_direction_v2_pilot_pairs.jsonl`, `prompts/creative_direction_v2_metadata.json`, `prompts/creative_direction_v2_templates.json`
+- Latest checkpoint: none
+- Anomalies: one negative continuation still contained prompt-like spillover text, so the `v2` pilot is much cleaner than `v1` but not perfectly sanitized
+- Next step: rerun the controlled layer sweep on the `creative_direction_v2` pair file before deciding whether the redesign rescued any dense creativity layer
+
+## 2026-03-18T12:01:10-0500 PRE-RUN: controlled layer sweep on response-centered v2 pairs
+
+- tmux session: N/A
+- Script: `scripts/run_creativity_direction_layer_sweep.py`
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v2_pilot_pairs.jsonl --templates-path prompts/creative_direction_v2_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A`; this remains dense-direction extraction before decomposition
+- Data slice: `creative_direction_v2_pilot / 32 response-centered positive-negative continuation pairs / all layers`
+- Output path: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2`
+- What I'm testing: whether moving the creativity-vs-plain contrast into matched generated continuations under a shared extraction wrapper produces at least one layer that beats the template-control baseline.
+- Expected outcome: either a later layer now clears the control and becomes the provisional dense creativity layer, or the experiment records a stronger negative result that the redesign still did not isolate a clean layer.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session008.md`
+- Resume command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v2_pilot_pairs.jsonl --templates-path prompts/creative_direction_v2_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2 --overwrite`
+- Main confound to watch: the source prompts used to generate the positive and negative continuations still differ, so a surviving layer must be interpreted as a promising candidate rather than a settled creativity mechanism.
+- Implementation verified: YES - focused unit tests for response-pair loading and response-pair template control plus the existing controlled-sweep regression suite
+- Status: LAUNCHING
+
+## 2026-03-18T12:01:31-0500 POST-RUN: controlled layer sweep on response-centered v2 pairs
+
+- Command: `.venv/bin/python scripts/run_creativity_direction_layer_sweep.py --split-path prompts/creative_direction_v2_pilot_pairs.jsonl --templates-path prompts/creative_direction_v2_templates.json --output-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2 --overwrite`
+- Outcome: SUCCESS
+- Key metric: `layer 24` is now both the raw and controlled winner with `0.593750` positive-greater-than-negative fraction and `0.593750` controlled fraction delta
+- Artifacts saved: `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2/`
+- Latest checkpoint: none
+- Anomalies: the redesign eliminated the template-only control signal entirely, but the surviving separation is still weak (`19 / 32` pairs), so the layer is a provisional candidate rather than a settled creativity mechanism
+- Next step: run a bounded generation-side smoke from the `v2` sweep before allowing the experiment to progress toward decomposition
+
+## 2026-03-18T12:04:00-0500 PRE-RUN: generation-side creativity smoke on response-centered v2 sweep
+
+- tmux session: N/A
+- Script: `scripts/run_generation_side_creativity_smoke.py`
+- Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --templates-path prompts/creative_direction_v2_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2 --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2`
+- Device: `mps`
+- Model: `google/gemma-2-2b`
+- SAE: `N/A for this run`; this is still dense-direction steering before decomposition
+- Data slice: `creative_direction_v1_pilot / first 4 prompts / repaired continuation-style baselines plus the top two v2 response-pair sweep layers`
+- Output path: `results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2`
+- What I'm testing: whether the provisional late-layer direction recovered from the response-centered `v2` pairs produces qualitatively different story outputs under the repaired generation harness.
+- Expected outcome: either a visible creativity/coherence difference from layers `24` and `20`, or a cleaner indication that the recovered direction is still too weak to matter at generation time.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session008.md`
+- Resume command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --templates-path prompts/creative_direction_v2_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2 --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2 --overwrite`
+- Main confound to watch: because the `v2` direction is weak on pair separation, any visible generation effect could still be noisy or inconsistent across prompts.
+- Implementation verified: YES - existing generation-smoke tests plus a completed v2 sweep artifact with saved directions
+- Status: LAUNCHING
+
+## 2026-03-18T12:05:10-0500 POST-RUN: generation-side creativity smoke on response-centered v2 sweep
+
+- Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --templates-path prompts/creative_direction_v2_templates.json --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v2 --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2`
+- Outcome: SUCCESS
+- Key metric: all four conditions completed with `0.000` meta-marker fraction, but condition-level mean word counts stayed tightly clustered between `78.25` and `83.50`
+- Artifacts saved: `results/steering_eval/20260318-gemma2-2b-generation-smoke-response-pairs-v2/`
+- Latest checkpoint: none
+- Anomalies: the recovered late-layer directions from the `v2` sweep do not produce an obvious qualitative steering jump on the bounded four-prompt smoke, so calibration is now the honest blocker
+- Next step: start `creativedecomp-6lm` and test whether a bounded scale sweep or pair-quality audit strengthens the provisional late-layer signal enough for decomposition

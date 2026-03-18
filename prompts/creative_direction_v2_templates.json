@@ -1,0 +1,12 @@
+{
+  "creative_instruction": "Write a short story inspired by the prompt below. Be imaginative, original, vivid, and surprising while staying coherent.\n\nPrompt: {prompt}",
+  "uncreative_instruction": "Write a short story inspired by the prompt below. Keep it conventional, literal, unsurprising, and stylistically plain. Avoid figurative language and unusual twists.\n\nPrompt: {prompt}",
+  "prompt_only_creativity_baseline": "Write a creative short story inspired by the prompt below.\n\nPrompt: {prompt}",
+  "generation_neutral_story_opening": "Prompt: {prompt}\n\nStory:\nOnce",
+  "generation_creative_story_opening": "Prompt: {prompt}\n\nCreative story:\nOnce",
+  "generation_plain_story_opening": "Prompt: {prompt}\n\nPlain story:\nOnce",
+  "response_pair_positive_source_prompt": "Prompt: {prompt}\n\nCreative story:\nOnce",
+  "response_pair_negative_source_prompt": "Prompt: {prompt}\n\nPlain story:\nOnce",
+  "response_pair_extraction_shared_prompt": "Prompt: {prompt}\n\nStory:\nOnce",
+  "response_pair_template_control": "Prompt: {prompt}\n\nStory:\nOnce"
+}

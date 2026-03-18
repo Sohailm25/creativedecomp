@@ -147,3 +147,25 @@ Suggested entry format:
   - high that no current layer should be frozen from the existing instruction-template contrast
 - Interesting facts:
   - The template-only control achieved `1.0` positive-greater-than-negative fraction at layers `0`, `7`, `9`, `15`, `20`, and `25`, which is strong evidence that prompt-template leakage remains dominant in the current extraction setup.
+
+## [2026-03-18T12:05:00-0500] The Structural Fix Worked, But The Signal Is Still Fragile
+
+- Stage: implementation
+- Feel of the Experiment: This is the right kind of partial recovery. The repo is no longer trying to learn "creative wording versus plain wording," but the rescued late-layer direction is still weak enough that it would be easy to oversell it.
+- Working Hypotheses:
+  - The `v2` response-centered redesign recovered a real late-layer behavior signal that the instruction-template setup had buried.
+  - The remaining weakness is more about pair quality and steering-scale calibration than about total absence of a creativity-related direction.
+- Hunches and Guesses:
+  - A small pair audit will show that some of the `13 / 32` failures are mediocre or ambiguously "plain" negative examples rather than pure model noise.
+  - If the direction is real, a bounded scale sweep will probably sharpen visible differences before any SAE decomposition does.
+- Predictions:
+  - Decomposition attempted now would mostly teach us that weak dense directions decompose badly, which is true but not the central claim we need first.
+  - Late layers in roughly the `18` to `24` band will remain more plausible than the early layers once calibration is finished.
+- Surprises and Tensions:
+  - Removing the template-control signal entirely did not produce a strong direction; it produced an honest but modest one.
+  - The `v2` generation smoke did not collapse or look fake, but it also did not produce an obvious steering win.
+- Confidence:
+  - high that the `v2` redesign is methodologically better than `v1`
+  - medium that layer `24` will survive a bounded calibration step strongly enough to justify decomposition
+- Interesting facts:
+  - The top five `v2` layers by the controlled rule are all late layers and all share the same `0.593750` pair-separation fraction, which feels more like a weak distributed band than a single canonical creativity site.

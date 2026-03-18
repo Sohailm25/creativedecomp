@@ -104,3 +104,17 @@
 - Decision: treat the current creative-vs-uncreative instruction pair as too confounded to freeze any dense creativity layer, and require a revised contrastive extraction setup before decomposition work assumes a settled layer.
 - Rationale: a control that yields no surviving layer is a negative result, not a license to quietly keep the raw winner.
 - Impact: `creativedecomp-npt` is now blocked on a cleaner extraction contrast, and the template-controlled sweep becomes the current truth artifact for layer selection.
+
+## [2026-03-18T11:48:00-0500] DECISION: Rebuild the pilot contrast around matched response pairs under a shared extraction wrapper
+
+- Trigger: the template-control failure showed that the original instruction-template contrast was not a defensible proxy for creativity.
+- Decision: keep the same WritingPrompts pilot prompts, but regenerate the positive and negative sides as model continuations from `Creative story` versus `Plain story` source prompts and rewrap both sides under the same `Story` extraction scaffold before hidden-state extraction.
+- Rationale: the experiment claims to study a creativity-related behavioral contrast, not lexical differences between two prompt prefixes.
+- Impact: the active pilot pair file now lives under `prompts/creative_direction_v2_*`, `scripts/run_creativity_direction_smoke.py` now supports row-provided positive/negative texts, and the controlled sweep logic now supports response-centered datasets.
+
+## [2026-03-18T12:02:00-0500] DECISION: Treat layer 24 as a provisional late-layer candidate, not a frozen creativity mechanism
+
+- Trigger: the response-centered `v2` controlled sweep recovered layer `24` as both the raw and controlled winner after the original instruction-template confound was removed.
+- Decision: record layer `24` as the current best late-layer candidate and use it for bounded smoke-level follow-up, but require a calibration step before any decomposition or mechanistic claim treats it as settled.
+- Rationale: a real but weak signal is better than a confounded win, but `19 / 32` pair separation is not strong enough to support decomposition by default.
+- Impact: `creativedecomp-wtf` is closed, `creativedecomp-6lm` is now the critical-path task, and `creativedecomp-npt` remains blocked until the recovered direction is calibrated.
