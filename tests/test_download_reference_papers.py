@@ -6,7 +6,11 @@ import tempfile
 import textwrap
 import unittest
 
-from scripts.download_reference_papers import parse_manifest, verify_downloaded_artifact
+from scripts.download_reference_papers import (
+    parse_manifest,
+    should_browser_render_pdf,
+    verify_downloaded_artifact,
+)
 
 
 class DownloadReferencePapersTest(unittest.TestCase):
@@ -46,6 +50,20 @@ class DownloadReferencePapersTest(unittest.TestCase):
 
             with self.assertRaises(ValueError):
                 verify_downloaded_artifact(artifact_path)
+
+    def test_should_browser_render_pdf_handles_transformer_circuits_articles(self) -> None:
+        self.assertTrue(
+            should_browser_render_pdf(
+                "https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html",
+                Path("scaling-monosemanticity-2024.pdf"),
+            )
+        )
+        self.assertFalse(
+            should_browser_render_pdf(
+                "https://arxiv.org/pdf/2310.01405",
+                Path("representation-engineering-2023.pdf"),
+            )
+        )
 
 
 if __name__ == "__main__":

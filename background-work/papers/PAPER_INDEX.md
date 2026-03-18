@@ -11,10 +11,13 @@ Two citation corrections are locked here to prevent future drift:
 
 - The creativity-representation paper cited in the docs is `Von Rütte et al.` rather than the earlier mistaken `Laurito et al.` memory.
 - `MuCoLa` in the transcript maps to the gradient-based constrained sampling paper on arXiv (`2205.12558`).
+- The transcript's `Large Language Models as Innovators` reference is treated as the same Bystroński line of work now titled `Geometry of Knowledge Allows Extending Diversity Boundaries of Large Language Models` on arXiv (`2507.13874`).
 
 Operational note:
 
 - OpenReview-hosted PDFs in this corpus are materialized through a browser-context fetch in `scripts/download_reference_papers.py` because raw shell HTTP requests to `openreview.net/pdf` return `403` for these papers.
+- `Scaling Monosemanticity` is materialized as a browser-rendered PDF from the canonical Transformer Circuits publication because the site serves the thread as HTML rather than a raw PDF download.
+- The OCSAI divergent-thinking paper is stored from the full ERIC-hosted preprint because the publisher PDF endpoint is not openly fetchable from this environment.
 
 ## Current-Phase Core
 
@@ -96,6 +99,27 @@ Operational note:
 - `CS-ReFT`
   Local file: `background-work/papers/files/cs-reft-2025.pdf`
   Used by: `research/transcript.md`
+- `Representation Engineering: A Top-Down Approach to AI Transparency`
+  Local file: `background-work/papers/files/representation-engineering-2023.pdf`
+  Used by: `research/transcript.md`, `research/experiment-ideas.md`
+- `Steering Language Models With Activation Engineering`
+  Local file: `background-work/papers/files/steering-language-models-activation-engineering-2023.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Steering Llama 2 via Contrastive Activation Addition`
+  Local file: `background-work/papers/files/steering-llama2-contrastive-activation-addition-2023.pdf`
+  Used by: `research/experiment-ideas.md`
+- `SADI`
+  Local file: `background-work/papers/files/sadi-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `CAST`
+  Local file: `background-work/papers/files/cast-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Steering Large Language Models using Conceptors: Improving Addition-Based Activation Engineering`
+  Local file: `background-work/papers/files/conceptor-steering-2024.pdf`
+  Used by: `research/transcript.md`, `research/experiment-ideas.md`
+- `Beyond Linear Steering: Unified Multi-Attribute Control for Language Models`
+  Local file: `background-work/papers/files/k-steering-2025.pdf`
+  Used by: `research/experiment-ideas.md`
 - `Patchscopes`
   Local file: `background-work/papers/files/patchscopes-2024.pdf`
   Used by: `research/transcript.md`
@@ -114,6 +138,18 @@ Operational note:
 - `LayerNavigator`
   Local file: `background-work/papers/files/layernavigator-2025.pdf`
   Used by: `research/transcript.md`
+- `Magellan: Guided MCTS for Latent Space Exploration and Novelty Generation`
+  Local file: `background-work/papers/files/magellan-2025.pdf`
+  Used by: `research/transcript.md`, `research/experiment-ideas.md`, `research/experiment-macbook-guide.md`
+- `Large Language Models for Scientific Idea Generation: A Creativity-Centered Survey`
+  Local file: `background-work/papers/files/scientific-idea-generation-creativity-survey-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet`
+  Local file: `background-work/papers/files/scaling-monosemanticity-2024.pdf`
+  Used by: `research/experiment-novelty.md`, `research/experiment-ideas.md`
+- `The Geometry of Concepts: Sparse Autoencoder Feature Structure`
+  Local file: `background-work/papers/files/geometry-of-concepts-2024.pdf`
+  Used by: `research/experiment-ideas.md`
 - `Concept Attractors`
   Local file: `background-work/papers/files/concept-attractors-2026.pdf`
   Used by: `research/experiment-ideas.md`, `research/experiment-macbook-guide.md`
@@ -123,6 +159,48 @@ Operational note:
 - `MuCoLa`
   Local file: `background-work/papers/files/mucola-2022.pdf`
   Used by: `research/experiment-ideas.md`
+- `Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach`
+  Local file: `background-work/papers/files/huginn-recurrent-depth-2025.pdf`
+  Used by: `research/experiment-ideas.md`, `research/experiment-macbook-guide.md`
+- `Training Large Language Models to Reason in a Continuous Latent Space`
+  Local file: `background-work/papers/files/coconut-2024.pdf`
+  Used by: `research/experiment-ideas.md`, `research/experiment-macbook-guide.md`
+- `LaDiR: Latent Diffusion for Reasoning in Large Language Models`
+  Local file: `background-work/papers/files/ladir-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Think Silently, Think Fast: Dynamic Latent Compression of LLM Reasoning Chains`
+  Local file: `background-work/papers/files/colar-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Dynamic Large Concept Models: Latent Reasoning in an Adaptive Semantic Space`
+  Local file: `background-work/papers/files/dlcm-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Discovering Latent Knowledge in Language Models Without Supervision`
+  Local file: `background-work/papers/files/ccs-2022.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Towards eliciting latent knowledge from LLMs with mechanistic interpretability`
+  Local file: `background-work/papers/files/taboo-models-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Automated Creativity Evaluation for Large Language Models: A Reference-Based Approach`
+  Local file: `background-work/papers/files/automated-creativity-evaluation-2025.pdf`
+  Used by: `research/experiment-novelty.md`
+- `Do LLMs Agree on the Creativity Evaluation of Alternative Uses?`
+  Local file: `background-work/papers/files/rabeyah-alternative-uses-evaluation-2024.pdf`
+  Used by: `research/experiment-novelty.md`
+- `Beyond semantic distance: Automated scoring of divergent thinking greatly improves with large language models`
+  Local file: `background-work/papers/files/ocsai-divergent-thinking-scoring-2023.pdf`
+  Used by: `research/experiment-novelty.md`
+- `Unveiling Attractor Cycles in Large Language Models: A Dynamical Systems View of Successive Paraphrasing`
+  Local file: `background-work/papers/files/attractor-cycles-successive-paraphrasing-2025.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Critical Phase Transition in Large Language Models`
+  Local file: `background-work/papers/files/critical-phase-transition-llms-2024.pdf`
+  Used by: `research/experiment-ideas.md`
+- `Cognitive Activation and Chaotic Dynamics in Large Language Models: A Quasi-Lyapunov Analysis of Reasoning Mechanisms`
+  Local file: `background-work/papers/files/lyapunov-reasoning-mechanisms-2025.pdf`
+  Used by: `research/experiment-ideas.md`, `research/experiment-macbook-guide.md`
+- `SAE-SSV`
+  Local file: `background-work/papers/files/sae-ssv-2025.pdf`
+  Used by: `research/experiment-novelty.md`
 - `Gemma Scope`
   Local file: `background-work/papers/files/gemmascope-2024.pdf`
   Used by: `research/experiment-macbook-guide.md`

@@ -29,6 +29,31 @@ REQUIRED_TITLES = {
     "Concept Attractors",
     "COLD Decoding",
     "MuCoLa",
+    "Representation Engineering: A Top-Down Approach to AI Transparency",
+    "Steering Language Models With Activation Engineering",
+    "Steering Llama 2 via Contrastive Activation Addition",
+    "SADI",
+    "CAST",
+    "Steering Large Language Models using Conceptors: Improving Addition-Based Activation Engineering",
+    "Beyond Linear Steering: Unified Multi-Attribute Control for Language Models",
+    "Large Language Models for Scientific Idea Generation: A Creativity-Centered Survey",
+    "Magellan: Guided MCTS for Latent Space Exploration and Novelty Generation",
+    "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet",
+    "The Geometry of Concepts: Sparse Autoencoder Feature Structure",
+    "Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach",
+    "Training Large Language Models to Reason in a Continuous Latent Space",
+    "LaDiR: Latent Diffusion for Reasoning in Large Language Models",
+    "Think Silently, Think Fast: Dynamic Latent Compression of LLM Reasoning Chains",
+    "Dynamic Large Concept Models: Latent Reasoning in an Adaptive Semantic Space",
+    "Discovering Latent Knowledge in Language Models Without Supervision",
+    "Towards eliciting latent knowledge from LLMs with mechanistic interpretability",
+    "Automated Creativity Evaluation for Large Language Models: A Reference-Based Approach",
+    "Do LLMs Agree on the Creativity Evaluation of Alternative Uses?",
+    "Beyond semantic distance: Automated scoring of divergent thinking greatly improves with large language models",
+    "Unveiling Attractor Cycles in Large Language Models: A Dynamical Systems View of Successive Paraphrasing",
+    "Critical Phase Transition in Large Language Models",
+    "Cognitive Activation and Chaotic Dynamics in Large Language Models: A Quasi-Lyapunov Analysis of Reasoning Mechanisms",
+    "SAE-SSV",
 }
 
 
@@ -46,7 +71,7 @@ class ReferencePaperCorpusTest(unittest.TestCase):
         manifest_path = Path("background-work/papers/DOWNLOAD_MANIFEST.md")
         specs = parse_manifest(manifest_path)
 
-        self.assertGreaterEqual(len(specs), 20)
+        self.assertGreaterEqual(len(specs), 50)
         self.assertTrue(all(spec.filename.endswith(".pdf") for spec in specs))
 
     def test_paper_index_exists_for_future_agents(self) -> None:

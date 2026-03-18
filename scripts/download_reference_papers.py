@@ -24,6 +24,7 @@ DEFAULT_CHROME_PATHS = (
     Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"),
     Path("/Applications/Chromium.app/Contents/MacOS/Chromium"),
 )
+BROWSER_RENDER_PDF_DOMAINS = {"transformer-circuits.pub"}
 
 
 @dataclass(frozen=True)
@@ -78,6 +79,15 @@ def detect_chrome_executable() -> Path:
     )
 
 
+def should_browser_render_pdf(url: str, target_path: Path) -> bool:
+    parsed_url = urlparse(url)
+    return (
+        target_path.suffix.lower() == ".pdf"
+        and parsed_url.netloc in BROWSER_RENDER_PDF_DOMAINS
+        and not parsed_url.path.lower().endswith(".pdf")
+    )
+
+
 def extract_openreview_id(url: str) -> str | None:
     parsed_url = urlparse(url)
     if parsed_url.netloc != "openreview.net":
@@ -86,6 +96,30 @@ def extract_openreview_id(url: str) -> str | None:
         return None
     paper_id = parse_qs(parsed_url.query).get("id", [None])[0]
     return paper_id
+
+
+def render_webpage_to_pdf(url: str, target_path: Path) -> None:
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError as exc:  # pragma: no cover - environment-dependent fallback
+        raise RuntimeError(
+            "Browser-rendered downloads require `playwright` in the active .venv."
+        ) from exc
+
+    chrome_path = detect_chrome_executable()
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            headless=True,
+            executable_path=str(chrome_path),
+        )
+        page = browser.new_page()
+        page.goto(url, wait_until="networkidle", timeout=60_000)
+        page.pdf(
+            path=str(target_path),
+            format="A4",
+            print_background=True,
+        )
+        browser.close()
 
 
 def download_openreview_pdf_with_browser(url: str, target_path: Path) -> None:
@@ -130,6 +164,10 @@ def download_openreview_pdf_with_browser(url: str, target_path: Path) -> None:
 
 
 def download_file(url: str, target_path: Path) -> None:
+    if should_browser_render_pdf(url, target_path):
+        render_webpage_to_pdf(url, target_path)
+        return
+
     request = Request(url, headers={"User-Agent": DOWNLOAD_USER_AGENT})
     try:
         with urlopen(request) as response, NamedTemporaryFile(
