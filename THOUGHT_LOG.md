@@ -475,3 +475,23 @@ Suggested entry format:
   - high that decomposition should remain blocked
 - Interesting facts:
   - `google/gemma-3-270m-it` plus `gemma-scope-2-270m-it-res` is genuinely feasible on the MacBook lane, but feasibility was not the limiting variable.
+
+## [2026-03-18T23:30:00-0500] The Remaining Discomfort Is Evaluation, Not Another Steering Regime
+
+- Stage: synthesis
+- Feel of the Experiment: The review makes the next move narrower, not broader. I still do not buy another steering pivot, but I also do not buy pretending the instruction-tuned refusal gate is fully settled before it gets the same cached-output audit treatment that creativity needed.
+- Working Hypotheses:
+  - The steering-regime story is probably exhausted on this local Gemma plus SAE lane.
+  - The last live ambiguity is whether the instruction-tuned refusal all-tie gate slightly understates a real prompt-only refusal effect because the local judge is still too blunt on that slice.
+- Hunches and Guesses:
+  - A locked manual audit on cached instruction-tuned refusal outputs is more likely to recover a prompt-only refusal edge than a dense refusal rescue.
+  - If that happens, the final write-up should narrow to "simpler-concept causal steering still fails locally even under stronger evaluation," not to "nothing changes outputs at all."
+- Predictions:
+  - The cached-output audit will sharpen the claim boundary, not reopen the experimental lane.
+- Surprises and Tensions:
+  - The repo was about to stop for a good reason, but the stop condition was still missing one rigor move that we already learned to require from the creativity side.
+- Confidence:
+  - high that no new steering regime should run next
+  - medium-high that one cached-output refusal audit is still worth doing before freezing the final bundle
+- Interesting facts:
+  - The strongest criticism of the current local negative-result framing is not "you should have tried more models." It is "you handled judge brittleness for creativity more carefully than for the final simpler-concept pivot."

@@ -100,6 +100,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("google/gemma-3-270m-it", CURRENT_STATE)
         self.assertIn("write-up-grade negative result", CURRENT_STATE)
 
+    def test_current_state_requires_cached_instruction_tuned_refusal_audit_before_final_bundle(self) -> None:
+        self.assertIn("cached instruction-tuned refusal outputs", CURRENT_STATE)
+        self.assertIn("manual audit", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

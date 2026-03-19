@@ -230,3 +230,10 @@
 - Decision: close `creativedecomp-177`, keep `creativedecomp-npt` blocked, and treat the local steering lane as exhausted enough for a write-up-grade negative result rather than running more steering-regime variants.
 - Rationale: the last paper-backed regime shift did not rescue the simpler-concept output claim. Continuing to try new steering regimes after dense, cross-scale, sparse SAE-latent, and instruction-tuned refusal controls would now look like regime shopping rather than disciplined falsification.
 - Impact: the next honest task is synthesis and write-up framing, not more steering implementation. Any future reopening of the lane now requires a specific new confound or paper-backed reason, not generic optimism.
+
+## [2026-03-18T23:30:00-0500] DECISION: Do not finalize the negative-result bundle before auditing the cached instruction-tuned refusal outputs
+
+- Trigger: the deep post-pivot review found that the instruction-tuned refusal gate was being treated as final even though it had not received the same cached-output manual-audit treatment that the creativity gate required after judge brittleness surfaced there.
+- Decision: keep steering-regime shopping closed, but insert one low-cost evaluation-side follow-up before the final write-up-grade negative result. Audit the cached instruction-tuned refusal outputs under a locked manual rubric, then freeze the narrowest truthful claim supported by that audit.
+- Rationale: this preserves the stop on new steering regimes while still handling the last remaining evaluation-side confound honestly. The prompt-only instruction-tuned refusals are visibly different on some prompts, so collapsing straight to a final negative-result bundle without the cached-output audit would be one step too eager.
+- Impact: `creativedecomp-178` remains the synthesis umbrella, `creativedecomp-179` becomes the next ready task, and `creativedecomp-npt` stays blocked. The stronger claim about creativity versus simpler concepts remains unearned until the local simpler-concept evaluation story is as rigorous as the creativity one.
