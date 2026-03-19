@@ -76,6 +76,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | First refusal output gate showing no usable prompt-only refusal baseline and no clean dense refusal win under the generic wrapper | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v1/README.md` |
 | Prefilled-refusal output gate weakly recovering the prompt-only refusal baseline while dense refusal steering still fails the clean output gate | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v2-prefilled-refusal/README.md` |
 | Bounded Gemma 2 9B refusal output gate showing that the larger model still does not rescue a clean dense refusal win versus neutral | steering evaluation | fail | `results/steering_eval/20260318-gemma2-9b-refusal-output-gate-v1-bounded/README.md` |
+| Bounded sparse SAE-latent refusal output gate showing that a top-32 GemmaScope intervention also fails to rescue the matched refusal gate on Gemma 2 2B | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-sae-latent-output-gate-v1/README.md` |
 
 ## Creativity Benchmarks
 

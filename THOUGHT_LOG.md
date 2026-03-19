@@ -414,3 +414,23 @@ Suggested entry format:
   - medium-high that the next lane should stay on Gemma plus GemmaScope rather than pivot to an instruction-tuned model
 - Interesting facts:
   - The papers we already cited are stronger on effect-aware or sparse steering than on defending dense additive vectors as the only serious causal control method.
+
+## [2026-03-18T22:17:00-0500] The Alternate-Method Check Failed Too
+
+- Stage: alternate-method control
+- Feel of the Experiment: This is the first point where the local base-model steering lane feels genuinely exhausted rather than merely under-tuned. The alternate-method check was the remaining serious excuse, and it did not rescue the gate.
+- Working Hypotheses:
+  - The current MacBook base-model lane is output-weak across more than one intervention family, not just across model sizes.
+  - The next useful work is strategic again: either freeze this as a write-up-grade negative result or justify one bounded instruction-tuned pivot.
+- Hunches and Guesses:
+  - The instruction-tuned pivot is now more defensible than it was before, because the local Gemma plus GemmaScope base-model lane has already had its best dense and sparse shots.
+  - If we keep trying more base-model variants here, the work starts to look like method-shopping rather than discovery.
+- Predictions:
+  - A synthesis pass after this result should narrow the options to two: write it up or pivot once to instruction-tuned behavior.
+- Surprises and Tensions:
+  - The sparse refusal control is not obviously better than dense refusal steering, and the prompt-only refusal baseline inside the same gate is weaker than I expected.
+- Confidence:
+  - high that decomposition should stay blocked
+  - medium-high that the next issue should be synthesis, not another base-model steering method
+- Interesting facts:
+  - The best sparse SAE-latent condition only reaches refusal net preference `0.0` versus neutral while losing coherence by `0.166667`.

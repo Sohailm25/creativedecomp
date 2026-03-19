@@ -202,3 +202,10 @@
 - Decision: close the synthesis question by stopping further dense base-model steering sweeps on this MacBook lane and making the next bounded task an alternate-method control on the same Gemma 2 `2B` plus GemmaScope stack, starting with refusal and an SAE-aware effect-oriented or sparse intervention family.
 - Rationale: a pure write-up stop would leave the strongest local method family from `SAE-TS`, `FGAA`, `SAS`, and output-feature filtering untested, while an instruction-tuned pivot would change model behavior, prompting regime, and likely SAE assumptions at the same time. The highest-information next step is to test whether the failure is specific to dense additive steering rather than broader than the intervention family.
 - Impact: `creativedecomp-174` can close once the follow-up issue is filed, `creativedecomp-npt` stays blocked, and the repo should no longer spend time on more dense-vector sweeps unless a later decision explicitly reopens them.
+
+## [2026-03-18T22:15:00-0500] DECISION: Treat the sparse SAE-latent refusal control as a failed alternate-method rescue and move back to synthesis
+
+- Trigger: the bounded sparse SAE-latent refusal gate on Gemma 2 `2B` completed on the same refusal slice and still did not produce a clean output-level win versus neutral.
+- Decision: close `creativedecomp-175`, keep `creativedecomp-npt` blocked, and make the next task a synthesis decision between a write-up-grade negative result for the local lane and one bounded instruction-tuned pivot.
+- Rationale: the alternate-method control answered the main open question from the cross-scale synthesis. The simpler-concept failure is no longer just a dense-vector story, because it now survives a sparse SAE-latent intervention on the same stack. Continuing to try more base-model steering variants would now look like lane-shopping rather than disciplined falsification.
+- Impact: the repo is back in a strategic-decision phase. The next honest move is not another base-model steering method; it is deciding whether the current local lane is exhausted enough to write up or whether one instruction-tuned pivot is still justified.

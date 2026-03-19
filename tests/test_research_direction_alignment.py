@@ -90,6 +90,11 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("alternate-method control lane", CURRENT_STATE)
         self.assertIn("stop further dense base-model steering sweeps", CURRENT_STATE)
 
+    def test_current_state_tracks_sparse_refusal_control_as_not_rescuing_output_gate(self) -> None:
+        self.assertIn("sparse SAE-latent refusal control", CURRENT_STATE)
+        self.assertIn("write-up-grade negative result", CURRENT_STATE)
+        self.assertIn("instruction-tuned pivot", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 
