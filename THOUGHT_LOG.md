@@ -536,3 +536,24 @@ Suggested entry format:
   - high that decomposition should remain blocked until that continuation lands
 - Interesting facts:
   - The instruction-tuned refusal success case is only modest, but it is still the first local output-side control that survives a locked manual audit, which makes it more valuable than another speculative regime pivot.
+
+## [2026-03-19T09:08:00-0500] The Neutral Prompt Was The Real Harness Bug, And The Judge Is Still The Weakest Link
+
+- Stage: instruction-tuned creativity replication
+- Feel of the Experiment: The corrected run changed the scientific picture quickly. Once the neutral condition was forced to actually ask for a story, the pair builder and generations stopped looking half-broken. The automatic judge then failed in exactly the same boring way as before, which makes the manual audit the only trustworthy claim-bearing read on this lane.
+- Working Hypotheses:
+  - The first instruction-tuned creativity failure was partly a harness mistake, not a negative mechanistic result.
+  - On the corrected harness, dense creativity steering at layer `12`, coeff `1.0` is a real matched-stack output-side effect, while prompt-only creativity prompting is weaker and less separable than I expected.
+- Hunches and Guesses:
+  - The next useful work is synthesis, not immediate decomposition and not another steering rerun.
+  - The surprising shape of the result may matter: dense creativity appears more recoverable than prompt-only creativity on this small instruction-tuned stack, which could mean the manual rubric is rewarding latent vividness that the plain prompt does not reliably elicit.
+- Predictions:
+  - The next synthesis will need to decide whether the right continuation is a direct Phase 2 pivot onto this instruction-tuned stack or one narrower confirmatory follow-up around the dense-vs-prompt gap.
+- Surprises and Tensions:
+  - Fixing the neutral story prompt raised accepted counterpart rows from `6` to `18`, which is a much bigger harness effect than I expected.
+  - The automatic judge remained useless even after the outputs themselves became obviously more comparable.
+- Confidence:
+  - high that the matched instruction-tuned stack now has a real creativity-side output effect worth taking seriously
+  - medium that decomposition should pivot there immediately without one more synthesis pass
+- Interesting facts:
+  - Under the locked manual audit, dense layer `12`, coeff `1.0` beats neutral on both prompt-grounded creativity and coherence, while coeff `0.5` does not and prompt-only creativity is roughly tied with neutral.

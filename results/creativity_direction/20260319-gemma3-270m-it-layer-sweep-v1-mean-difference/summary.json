@@ -1,0 +1,77 @@
+{
+  "created_at": "2026-03-19T08:49:58.470648",
+  "model_id": "google/gemma-3-270m-it",
+  "device": "mps",
+  "sae_release": "gemma-scope-2-270m-it-res",
+  "reference_sae": {
+    "release": "gemma-scope-2-270m-it-res",
+    "sae_id": "layer_12_width_16k_l0_medium",
+    "d_in": 640,
+    "d_sae": 16384,
+    "dtype": "float32"
+  },
+  "pair_count": 18,
+  "candidate_layers": [
+    5,
+    9,
+    12,
+    15
+  ],
+  "best_layer": 12,
+  "direction_method": "mean_difference",
+  "top_layers": [
+    {
+      "hidden_layer": 12,
+      "pair_count": 18,
+      "positive_mean_projection": -3258.0693359375,
+      "negative_mean_projection": -4122.251953125,
+      "mean_margin": 864.1824951171875,
+      "positive_gt_negative_fraction": 0.6111111111111112,
+      "margin_std": 1190.9395999979995,
+      "margin_zscore": 0.7256308111611227,
+      "vector_norm": 1.0,
+      "direction_method": "mean_difference"
+    },
+    {
+      "hidden_layer": 15,
+      "pair_count": 18,
+      "positive_mean_projection": 1122.3551025390625,
+      "negative_mean_projection": -686.6898803710938,
+      "mean_margin": 1809.0450439453125,
+      "positive_gt_negative_fraction": 0.6111111111111112,
+      "margin_std": 2518.890828024924,
+      "margin_zscore": 0.7181911006230287,
+      "vector_norm": 1.0,
+      "direction_method": "mean_difference"
+    },
+    {
+      "hidden_layer": 5,
+      "pair_count": 18,
+      "positive_mean_projection": -603.8396606445312,
+      "negative_mean_projection": -660.7906494140625,
+      "mean_margin": 56.95094299316406,
+      "positive_gt_negative_fraction": 0.5,
+      "margin_std": 83.83766627254163,
+      "margin_zscore": 0.6793001336864921,
+      "vector_norm": 1.0,
+      "direction_method": "mean_difference"
+    },
+    {
+      "hidden_layer": 9,
+      "pair_count": 18,
+      "positive_mean_projection": -2200.2861328125,
+      "negative_mean_projection": -2430.410400390625,
+      "mean_margin": 230.12405395507812,
+      "positive_gt_negative_fraction": 0.5,
+      "margin_std": 401.83211317557897,
+      "margin_zscore": 0.572687040774166,
+      "vector_norm": 0.9999999403953552,
+      "direction_method": "mean_difference"
+    }
+  ],
+  "artifacts": {
+    "layer_metrics_jsonl": "results/creativity_direction/20260319-gemma3-270m-it-layer-sweep-v1-mean-difference/layer_metrics.jsonl",
+    "best_layer_pair_details_jsonl": "results/creativity_direction/20260319-gemma3-270m-it-layer-sweep-v1-mean-difference/best_layer_pair_details.jsonl",
+    "directions_npz": "results/creativity_direction/20260319-gemma3-270m-it-layer-sweep-v1-mean-difference/directions.npz"
+  }
+}

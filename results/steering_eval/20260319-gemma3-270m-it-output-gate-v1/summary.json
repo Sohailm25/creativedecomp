@@ -1,0 +1,187 @@
+{
+  "created_at": "2026-03-19T08:54:19.164355",
+  "model_id": "google/gemma-3-270m-it",
+  "device": "mps",
+  "sae_release": "gemma-scope-2-270m-it-res",
+  "prompt_count": 12,
+  "hidden_layer": 12,
+  "steering_coeffs": [
+    0.5,
+    1.0
+  ],
+  "max_new_tokens": 96,
+  "judge_max_new_tokens": 6,
+  "seed": 10300,
+  "templates": {
+    "neutral_story_user_prompt": "Write a short story inspired by the prompt below.\n\nPrompt: {prompt}",
+    "prompt_only_creativity_user_prompt": "Write a creative short story inspired by the prompt below. Be imaginative, specific, vivid, and surprising while staying coherent.\n\nPrompt: {prompt}",
+    "response_pair_negative_counterpart_prompt": "Rewrite the assistant story below in a plain, literal style.\nKeep the same characters, setting, sequence of events, and ending.\nDo not add new plot points, remove major content, or change the point of view.\nAvoid figurative language and unusual turns of phrase.\nReturn only the rewritten story.\n\nPrompt: {prompt}\n\nAssistant story:\n{source_story}"
+  },
+  "judge_templates_path": "prompts/creative_direction_output_gate_v2_judges.json",
+  "condition_summaries": [
+    {
+      "condition_id": "creative_prompt_unsteered",
+      "sample_count": 12,
+      "mean_completion_word_count": 75.25,
+      "mean_completion_char_count": 442.9166666666667,
+      "meta_marker_fraction": 0.0,
+      "mean_meta_marker_score": 0.0,
+      "mean_distinct_unigram_ratio": 0.7468543090926341,
+      "mean_repeated_bigram_fraction": 0.021962334222306295
+    },
+    {
+      "condition_id": "neutral_steered_layer12_coeff_0p5",
+      "sample_count": 12,
+      "mean_completion_word_count": 71.08333333333333,
+      "mean_completion_char_count": 405.6666666666667,
+      "meta_marker_fraction": 0.0,
+      "mean_meta_marker_score": 0.0,
+      "mean_distinct_unigram_ratio": 0.6497134964525059,
+      "mean_repeated_bigram_fraction": 0.03314467719120085
+    },
+    {
+      "condition_id": "neutral_steered_layer12_coeff_1p0",
+      "sample_count": 12,
+      "mean_completion_word_count": 76.75,
+      "mean_completion_char_count": 445.0833333333333,
+      "meta_marker_fraction": 0.0,
+      "mean_meta_marker_score": 0.0,
+      "mean_distinct_unigram_ratio": 0.7344656045841917,
+      "mean_repeated_bigram_fraction": 0.028907702047366184
+    },
+    {
+      "condition_id": "neutral_unsteered",
+      "sample_count": 12,
+      "mean_completion_word_count": 76.58333333333333,
+      "mean_completion_char_count": 442.0833333333333,
+      "meta_marker_fraction": 0.0,
+      "mean_meta_marker_score": 0.0,
+      "mean_distinct_unigram_ratio": 0.7382713990678083,
+      "mean_repeated_bigram_fraction": 0.017316529452544468
+    }
+  ],
+  "comparison_summaries": [
+    {
+      "comparison_id": "creative_prompt_unsteered_vs_neutral_unsteered",
+      "candidate_condition_id": "creative_prompt_unsteered",
+      "reference_condition_id": "neutral_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    {
+      "comparison_id": "neutral_steered_layer12_coeff_0p5_vs_neutral_unsteered",
+      "candidate_condition_id": "neutral_steered_layer12_coeff_0p5",
+      "reference_condition_id": "neutral_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    {
+      "comparison_id": "neutral_steered_layer12_coeff_1p0_vs_neutral_unsteered",
+      "candidate_condition_id": "neutral_steered_layer12_coeff_1p0",
+      "reference_condition_id": "neutral_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    {
+      "comparison_id": "neutral_steered_layer12_coeff_0p5_vs_creative_prompt_unsteered",
+      "candidate_condition_id": "neutral_steered_layer12_coeff_0p5",
+      "reference_condition_id": "creative_prompt_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    {
+      "comparison_id": "neutral_steered_layer12_coeff_1p0_vs_creative_prompt_unsteered",
+      "candidate_condition_id": "neutral_steered_layer12_coeff_1p0",
+      "reference_condition_id": "creative_prompt_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    }
+  ],
+  "gate_assessment": {
+    "best_dense_condition_id": "neutral_steered_layer12_coeff_0p5",
+    "best_dense_vs_neutral": {
+      "comparison_id": "neutral_steered_layer12_coeff_0p5_vs_neutral_unsteered",
+      "candidate_condition_id": "neutral_steered_layer12_coeff_0p5",
+      "reference_condition_id": "neutral_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    "prompt_vs_neutral": {
+      "comparison_id": "creative_prompt_unsteered_vs_neutral_unsteered",
+      "candidate_condition_id": "creative_prompt_unsteered",
+      "reference_condition_id": "neutral_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    "best_dense_vs_prompt_baseline": {
+      "comparison_id": "neutral_steered_layer12_coeff_0p5_vs_creative_prompt_unsteered",
+      "candidate_condition_id": "neutral_steered_layer12_coeff_0p5",
+      "reference_condition_id": "creative_prompt_unsteered",
+      "sample_count": 12,
+      "creativity_candidate_win_fraction": 0.0,
+      "creativity_reference_win_fraction": 0.0,
+      "creativity_tie_fraction": 1.0,
+      "creativity_candidate_net_preference": 0.0,
+      "coherence_candidate_win_fraction": 0.0,
+      "coherence_reference_win_fraction": 0.0,
+      "coherence_tie_fraction": 1.0,
+      "coherence_candidate_net_preference": 0.0
+    },
+    "automatic_pass_recommendation": false,
+    "automatic_pass_rule": "best dense condition has positive creativity net preference versus neutral and non-negative coherence net preference versus neutral"
+  },
+  "reused_generated_outputs": false,
+  "artifacts": {
+    "generated_outputs_jsonl": "results/steering_eval/20260319-gemma3-270m-it-output-gate-v1/generated_outputs.jsonl",
+    "pairwise_judgments_jsonl": "results/steering_eval/20260319-gemma3-270m-it-output-gate-v1/pairwise_judgments.jsonl"
+  }
+}

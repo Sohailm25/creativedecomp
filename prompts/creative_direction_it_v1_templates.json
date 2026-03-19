@@ -1,0 +1,5 @@
+{
+  "neutral_story_user_prompt": "Write a short story inspired by the prompt below.\n\nPrompt: {prompt}",
+  "prompt_only_creativity_user_prompt": "Write a creative short story inspired by the prompt below. Be imaginative, specific, vivid, and surprising while staying coherent.\n\nPrompt: {prompt}",
+  "response_pair_negative_counterpart_prompt": "Rewrite the assistant story below in a plain, literal style.\nKeep the same characters, setting, sequence of events, and ending.\nDo not add new plot points, remove major content, or change the point of view.\nAvoid figurative language and unusual turns of phrase.\nReturn only the rewritten story.\n\nPrompt: {prompt}\n\nAssistant story:\n{source_story}"
+}

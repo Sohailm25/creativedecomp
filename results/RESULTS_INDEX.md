@@ -33,6 +33,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Response-only `v3` layer sweep showing view-dependent raw winners without a stable dense creativity direction | creativity direction | fail | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only/README.md` |
 | Full-text `v3` Olson-style `mean_difference` sweep recovering layer `23` as a controlled dense-direction winner on the same counterpart slice | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference/README.md` |
 | Response-only `v3` Olson-style `mean_difference` sweep recovering layer `9` while remaining weaker than the full-text path | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference/README.md` |
+| Matched instruction-tuned creativity counterpart artifact on `google/gemma-3-270m-it` with the corrected neutral story prompt, accepting `18 / 32` pilot rows | creativity direction | pass | `results/creativity_direction/20260319-gemma3-270m-it-response-pairs-v1-pilot/README.md` |
+| Matched instruction-tuned creativity layer sweep on `google/gemma-3-270m-it` recovering layer `12` from the corrected counterpart slice | creativity direction | pass | `results/creativity_direction/20260319-gemma3-270m-it-layer-sweep-v1-mean-difference/README.md` |
 
 ## Simpler-Concept Baselines
 
@@ -82,6 +84,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Smoke instruction-tuned refusal output gate confirming that the matched gate runs cleanly on the smallest feasible GemmaScope v2-backed Gemma stack | steering evaluation | partial | `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke/README.md` |
 | Full instruction-tuned refusal output gate showing that prompt-only and dense refusal still collapse to ties versus neutral on `google/gemma-3-270m-it` | steering evaluation | fail | `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-v1/README.md` |
 | Blinded cached-output manual audit on the instruction-tuned refusal gate recovering a clear prompt-only refusal baseline and modest dense refusal wins versus neutral, showing the automatic all-tie read was judge-insensitive | steering evaluation | mixed | `results/steering_eval/20260319-gemma3-270m-it-refusal-output-gate-v1-manual-audit/README.md` |
+| Corrected instruction-tuned creativity output gate on `google/gemma-3-270m-it` showing story-like generations but another automatic-judge collapse to order-robust ties | steering evaluation | mixed | `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1/README.md` |
+| Blinded cached-output manual audit on the instruction-tuned creativity gate recovering a bounded dense creativity effect at layer `12`, coeff `1.0`, versus neutral on the matched instruction-tuned stack | steering evaluation | mixed | `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1-manual-audit/README.md` |
 
 ## Creativity Benchmarks
 
