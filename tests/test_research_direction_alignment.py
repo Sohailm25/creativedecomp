@@ -95,6 +95,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("write-up-grade negative result", CURRENT_STATE)
         self.assertIn("instruction-tuned pivot", CURRENT_STATE)
 
+    def test_current_state_chooses_instruction_tuned_refusal_pivot_as_next_lane(self) -> None:
+        self.assertIn("instruction-tuned refusal pivot", CURRENT_STATE)
+        self.assertIn("GemmaScope v2", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

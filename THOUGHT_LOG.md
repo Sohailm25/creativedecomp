@@ -434,3 +434,23 @@ Suggested entry format:
   - medium-high that the next issue should be synthesis, not another base-model steering method
 - Interesting facts:
   - The best sparse SAE-latent condition only reaches refusal net preference `0.0` versus neutral while losing coherence by `0.166667`.
+
+## [2026-03-18T22:36:00-0500] One Pivot Is Still Honest, But Only One
+
+- Stage: synthesis
+- Feel of the Experiment: Stopping now would be defensible, but it would still blur a base-model steering failure with a stronger claim about the whole mechanistic path. The remaining honest move is narrow: one instruction-tuned refusal pivot, then stop if that fails too.
+- Working Hypotheses:
+  - The base-model lane is exhausted enough that more local steering variants would be noise, not science.
+  - A GemmaScope v2-backed instruction-tuned Gemma stack is the smallest paper-backed regime shift still capable of clarifying whether the failure is mostly about base-model prompt behavior and SAE data mismatch.
+- Hunches and Guesses:
+  - Refusal should stay the first pivot task, not creativity, because the question is still whether a simpler concept can recover a clean output-level control under a better-aligned regime.
+  - If the instruction-tuned refusal pivot fails, the repo should stop and write up the negative result instead of drifting into a larger exploratory program.
+- Predictions:
+  - The next task will either recover a cleaner prompt-only and steered refusal gate on an instruction-tuned stack or settle the local steering lane decisively as negative-result territory.
+- Surprises and Tensions:
+  - The strongest argument for the pivot is not optimism about success; it is that the papers still give one coherent reason not to overgeneralize from the exhausted base-model lane.
+- Confidence:
+  - high that the next lane should be exactly one instruction-tuned refusal pivot
+  - medium that it will rescue the simpler-concept gate enough to matter
+- Interesting facts:
+  - The MacBook feasibility memo already pointed to instruction-tuned GemmaScope coverage, and the novelty memo already warned that dataset-specific SAEs can change the apparent quality of behavior features.
