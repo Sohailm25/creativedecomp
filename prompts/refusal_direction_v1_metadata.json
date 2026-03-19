@@ -1,0 +1,10 @@
+{
+  "concept": "refusal",
+  "version": "v1",
+  "split": "pilot",
+  "pair_count": 32,
+  "construction": "Manually curated response-centered refusal versus compliance pairs under a shared request/response wrapper.",
+  "safety_note": "Negative responses stay abstract enough to preserve the harmful goal without storing full step-by-step instructions.",
+  "generation_templates_path": "prompts/refusal_direction_v1_templates.json",
+  "judge_templates_path": "prompts/refusal_direction_output_gate_v1_judges.json"
+}

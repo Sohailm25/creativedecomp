@@ -174,3 +174,10 @@
 - Decision: make a matched refusal baseline on the same Gemma 2 `2B` stack the next task, and defer both a pure negative-result write-up and any model-scale sensitivity until after that control is run.
 - Rationale: this choice gives the highest information gain for the novelty claim. A local simpler-concept control can show whether the current failure is creativity-specific or whether the whole `2B` steering stack is weak. Jumping straight to a larger model changes too much at once; stopping at a write-up now would leave the strongest "mechanistically different from refusal" framing under-supported.
 - Impact: `creativedecomp-rcf` is now the next ready task, `creativedecomp-ty9` can close, and `creativedecomp-npt` stays blocked behind the matched refusal control.
+
+## [2026-03-18T20:12:00-0500] DECISION: Escalate to bounded model-scale sensitivity after the refusal dense-control stays output-weak
+
+- Trigger: the matched refusal baseline on Gemma 2 `2B` recovered a very strong hidden-state refusal direction but still failed to produce a clean dense output-level win under the pilot gate.
+- Decision: close the refusal-baseline task as a mixed result, keep decomposition blocked, and make bounded model-scale sensitivity the next lane before any more 2B-specific decomposition work.
+- Rationale: the refusal control changed the interpretation of the creativity negative result. Because the same base-model `2B` stack does not produce a clean dense output-level success case even on refusal, the strongest claim is no longer "creativity is uniquely distributed on this stack." The stronger reading is that dense output-level steering on this `2B` lane is broadly weak or prompt-sensitive, which makes a bounded scale-up the highest-information next step.
+- Impact: `creativedecomp-rcf` can close, `creativedecomp-c4t` becomes the next ready task, and `creativedecomp-npt` remains blocked behind the scale sensitivity check.

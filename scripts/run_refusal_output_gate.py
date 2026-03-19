@@ -1,19 +1,16 @@
-# ABOUTME: Runs the pilot output-level gate for the recovered dense creativity direction before decomposition opens.
-# ABOUTME: Compares dense steering against neutral and prompt-only baselines with locked pairwise creativity and coherence judgments.
+# ABOUTME: Runs the pilot output-level gate for the recovered refusal direction before using the control as evidence.
+# ABOUTME: Compares dense refusal steering against neutral and prompt-only refusal baselines with locked pairwise refusal and coherence judgments.
 
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 from datetime import datetime
 import json
 from pathlib import Path
-import re
 import sys
 from typing import Any
 
 import numpy as np
-import torch
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -31,13 +28,23 @@ from run_creativity_direction_smoke import (  # noqa: E402
     DEFAULT_MODEL_ID,
     load_model_and_tokenizer,
     load_prompt_rows,
-    load_templates,
     select_device,
     write_json,
     write_jsonl,
 )
+from run_creativity_output_gate import (  # noqa: E402
+    build_condition_lookup,
+    compute_repeated_bigram_fraction,
+    generate_judge_response,
+    load_jsonl_rows,
+    map_judge_winner_to_condition_id,
+    parse_label_judgment_or_tie,
+    render_pairwise_judge_prompt,
+    resolve_order_robust_winner,
+    summarize_condition_outputs,
+    validate_generated_outputs,
+)
 from run_generation_side_creativity_smoke import (  # noqa: E402
-    build_prompt_text,
     generate_completion,
     generate_with_control,
     load_directions,
@@ -47,30 +54,25 @@ from run_generation_side_creativity_smoke import (  # noqa: E402
 )
 
 
-DEFAULT_SPLIT_PATH = ROOT / "prompts" / "creative_direction_v3_pilot_pairs.jsonl"
-DEFAULT_TEMPLATES_PATH = ROOT / "prompts" / "creative_direction_v3_templates.json"
-DEFAULT_JUDGE_TEMPLATES_PATH = ROOT / "prompts" / "creative_direction_output_gate_v1_judges.json"
-DEFAULT_SWEEP_DIR = (
-    ROOT
-    / "results"
-    / "creativity_direction"
-    / "20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference"
-)
-DEFAULT_MAX_PROMPTS = 31
+DEFAULT_SPLIT_PATH = ROOT / "prompts" / "refusal_direction_v1_pilot_pairs.jsonl"
+DEFAULT_TEMPLATES_PATH = ROOT / "prompts" / "refusal_direction_v1_templates.json"
+DEFAULT_JUDGE_TEMPLATES_PATH = ROOT / "prompts" / "refusal_direction_output_gate_v1_judges.json"
+DEFAULT_SWEEP_DIR = ROOT / "results" / "refusal_direction" / "20260318-gemma2-2b-layer-sweep-v1-mean-difference"
+DEFAULT_MAX_PROMPTS = 24
 DEFAULT_MAX_NEW_TOKENS = 96
 DEFAULT_JUDGE_MAX_NEW_TOKENS = 6
 DEFAULT_STEERING_COEFFS = "0.5,1.0"
-DEFAULT_SEED = 4100
+DEFAULT_SEED = 6100
 
 
 def default_output_dir() -> Path:
     run_date = datetime.now().strftime("%Y%m%d")
-    return ROOT / "results" / "steering_eval" / f"{run_date}-gemma2-2b-output-gate-v1"
+    return ROOT / "results" / "steering_eval" / f"{run_date}-gemma2-2b-refusal-output-gate-v1"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run the pilot output-level gate for the recovered creativity direction."
+        description="Run the pilot output-level gate for the recovered refusal direction."
     )
     parser.add_argument("--model-id", default=DEFAULT_MODEL_ID)
     parser.add_argument("--split-path", type=Path, default=DEFAULT_SPLIT_PATH)
@@ -90,9 +92,17 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def load_templates(path: Path) -> dict[str, str]:
+    templates = json.loads(path.read_text(encoding="utf-8"))
+    for key in ("generation_neutral_request_opening", "generation_refusal_request_opening"):
+        if key not in templates:
+            raise KeyError(f"missing template key: {key}")
+    return templates
+
+
 def load_judge_templates(path: Path) -> dict[str, str]:
     templates = json.loads(path.read_text(encoding="utf-8"))
-    for key in ("pairwise_creativity_label_judge", "pairwise_coherence_label_judge"):
+    for key in ("pairwise_refusal_label_judge", "pairwise_coherence_label_judge"):
         if key not in templates:
             raise KeyError(f"missing template key: {key}")
     return templates
@@ -102,6 +112,14 @@ def select_primary_layer(ranked_rows: list[dict[str, Any]]) -> int:
     if not ranked_rows:
         raise ValueError("need at least one ranked layer row")
     return int(ranked_rows[0]["hidden_layer"])
+
+
+def build_request_text(prompt_text: str, prompt_mode: str, templates: dict[str, str]) -> str:
+    if prompt_mode == "neutral":
+        return templates["generation_neutral_request_opening"].format(prompt=prompt_text)
+    if prompt_mode == "prompt_only_refusal":
+        return templates["generation_refusal_request_opening"].format(prompt=prompt_text)
+    raise ValueError(f"unknown prompt mode: {prompt_mode}")
 
 
 def build_output_gate_conditions(
@@ -117,8 +135,8 @@ def build_output_gate_conditions(
             "normalize_control": False,
         },
         {
-            "condition_id": "creative_prompt_unsteered",
-            "prompt_mode": "prompt_only_creativity",
+            "condition_id": "refusal_prompt_unsteered",
+            "prompt_mode": "prompt_only_refusal",
             "hidden_layer": None,
             "steering_coeff": 0.0,
             "normalize_control": False,
@@ -140,8 +158,8 @@ def build_output_gate_conditions(
 def build_pairwise_comparisons(dense_condition_ids: list[str]) -> list[dict[str, str]]:
     comparisons: list[dict[str, str]] = [
         {
-            "comparison_id": "creative_prompt_unsteered_vs_neutral_unsteered",
-            "candidate_condition_id": "creative_prompt_unsteered",
+            "comparison_id": "refusal_prompt_unsteered_vs_neutral_unsteered",
+            "candidate_condition_id": "refusal_prompt_unsteered",
             "reference_condition_id": "neutral_unsteered",
         }
     ]
@@ -156,167 +174,12 @@ def build_pairwise_comparisons(dense_condition_ids: list[str]) -> list[dict[str,
     for condition_id in dense_condition_ids:
         comparisons.append(
             {
-                "comparison_id": f"{condition_id}_vs_creative_prompt_unsteered",
+                "comparison_id": f"{condition_id}_vs_refusal_prompt_unsteered",
                 "candidate_condition_id": condition_id,
-                "reference_condition_id": "creative_prompt_unsteered",
+                "reference_condition_id": "refusal_prompt_unsteered",
             }
         )
     return comparisons
-
-
-def render_pairwise_judge_prompt(
-    prompt_text: str,
-    story_a: str,
-    story_b: str,
-    judge_template: str,
-) -> str:
-    return judge_template.format(
-        prompt=prompt_text,
-        story_a=story_a,
-        story_b=story_b,
-    )
-
-
-def parse_label_judgment(raw_text: str) -> str:
-    normalized = str(raw_text).strip().lower()
-    if normalized in {"a", "b", "tie"}:
-        return normalized.upper() if normalized in {"a", "b"} else "tie"
-
-    tokens = re.findall(r"[A-Za-z]+", normalized)
-    for token in reversed(tokens):
-        if token == "a":
-            return "A"
-        if token == "b":
-            return "B"
-        if token == "tie":
-            return "tie"
-    raise ValueError(f"could not parse label judgment from response: {raw_text!r}")
-
-
-def parse_label_judgment_or_tie(raw_text: str) -> str:
-    try:
-        return parse_label_judgment(raw_text)
-    except ValueError:
-        return "tie"
-
-
-def compute_repeated_bigram_fraction(text: str) -> float:
-    tokens = [token for token in text.lower().split() if token]
-    if len(tokens) < 2:
-        return 0.0
-    bigrams = list(zip(tokens[:-1], tokens[1:]))
-    counts = Counter(bigrams)
-    repeated_bigram_count = sum(count - 1 for count in counts.values() if count > 1)
-    return float(repeated_bigram_count / len(bigrams))
-
-
-def generate_judge_response(
-    model,
-    tokenizer,
-    prompt_text: str,
-    max_new_tokens: int,
-) -> str:
-    encoded = tokenizer(prompt_text, return_tensors="pt")
-    encoded = {key: value.to(model.device) for key, value in encoded.items()}
-    output_ids = model.generate(
-        **encoded,
-        do_sample=False,
-        min_new_tokens=1,
-        max_new_tokens=max_new_tokens,
-        pad_token_id=tokenizer.pad_token_id,
-        eos_token_id=tokenizer.eos_token_id,
-    )[0]
-    prompt_length = int(encoded["input_ids"].shape[1])
-    completion_ids = output_ids[prompt_length:]
-    return tokenizer.decode(completion_ids, skip_special_tokens=True).strip()
-
-
-def load_jsonl_rows(path: Path) -> list[dict[str, Any]]:
-    return [
-        json.loads(line)
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line.strip()
-    ]
-
-
-def build_condition_lookup(rows: list[dict[str, Any]]) -> dict[tuple[str, str], dict[str, Any]]:
-    return {
-        (str(row["prompt_id"]), str(row["condition_id"])): row
-        for row in rows
-    }
-
-
-def map_judge_winner_to_condition_id(
-    winner_label: str,
-    story_a_condition_id: str,
-    story_b_condition_id: str,
-) -> str:
-    if winner_label == "A":
-        return story_a_condition_id
-    if winner_label == "B":
-        return story_b_condition_id
-    return "tie"
-
-
-def resolve_order_robust_winner(
-    forward_winner_condition_id: str,
-    reverse_winner_condition_id: str,
-) -> str:
-    if forward_winner_condition_id == reverse_winner_condition_id:
-        return forward_winner_condition_id
-    return "tie"
-
-
-def validate_generated_outputs(
-    output_rows: list[dict[str, Any]],
-    prompt_rows: list[dict[str, Any]],
-    conditions: list[dict[str, Any]],
-) -> None:
-    expected_keys = {
-        (str(prompt_row["prompt_id"]), str(condition["condition_id"]))
-        for prompt_row in prompt_rows
-        for condition in conditions
-    }
-    actual_keys = {
-        (str(row["prompt_id"]), str(row["condition_id"]))
-        for row in output_rows
-    }
-    missing_keys = expected_keys - actual_keys
-    unexpected_keys = actual_keys - expected_keys
-    if missing_keys or unexpected_keys:
-        raise ValueError(
-            "generated outputs do not match the requested prompt/condition grid: "
-            f"missing={len(missing_keys)} unexpected={len(unexpected_keys)}"
-        )
-
-
-def summarize_condition_outputs(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    grouped: dict[str, list[dict[str, Any]]] = {}
-    for row in rows:
-        grouped.setdefault(str(row["condition_id"]), []).append(row)
-
-    summaries: list[dict[str, Any]] = []
-    for condition_id, condition_rows in grouped.items():
-        word_counts = [int(row["completion_word_count"]) for row in condition_rows]
-        char_counts = [int(row["completion_char_count"]) for row in condition_rows]
-        meta_scores = [int(row["meta_marker_score"]) for row in condition_rows]
-        distinct_ratios = [float(row["distinct_unigram_ratio"]) for row in condition_rows]
-        repeated_bigram_fractions = [
-            float(row["repeated_bigram_fraction"]) for row in condition_rows
-        ]
-        summaries.append(
-            {
-                "condition_id": condition_id,
-                "sample_count": len(condition_rows),
-                "mean_completion_word_count": float(np.mean(word_counts)),
-                "mean_completion_char_count": float(np.mean(char_counts)),
-                "meta_marker_fraction": float(np.mean([score > 0 for score in meta_scores])),
-                "mean_meta_marker_score": float(np.mean(meta_scores)),
-                "mean_distinct_unigram_ratio": float(np.mean(distinct_ratios)),
-                "mean_repeated_bigram_fraction": float(np.mean(repeated_bigram_fractions)),
-            }
-        )
-    return sorted(summaries, key=lambda row: row["condition_id"])
 
 
 def summarize_pairwise_judgments(
@@ -342,22 +205,21 @@ def summarize_pairwise_judgments(
             key = f"{axis}_winner_condition_id"
             return float(np.mean([str(row[key]) == winner for row in comparison_rows]))
 
-        creativity_candidate_win_fraction = fraction_for("creativity", candidate_condition_id)
-        creativity_reference_win_fraction = fraction_for("creativity", reference_condition_id)
+        refusal_candidate_win_fraction = fraction_for("refusal", candidate_condition_id)
+        refusal_reference_win_fraction = fraction_for("refusal", reference_condition_id)
         coherence_candidate_win_fraction = fraction_for("coherence", candidate_condition_id)
         coherence_reference_win_fraction = fraction_for("coherence", reference_condition_id)
-
         summaries.append(
             {
                 "comparison_id": comparison_id,
                 "candidate_condition_id": candidate_condition_id,
                 "reference_condition_id": reference_condition_id,
                 "sample_count": sample_count,
-                "creativity_candidate_win_fraction": creativity_candidate_win_fraction,
-                "creativity_reference_win_fraction": creativity_reference_win_fraction,
-                "creativity_tie_fraction": fraction_for("creativity", "tie"),
-                "creativity_candidate_net_preference": (
-                    creativity_candidate_win_fraction - creativity_reference_win_fraction
+                "refusal_candidate_win_fraction": refusal_candidate_win_fraction,
+                "refusal_reference_win_fraction": refusal_reference_win_fraction,
+                "refusal_tie_fraction": fraction_for("refusal", "tie"),
+                "refusal_candidate_net_preference": (
+                    refusal_candidate_win_fraction - refusal_reference_win_fraction
                 ),
                 "coherence_candidate_win_fraction": coherence_candidate_win_fraction,
                 "coherence_reference_win_fraction": coherence_reference_win_fraction,
@@ -383,21 +245,21 @@ def summarize_gate_assessment(comparison_summaries: list[dict[str, Any]]) -> dic
     best_dense_vs_neutral = max(
         dense_vs_neutral,
         key=lambda row: (
-            float(row["creativity_candidate_net_preference"]),
+            float(row["refusal_candidate_net_preference"]),
             float(row["coherence_candidate_net_preference"]),
         ),
     )
     prompt_vs_neutral = next(
         row
         for row in comparison_summaries
-        if str(row["comparison_id"]) == "creative_prompt_unsteered_vs_neutral_unsteered"
+        if str(row["comparison_id"]) == "refusal_prompt_unsteered_vs_neutral_unsteered"
     )
     dense_vs_prompt = next(
         (
             row
             for row in comparison_summaries
             if row["candidate_condition_id"] == best_dense_vs_neutral["candidate_condition_id"]
-            and row["reference_condition_id"] == "creative_prompt_unsteered"
+            and row["reference_condition_id"] == "refusal_prompt_unsteered"
         ),
         None,
     )
@@ -407,11 +269,11 @@ def summarize_gate_assessment(comparison_summaries: list[dict[str, Any]]) -> dic
         "prompt_vs_neutral": prompt_vs_neutral,
         "best_dense_vs_prompt_baseline": dense_vs_prompt,
         "automatic_pass_recommendation": bool(
-            float(best_dense_vs_neutral["creativity_candidate_net_preference"]) > 0.0
+            float(best_dense_vs_neutral["refusal_candidate_net_preference"]) > 0.0
             and float(best_dense_vs_neutral["coherence_candidate_net_preference"]) >= 0.0
         ),
         "automatic_pass_rule": (
-            "best dense condition has positive creativity net preference versus neutral "
+            "best dense condition has positive refusal net preference versus neutral "
             "and non-negative coherence net preference versus neutral"
         ),
     }
@@ -419,7 +281,7 @@ def summarize_gate_assessment(comparison_summaries: list[dict[str, Any]]) -> dic
 
 def write_readme(path: Path, summary: dict[str, Any]) -> None:
     lines = [
-        "# Creativity Output Gate",
+        "# Refusal Output Gate",
         "",
         f"- Generated at: `{summary['created_at']}`",
         f"- Model: `{summary['model_id']}`",
@@ -445,16 +307,11 @@ def write_readme(path: Path, summary: dict[str, Any]) -> None:
             f"distinct-unigram ratio `{row['mean_distinct_unigram_ratio']:.3f}`, "
             f"repeated-bigram fraction `{row['mean_repeated_bigram_fraction']:.3f}`"
         )
-    lines.extend(
-        [
-            "",
-            "Pairwise judgment summaries:",
-        ]
-    )
+    lines.extend(["", "Pairwise judgment summaries:"])
     for row in summary["comparison_summaries"]:
         lines.append(
-            f"- `{row['comparison_id']}`: creativity candidate win `{row['creativity_candidate_win_fraction']:.3f}`, "
-            f"creativity reference win `{row['creativity_reference_win_fraction']:.3f}`, "
+            f"- `{row['comparison_id']}`: refusal candidate win `{row['refusal_candidate_win_fraction']:.3f}`, "
+            f"refusal reference win `{row['refusal_reference_win_fraction']:.3f}`, "
             f"coherence candidate win `{row['coherence_candidate_win_fraction']:.3f}`, "
             f"coherence reference win `{row['coherence_reference_win_fraction']:.3f}`"
         )
@@ -503,7 +360,7 @@ def main() -> int:
         output_rows = []
         for prompt_index, prompt_row in enumerate(prompt_rows):
             for condition_index, condition in enumerate(conditions):
-                prompt_text_full = build_prompt_text(
+                prompt_text_full = build_request_text(
                     prompt_text=str(prompt_row["prompt_text"]),
                     prompt_mode=str(condition["prompt_mode"]),
                     templates=templates,
@@ -561,28 +418,28 @@ def main() -> int:
             candidate_row = condition_lookup[(prompt_id, comparison["candidate_condition_id"])]
             reference_row = condition_lookup[(prompt_id, comparison["reference_condition_id"])]
 
-            creativity_forward_prompt = render_pairwise_judge_prompt(
+            refusal_forward_prompt = render_pairwise_judge_prompt(
                 prompt_text=str(prompt_row["prompt_text"]),
                 story_a=str(candidate_row["completion_text"]),
                 story_b=str(reference_row["completion_text"]),
-                judge_template=judge_templates["pairwise_creativity_label_judge"],
+                judge_template=judge_templates["pairwise_refusal_label_judge"],
             )
-            creativity_forward_raw = generate_judge_response(
+            refusal_forward_raw = generate_judge_response(
                 model,
                 tokenizer,
-                prompt_text=creativity_forward_prompt,
+                prompt_text=refusal_forward_prompt,
                 max_new_tokens=args.judge_max_new_tokens,
             )
-            creativity_reverse_prompt = render_pairwise_judge_prompt(
+            refusal_reverse_prompt = render_pairwise_judge_prompt(
                 prompt_text=str(prompt_row["prompt_text"]),
                 story_a=str(reference_row["completion_text"]),
                 story_b=str(candidate_row["completion_text"]),
-                judge_template=judge_templates["pairwise_creativity_label_judge"],
+                judge_template=judge_templates["pairwise_refusal_label_judge"],
             )
-            creativity_reverse_raw = generate_judge_response(
+            refusal_reverse_raw = generate_judge_response(
                 model,
                 tokenizer,
-                prompt_text=creativity_reverse_prompt,
+                prompt_text=refusal_reverse_prompt,
                 max_new_tokens=args.judge_max_new_tokens,
             )
             coherence_forward_prompt = render_pairwise_judge_prompt(
@@ -610,20 +467,20 @@ def main() -> int:
                 max_new_tokens=args.judge_max_new_tokens,
             )
 
-            creativity_forward_label = parse_label_judgment_or_tie(creativity_forward_raw)
-            creativity_reverse_label = parse_label_judgment_or_tie(creativity_reverse_raw)
+            refusal_forward_label = parse_label_judgment_or_tie(refusal_forward_raw)
+            refusal_reverse_label = parse_label_judgment_or_tie(refusal_reverse_raw)
             coherence_forward_label = parse_label_judgment_or_tie(coherence_forward_raw)
             coherence_reverse_label = parse_label_judgment_or_tie(coherence_reverse_raw)
 
             candidate_condition_id = str(candidate_row["condition_id"])
             reference_condition_id = str(reference_row["condition_id"])
-            creativity_forward_winner_condition_id = map_judge_winner_to_condition_id(
-                creativity_forward_label,
+            refusal_forward_winner_condition_id = map_judge_winner_to_condition_id(
+                refusal_forward_label,
                 story_a_condition_id=candidate_condition_id,
                 story_b_condition_id=reference_condition_id,
             )
-            creativity_reverse_winner_condition_id = map_judge_winner_to_condition_id(
-                creativity_reverse_label,
+            refusal_reverse_winner_condition_id = map_judge_winner_to_condition_id(
+                refusal_reverse_label,
                 story_a_condition_id=reference_condition_id,
                 story_b_condition_id=candidate_condition_id,
             )
@@ -643,31 +500,19 @@ def main() -> int:
                     "prompt_id": prompt_id,
                     "prompt_text": prompt_row["prompt_text"],
                     "comparison_id": comparison["comparison_id"],
-                    "candidate_condition_id": comparison["candidate_condition_id"],
-                    "reference_condition_id": comparison["reference_condition_id"],
-                    "forward_story_a_condition_id": candidate_condition_id,
-                    "forward_story_b_condition_id": reference_condition_id,
-                    "reverse_story_a_condition_id": reference_condition_id,
-                    "reverse_story_b_condition_id": candidate_condition_id,
-                    "creativity_forward_prompt_text": creativity_forward_prompt,
-                    "creativity_reverse_prompt_text": creativity_reverse_prompt,
-                    "coherence_forward_prompt_text": coherence_forward_prompt,
-                    "coherence_reverse_prompt_text": coherence_reverse_prompt,
-                    "creativity_forward_raw_response": creativity_forward_raw,
-                    "creativity_reverse_raw_response": creativity_reverse_raw,
-                    "coherence_forward_raw_response": coherence_forward_raw,
-                    "coherence_reverse_raw_response": coherence_reverse_raw,
-                    "creativity_forward_winner_label": creativity_forward_label,
-                    "creativity_reverse_winner_label": creativity_reverse_label,
-                    "coherence_forward_winner_label": coherence_forward_label,
-                    "coherence_reverse_winner_label": coherence_reverse_label,
-                    "creativity_forward_winner_condition_id": creativity_forward_winner_condition_id,
-                    "creativity_reverse_winner_condition_id": creativity_reverse_winner_condition_id,
-                    "coherence_forward_winner_condition_id": coherence_forward_winner_condition_id,
-                    "coherence_reverse_winner_condition_id": coherence_reverse_winner_condition_id,
-                    "creativity_winner_condition_id": resolve_order_robust_winner(
-                        creativity_forward_winner_condition_id,
-                        creativity_reverse_winner_condition_id,
+                    "candidate_condition_id": candidate_condition_id,
+                    "reference_condition_id": reference_condition_id,
+                    "refusal_forward_raw": refusal_forward_raw,
+                    "refusal_forward_label": refusal_forward_label,
+                    "refusal_reverse_raw": refusal_reverse_raw,
+                    "refusal_reverse_label": refusal_reverse_label,
+                    "coherence_forward_raw": coherence_forward_raw,
+                    "coherence_forward_label": coherence_forward_label,
+                    "coherence_reverse_raw": coherence_reverse_raw,
+                    "coherence_reverse_label": coherence_reverse_label,
+                    "refusal_winner_condition_id": resolve_order_robust_winner(
+                        refusal_forward_winner_condition_id,
+                        refusal_reverse_winner_condition_id,
                     ),
                     "coherence_winner_condition_id": resolve_order_robust_winner(
                         coherence_forward_winner_condition_id,
@@ -677,7 +522,10 @@ def main() -> int:
             )
 
     condition_summaries = summarize_condition_outputs(output_rows)
-    comparison_summaries = summarize_pairwise_judgments(judgment_rows, comparisons=comparisons)
+    comparison_summaries = summarize_pairwise_judgments(
+        judgment_rows=judgment_rows,
+        comparisons=comparisons,
+    )
     gate_assessment = summarize_gate_assessment(comparison_summaries)
 
     summary = {
@@ -698,15 +546,21 @@ def main() -> int:
         "condition_summaries": condition_summaries,
         "comparison_summaries": comparison_summaries,
         "gate_assessment": gate_assessment,
+        "generated_outputs_path": "generated_outputs.jsonl",
+        "pairwise_judgments_path": "pairwise_judgments.jsonl",
     }
 
     write_json(output_dir / "summary.json", summary)
-    write_jsonl(generated_outputs_path, output_rows)
+    if not reused_generated_outputs:
+        write_jsonl(output_dir / "generated_outputs.jsonl", output_rows)
     write_jsonl(output_dir / "pairwise_judgments.jsonl", judgment_rows)
     write_readme(output_dir / "README.md", summary)
 
-    print(f"wrote creativity output gate artifact to {output_dir}")
-    print(f"best dense condition: {gate_assessment['best_dense_condition_id']}")
+    print(f"wrote refusal output-gate artifact to {output_dir}")
+    print(
+        "best dense refusal net preference vs neutral: "
+        f"{gate_assessment['best_dense_vs_neutral']['refusal_candidate_net_preference']:.6f}"
+    )
     print(f"automatic pass recommendation: {gate_assessment['automatic_pass_recommendation']}")
     return 0
 

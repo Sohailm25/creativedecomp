@@ -74,6 +74,14 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("matched refusal baseline", CURRENT_STATE)
         self.assertIn("before any model-scale escalation", CURRENT_STATE)
 
+    def test_current_state_escalates_to_model_scale_if_refusal_dense_control_is_not_clean(self) -> None:
+        self.assertIn("stack or harness weakness", CURRENT_STATE)
+        self.assertIn("model-scale sensitivity", CURRENT_STATE)
+
+    def test_current_state_records_refusal_control_as_not_cleanly_positive(self) -> None:
+        self.assertIn("prompt-only refusal baseline", CURRENT_STATE)
+        self.assertIn("dense refusal steering still does not clear a clean output-level gate", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

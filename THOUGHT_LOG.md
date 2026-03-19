@@ -351,3 +351,23 @@ Suggested entry format:
   - medium that the same `2B` stack will show a clearer refusal effect than creativity did
 - Interesting facts:
   - The strongest novelty memo already wanted matched refusal and sentiment baselines; the current negative result simply moves one of them onto the critical path much earlier than originally planned.
+
+## [2026-03-18T20:13:00-0500] Refusal Was Clean In Hidden State And Messy In Output
+
+- Stage: baseline control
+- Feel of the Experiment: The refusal control did its job scientifically even though it did not produce the clean win I wanted. It separated "creativity might be special" from "the 2B dense-steering lane itself may be weak."
+- Working Hypotheses:
+  - Gemma 2 `2B` can represent refusal cleanly in hidden state, but dense generation control on the base-model lane is still too weak or prompt-sensitive to make strong output claims.
+  - The current creativity negative result is therefore less creativity-specific than it looked before the refusal control.
+- Hunches and Guesses:
+  - A bounded scale-up is now more justified than another round of 2B prompt fiddling.
+- Predictions:
+  - A stronger model or adjacent scale-up will either recover a cleaner dense refusal control, clarifying that 2B is the bottleneck, or fail similarly and further weaken the whole steering lane.
+- Surprises and Tensions:
+  - The refusal extraction itself was almost trivially clean, which makes the output-level failure more informative, not less.
+  - Prompt-only refusal can be recovered modestly with a prefixed refusal harness, but dense refusal steering still does not beat neutral cleanly.
+- Confidence:
+  - high that decomposition should remain blocked
+  - medium-high that model-scale sensitivity is now the right next lane
+- Interesting facts:
+  - On the prefixed-refusal gate, prompt-only refusal versus neutral reaches refusal net preference `0.25`, while the best dense refusal condition only reaches `0.083333` and loses the coherence tie-break.

@@ -1,0 +1,5 @@
+{
+  "generation_neutral_request_opening": "Request: {prompt}\n\nResponse:\n",
+  "generation_refusal_request_opening": "Request: {prompt}\n\nResponse:\nI can't help with that because it would enable harm. Instead, I can ",
+  "response_pair_template_control": "Request: {prompt}\n\nResponse:\n"
+}

@@ -34,6 +34,12 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Full-text `v3` Olson-style `mean_difference` sweep recovering layer `23` as a controlled dense-direction winner on the same counterpart slice | creativity direction | pass | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-mean-difference/README.md` |
 | Response-only `v3` Olson-style `mean_difference` sweep recovering layer `9` while remaining weaker than the full-text path | creativity direction | mixed | `results/creativity_direction/20260318-gemma2-2b-layer-sweep-response-pairs-v3-response-only-mean-difference/README.md` |
 
+## Simpler-Concept Baselines
+
+| Artifact | Lane | Status | Path |
+|---|---|---|---|
+| Matched refusal layer sweep on the same Gemma 2 2B stack recovering a very clean hidden-state refusal direction at layer `15` | refusal baseline | pass | `results/refusal_direction/20260318-gemma2-2b-layer-sweep-v1-mean-difference/README.md` |
+
 ## Feature Decomposition
 
 | Artifact | Lane | Status | Path |
@@ -63,6 +69,11 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Pilot output-level gate on the recovered full-text `mean_difference` direction, corrected to order-robust paired judging and collapsing almost entirely to ties under the current local metric | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-output-gate-v1/README.md` |
 | Blinded cached-output manual audit showing only a weak prompt-only edge under a stricter prompt-grounded-creativity plus coherence rubric | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-output-gate-v1-manual-audit/README.md` |
 | Stricter prompt-grounded-creativity gate rerun on cached outputs that weakly recovers the prompt-only baseline but still shows no dense steering effect versus neutral | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-output-gate-v2-prompt-grounded-creativity/README.md` |
+| First matched refusal calibration on the same 2B stack showing clean hidden-state refusal but noisy prompt-sensitive dense generations | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-direction-calibration/README.md` |
+| Chat-style refusal calibration rerun showing that the base-model lane becomes less grounded under a chat wrapper | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-direction-calibration-v2-chat-wrap/README.md` |
+| Prefilled-refusal calibration rerun restoring grounded requests while still showing noisy dense refusal outputs | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-direction-calibration-v3-prefilled-refusal/README.md` |
+| First refusal output gate showing no usable prompt-only refusal baseline and no clean dense refusal win under the generic wrapper | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v1/README.md` |
+| Prefilled-refusal output gate weakly recovering the prompt-only refusal baseline while dense refusal steering still fails the clean output gate | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v2-prefilled-refusal/README.md` |
 
 ## Creativity Benchmarks
 

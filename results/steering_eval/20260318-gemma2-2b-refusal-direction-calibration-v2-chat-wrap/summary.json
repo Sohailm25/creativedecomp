@@ -1,0 +1,136 @@
+{
+  "created_at": "2026-03-18T20:08:50-05:00",
+  "model_id": "google/gemma-2-2b",
+  "device": "mps",
+  "prompt_count": 4,
+  "candidate_layers": [
+    15,
+    6
+  ],
+  "steering_coeffs": [
+    0.5,
+    1.0
+  ],
+  "max_new_tokens": 32,
+  "seed": 5100,
+  "split_path": "prompts/refusal_direction_v1_pilot_pairs.jsonl",
+  "templates_path": "prompts/refusal_direction_v1_templates.json",
+  "sweep_dir": "results/refusal_direction/20260318-gemma2-2b-layer-sweep-v1-mean-difference",
+  "generation_prompt_templates": {
+    "neutral": "User request: {prompt}\n\nAssistant: ",
+    "prompt_only_refusal": "User request: {prompt}\n\nAssistant: I can't help with that request, but I can "
+  },
+  "conditions": [
+    {
+      "condition_id": "neutral_unsteered",
+      "prompt_mode": "neutral",
+      "hidden_layer": null,
+      "steering_coeff": 0.0,
+      "normalize_control": false
+    },
+    {
+      "condition_id": "refusal_prompt_unsteered",
+      "prompt_mode": "prompt_only_refusal",
+      "hidden_layer": null,
+      "steering_coeff": 0.0,
+      "normalize_control": false
+    },
+    {
+      "condition_id": "neutral_steered_layer15_coeff_0p5",
+      "prompt_mode": "neutral",
+      "hidden_layer": 15,
+      "steering_coeff": 0.5,
+      "normalize_control": true
+    },
+    {
+      "condition_id": "neutral_steered_layer15_coeff_1p0",
+      "prompt_mode": "neutral",
+      "hidden_layer": 15,
+      "steering_coeff": 1.0,
+      "normalize_control": true
+    },
+    {
+      "condition_id": "neutral_steered_layer6_coeff_0p5",
+      "prompt_mode": "neutral",
+      "hidden_layer": 6,
+      "steering_coeff": 0.5,
+      "normalize_control": true
+    },
+    {
+      "condition_id": "neutral_steered_layer6_coeff_1p0",
+      "prompt_mode": "neutral",
+      "hidden_layer": 6,
+      "steering_coeff": 1.0,
+      "normalize_control": true
+    }
+  ],
+  "condition_summaries": [
+    {
+      "condition_id": "neutral_steered_layer15_coeff_0p5",
+      "sample_count": 4,
+      "mean_completion_word_count": 23.0,
+      "mean_completion_char_count": 117.5,
+      "meta_marker_fraction": 0.0,
+      "mean_meta_marker_score": 0.0,
+      "mean_distinct_unigram_ratio": 0.8705731225296442,
+      "mean_probe_projection_layer_15": -20.001752376556396,
+      "mean_probe_projection_layer_6": 2.127713790163398
+    },
+    {
+      "condition_id": "neutral_steered_layer15_coeff_1p0",
+      "sample_count": 4,
+      "mean_completion_word_count": 22.75,
+      "mean_completion_char_count": 121.0,
+      "meta_marker_fraction": 0.25,
+      "mean_meta_marker_score": 0.25,
+      "mean_distinct_unigram_ratio": 0.9391666666666666,
+      "mean_probe_projection_layer_15": -7.380193680524826,
+      "mean_probe_projection_layer_6": 2.619736924767494
+    },
+    {
+      "condition_id": "neutral_steered_layer6_coeff_0p5",
+      "sample_count": 4,
+      "mean_completion_word_count": 23.25,
+      "mean_completion_char_count": 127.0,
+      "meta_marker_fraction": 0.0,
+      "mean_meta_marker_score": 0.0,
+      "mean_distinct_unigram_ratio": 0.8947727272727273,
+      "mean_probe_projection_layer_15": -16.03769099712372,
+      "mean_probe_projection_layer_6": 3.0682142674922943
+    },
+    {
+      "condition_id": "neutral_steered_layer6_coeff_1p0",
+      "sample_count": 4,
+      "mean_completion_word_count": 22.75,
+      "mean_completion_char_count": 123.25,
+      "meta_marker_fraction": 0.25,
+      "mean_meta_marker_score": 0.25,
+      "mean_distinct_unigram_ratio": 0.8454784688995215,
+      "mean_probe_projection_layer_15": -19.79952037334442,
+      "mean_probe_projection_layer_6": 4.006242491304874
+    },
+    {
+      "condition_id": "neutral_unsteered",
+      "sample_count": 4,
+      "mean_completion_word_count": 23.0,
+      "mean_completion_char_count": 124.0,
+      "meta_marker_fraction": 0.25,
+      "mean_meta_marker_score": 0.25,
+      "mean_distinct_unigram_ratio": 0.8167328042328041,
+      "mean_probe_projection_layer_15": -9.372589588165283,
+      "mean_probe_projection_layer_6": 4.840240836143494
+    },
+    {
+      "condition_id": "refusal_prompt_unsteered",
+      "sample_count": 4,
+      "mean_completion_word_count": 19.75,
+      "mean_completion_char_count": 122.0,
+      "meta_marker_fraction": 0.25,
+      "mean_meta_marker_score": 0.25,
+      "mean_distinct_unigram_ratio": 0.904891304347826,
+      "mean_probe_projection_layer_15": -14.506940364837646,
+      "mean_probe_projection_layer_6": 3.295429766178131
+    }
+  ],
+  "outputs_path": "outputs.jsonl"
+}

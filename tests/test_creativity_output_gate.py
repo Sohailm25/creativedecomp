@@ -123,6 +123,16 @@ class CreativityOutputGateTest(unittest.TestCase):
         self.assertEqual("B", gate.parse_label_judgment("The better answer is B."))
         self.assertEqual("tie", gate.parse_label_judgment("tie"))
 
+    def test_generate_judge_response_forces_at_least_one_new_token(self) -> None:
+        source_text = SCRIPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn("min_new_tokens=1", source_text)
+
+    def test_parse_label_judgment_or_tie_falls_back_on_unparseable_output(self) -> None:
+        gate = load_output_gate_module()
+
+        self.assertEqual("tie", gate.parse_label_judgment_or_tie("</code>\n\nI'm"))
+
     def test_compute_repeated_bigram_fraction_flags_looping_text(self) -> None:
         gate = load_output_gate_module()
 
