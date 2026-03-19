@@ -70,6 +70,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("cached generated outputs", CURRENT_STATE)
         self.assertIn("manual audit", CURRENT_STATE)
 
+    def test_current_state_chooses_matched_simpler_concept_control_as_next_lane(self) -> None:
+        self.assertIn("matched refusal baseline", CURRENT_STATE)
+        self.assertIn("before any model-scale escalation", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

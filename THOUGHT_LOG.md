@@ -332,3 +332,22 @@ Suggested entry format:
   - high that decomposition should stay blocked
 - Interesting facts:
   - The `v2` prompt-grounded-creativity gate recovers `2 / 31` prompt-only wins versus neutral and still `0 / 31` dense wins versus neutral at both tested coefficients.
+
+## [2026-03-18T16:56:00-0500] The Best Control Is Refusal, Not A Bigger Model
+
+- Stage: synthesis
+- Feel of the Experiment: The next move needs to earn more information per unit of change. A larger model would be tempting, but it would also blur whether the current negative result is about creativity or about the whole local stack.
+- Working Hypotheses:
+  - A matched refusal control on the same Gemma 2 `2B` stack is the sharpest next test of the novelty claim.
+  - If refusal succeeds under a matched pipeline, the creativity negative result becomes much more defensible. If refusal also fails, then the right story becomes stack weakness or model-capacity limits, not creativity-specific weirdness.
+- Hunches and Guesses:
+  - Refusal is the better first control than sentiment because the literature treats it as the cleanest established behavioral direction.
+- Predictions:
+  - The refusal control will resolve whether the repo should keep leaning into a creativity-specific negative result or escalate to a larger model.
+- Surprises and Tensions:
+  - The more honest the creativity path became, the more obvious it got that a simpler-concept local control should come before any scale-up.
+- Confidence:
+  - high that the next lane should be matched refusal
+  - medium that the same `2B` stack will show a clearer refusal effect than creativity did
+- Interesting facts:
+  - The strongest novelty memo already wanted matched refusal and sentiment baselines; the current negative result simply moves one of them onto the critical path much earlier than originally planned.

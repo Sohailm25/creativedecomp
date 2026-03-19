@@ -167,3 +167,10 @@
 - Decision: close `creativedecomp-8o1`, keep `creativedecomp-npt` blocked, and treat the Gemma 2 2B MacBook lane as the first strong Phase 1 negative result rather than as an unresolved evaluation ambiguity.
 - Rationale: the repo's own decision rule said that if a stronger metric can distinguish prompt-only creativity prompting from neutral but still shows no dense effect, the result becomes a strong negative for this lane. That condition is now met.
 - Impact: the next task is no longer "fix the metric." It is to synthesize what this negative result means and choose one bounded next lane before any new implementation begins.
+
+## [2026-03-18T16:55:00-0500] DECISION: Choose a matched refusal control as the next bounded lane before scaling models
+
+- Trigger: the negative-result synthesis task compared the live follow-up options after the first strong Gemma 2 2B creativity negative result.
+- Decision: make a matched refusal baseline on the same Gemma 2 `2B` stack the next task, and defer both a pure negative-result write-up and any model-scale sensitivity until after that control is run.
+- Rationale: this choice gives the highest information gain for the novelty claim. A local simpler-concept control can show whether the current failure is creativity-specific or whether the whole `2B` steering stack is weak. Jumping straight to a larger model changes too much at once; stopping at a write-up now would leave the strongest "mechanistically different from refusal" framing under-supported.
+- Impact: `creativedecomp-rcf` is now the next ready task, `creativedecomp-ty9` can close, and `creativedecomp-npt` stays blocked behind the matched refusal control.
