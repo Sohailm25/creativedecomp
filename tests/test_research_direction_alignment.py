@@ -101,10 +101,11 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("modest dense refusal", CURRENT_STATE)
         self.assertIn("unmatched instruction-tuned stack", CURRENT_STATE)
 
-    def test_current_state_chooses_post_audit_synthesis_over_negative_result_freeze(self) -> None:
-        self.assertIn("cached instruction-tuned refusal outputs", CURRENT_STATE)
-        self.assertIn("do not freeze the write-up-grade negative-result bundle", CURRENT_STATE)
+    def test_current_state_chooses_matched_instruction_tuned_creativity_continuation(self) -> None:
+        self.assertIn("instruction-tuned creativity", CURRENT_STATE)
+        self.assertIn("google/gemma-3-270m-it", CURRENT_STATE)
         self.assertIn("matched continuation", CURRENT_STATE)
+        self.assertIn("same instruction-tuned stack", CURRENT_STATE)
 
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)

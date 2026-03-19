@@ -516,3 +516,23 @@ Suggested entry format:
   - medium that the right next move is a matched creativity/control synthesis rather than immediate new implementation
 - Interesting facts:
   - On the cached instruction-tuned refusal outputs, prompt-only refusal beats neutral on all `12 / 12` refusal judgments, while dense coeff `0.5` and `1.0` both beat neutral on refusal often enough to count as real but modest effects under the locked rubric.
+
+## [2026-03-19T08:31:00-0500] The Match Matters More Than The Old Default Stack Now
+
+- Stage: synthesis
+- Feel of the Experiment: The repo is back on a cleaner scientific question. The instruction-tuned refusal audit did not tell us to chase more regimes; it told us where the first honest matched comparison can happen.
+- Working Hypotheses:
+  - The most informative next result is whether creativity can recover a bounded output-side effect on the same instruction-tuned stack where refusal now works.
+  - The old Gemma 2 `2B` base lane still matters as a negative regime, but it is no longer the only regime that should anchor the next decision.
+- Hunches and Guesses:
+  - A bounded instruction-tuned creativity port will likely be easier to interpret than another base-model control because the simpler-concept success case already exists there.
+  - If creativity still fails on that same instruction-tuned stack while refusal works, the mechanistic-difference framing gets much stronger very quickly.
+- Predictions:
+  - The next task should stay Phase 1 only: instruction-tuned creativity extraction plus a hardened output gate, not decomposition.
+- Surprises and Tensions:
+  - The research docs still prefer the Gemma 2 `2B` base lane as the default MacBook path, but the new evidence makes strict loyalty to that default weaker than strict loyalty to a matched comparison.
+- Confidence:
+  - high that the next matched continuation should be instruction-tuned creativity on `google/gemma-3-270m-it`
+  - high that decomposition should remain blocked until that continuation lands
+- Interesting facts:
+  - The instruction-tuned refusal success case is only modest, but it is still the first local output-side control that survives a locked manual audit, which makes it more valuable than another speculative regime pivot.

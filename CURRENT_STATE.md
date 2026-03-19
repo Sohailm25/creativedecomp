@@ -3,13 +3,13 @@
 **Last updated:** 2026-03-19
 **Updated by:** codex-gpt5
 **Status:** in_progress
-**Current phase:** Phase 1 - The dense creativity direction is recovered at the hidden-state level on the landed `v3` slice, and the cached instruction-tuned refusal manual audit on `google/gemma-3-270m-it` now recovers a clear prompt-only refusal baseline plus modest dense refusal wins versus neutral. That means the pre-audit all-tie reading is no longer defensible and the repo must not freeze the write-up-grade negative-result bundle on that basis. Decomposition still remains blocked because this simpler-concept output-side success lives on an unmatched instruction-tuned stack rather than the active creativity pipeline. The next step is post-audit synthesis to choose one matched continuation, not more steering-regime shopping and not a premature negative-result freeze
+**Current phase:** Phase 1 - The dense creativity direction is recovered at the hidden-state level on the landed `v3` slice, and the cached instruction-tuned refusal manual audit on `google/gemma-3-270m-it` now recovers a clear prompt-only refusal baseline plus modest dense refusal wins versus neutral. That means the pre-audit all-tie reading is no longer defensible and the repo must not freeze the write-up-grade negative-result bundle on that basis. Decomposition still remains blocked because this simpler-concept output-side success lives on an unmatched instruction-tuned stack rather than the active creativity pipeline. The matched continuation is now explicit: run one bounded instruction-tuned creativity replication on the same instruction-tuned stack, not more steering-regime shopping and not a premature negative-result freeze
 
 ## Active Thesis Lock
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
-- `known`: the active task branch is `wip/creativedecomp-179-instruction-tuned-refusal-audit`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, `creativedecomp-roq`, `creativedecomp-8o1`, `creativedecomp-ty9`, `creativedecomp-rcf`, `creativedecomp-c4t`, `creativedecomp-174`, `creativedecomp-175`, `creativedecomp-176`, `creativedecomp-177`, and `creativedecomp-179` are complete as finished gates; `creativedecomp-178` is superseded by `creativedecomp-180`, `creativedecomp-180` is now the next ready synthesis task, and `creativedecomp-npt` remains blocked.
+- `known`: the active task branch is `wip/creativedecomp-180-post-audit-synthesis`.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, `creativedecomp-roq`, `creativedecomp-8o1`, `creativedecomp-ty9`, `creativedecomp-rcf`, `creativedecomp-c4t`, `creativedecomp-174`, `creativedecomp-175`, `creativedecomp-176`, `creativedecomp-177`, `creativedecomp-179`, and `creativedecomp-180` are complete as finished gates; `creativedecomp-178` is superseded, `creativedecomp-181` is now the next ready implementation task, and `creativedecomp-npt` remains blocked.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -92,7 +92,10 @@
 - `inferred`: the repo still has not earned the original "creativity is mechanistically different from simpler concepts" claim. The active creativity lane still lacks a matched simpler-concept output-side success case on the same model, SAE release, and evaluation path.
 - `known`: the cached instruction-tuned refusal outputs have now had the same locked manual audit treatment that the creativity gate required.
 - `known`: do not freeze the write-up-grade negative-result bundle from the pre-audit instruction-tuned refusal interpretation.
-- `known`: keep steering-regime shopping closed; the next move is written post-audit synthesis to choose one matched continuation, not another steering variant.
+- `known`: keep steering-regime shopping closed; the matched continuation is one bounded instruction-tuned creativity replication on the same instruction-tuned stack, not another refusal or sentiment variant.
+- `inferred`: this instruction-tuned creativity continuation is the highest-information next step because it is the first regime where a local simpler-concept output-side success case now exists, making a within-stack creativity-vs-refusal comparison finally possible.
+- `known`: the instruction-tuned creativity continuation must stay bounded to Phase 1 only: counterpart-style creativity pair construction, Olson-style extraction sensitivity if needed, pilot-only layer/scale sweep, and a hardened output gate. Do not reopen decomposition on the basis of this synthesis alone.
+- `known`: if instruction-tuned creativity also recovers a bounded output-side effect on `google/gemma-3-270m-it`, the next synthesis can decide whether decomposition should temporarily move onto that same instruction-tuned stack. If it fails while refusal succeeds, the regime-matched evidence for mechanistic difference becomes substantially stronger.
 - `known`: do not reopen creativity steering or signed decomposition on this path unless a later written synthesis explicitly redefines the question.
 - `known`: stop further dense base-model steering sweeps on this MacBook lane unless a later synthesis or control result explicitly reopens them.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
@@ -102,7 +105,7 @@
 
 ## Immediate Next Steps
 
-1. Treat `creativedecomp-179` as complete and treat the instruction-tuned refusal manual audit as a real correction, not as a footnote: cached instruction-tuned refusal outputs now show a clear prompt-only refusal baseline and a modest dense refusal effect versus neutral.
-2. Run `creativedecomp-180`: synthesize what this corrected instruction-tuned result does and does not establish, then choose one matched continuation for the active creativity question.
-3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked. The repo still does not have a matched simpler-concept control on the active creativity stack.
-4. Do not freeze the write-up-grade negative-result bundle until that post-audit synthesis is done.
+1. Treat `creativedecomp-180` as complete and lock the corrected interpretation: cached instruction-tuned refusal outputs now show a clear prompt-only refusal baseline and a modest dense refusal effect versus neutral.
+2. Run `creativedecomp-181`: port the Phase 1 creativity-direction replication lane onto `google/gemma-3-270m-it` plus `gemma-scope-2-270m-it-res` so the active creativity question is tested on the same instruction-tuned stack that now supports a simpler-concept output-side effect.
+3. Keep signed decomposition comparison (`creativedecomp-npt`) blocked. The repo still does not have a matched creativity-side result on the same instruction-tuned stack.
+4. Do not freeze the write-up-grade negative-result bundle and do not reopen decomposition until the bounded instruction-tuned creativity continuation is complete.
