@@ -713,3 +713,93 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: cached `generated_outputs.jsonl` reused; only judging reran
 - Anomalies: the corrected gate is now dominated by ties, including the prompt-only baseline, which means the current local creativity-side metric is too insensitive to settle whether the MacBook lane is truly negative
 - Next step: keep decomposition blocked and open a bounded follow-up to strengthen the pilot creativity metric before deciding whether Phase 1 is genuinely negative or merely under-evaluated
+
+## 2026-03-18T22:45:00-0500 PRE-RUN: instruction-tuned Gemma refusal stack feasibility probe
+
+- tmux session: N/A
+- Script: `scripts/probe_instruction_tuned_refusal_stack.py` (temporary inline probe before script creation)
+- Command: `.venv/bin/python - <<'PY' ... PY`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it` first; escalate once to `google/gemma-3-1b-it` only if `270M` fails basic feasibility
+- SAE: `google/gemma-scope-2-270m-it` first; escalate with the model if needed
+- Data slice: `single refusal prompt / single generation / single hidden-state extraction`
+- Output path: `sessions/20260318-session023.md`
+- What I'm testing: whether the smallest GemmaScope v2-backed instruction-tuned Gemma stack is mechanically compatible with the existing refusal pipeline assumptions.
+- Expected outcome: freeze either `270M` or `1B` as the pivot stack based on real load, layer-access, and minimal generation feasibility.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session023.md`
+- Resume command: `.venv/bin/python - <<'PY' ... PY`
+- Main confound to watch: a model can load yet still break on `model.model.layers`, `repeng` hidden-state extraction, or generation hooks.
+- Implementation verified: NO - this probe itself is the verification step before code edits
+- Status: LAUNCHING
+
+## 2026-03-18T22:57:00-0500 POST-RUN: instruction-tuned Gemma refusal stack feasibility probe
+
+- Command: `.venv/bin/python - <<'PY' ... PY`
+- Outcome: SUCCESS
+- Key metric: `google/gemma-3-270m-it` is the smallest locally feasible paired pivot stack; it loaded on `mps`, exposed `18` transformer layers, generated chat-formatted outputs, supported `repeng` hidden-state extraction at layer `12`, and loaded the paired residual SAE release `gemma-scope-2-270m-it-res` with reference id `layer_12_width_16k_l0_medium`
+- Artifacts saved: `none`; this was a bounded stack-freeze probe before script implementation
+- Latest checkpoint: none
+- Anomalies: `repeng.control.ControlModel` on Gemma 3 still drops `attention_type` on wrapped layers, the same integration bug seen on Gemma 2; copying that attribute restores controlled generation. `sae-lens` also expects the official release alias `gemma-scope-2-270m-it-res`, not the repo-card shorthand
+- Next step: keep `270M` frozen as the instruction-tuned pivot stack and implement the refusal sweep plus matched output gate on that stack
+
+## 2026-03-18T23:00:00-0500 PRE-RUN: instruction-tuned refusal pivot smoke
+
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_refusal_pivot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_refusal_pivot.py --max-pairs 4 --max-prompts 2 --max-new-tokens 24 --judge-max-new-tokens 3 --sweep-output-dir results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-smoke --gate-output-dir results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `refusal_direction_v1_pilot_pairs / first 4 pairs / first 2 gate prompts`
+- Output path: `results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-smoke`, `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke`
+- What I'm testing: whether the new instruction-tuned pivot script completes end to end on the frozen 270M stack before the full bounded run.
+- Expected outcome: a small but structurally valid sweep plus gate artifact with correct chat prompting, layer selection, and order-robust judgments.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session023.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_refusal_pivot.py --max-pairs 4 --max-prompts 2 --max-new-tokens 24 --judge-max-new-tokens 3 --sweep-output-dir results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-smoke --gate-output-dir results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke --overwrite`
+- Main confound to watch: chat-formatted generation and chat-formatted judging may work separately but still disagree with the existing output validators or comparison summaries.
+- Implementation verified: YES - focused unit tests for stack freeze, layer discovery, transcript parsing, prompt construction, and gate condition naming
+- Status: LAUNCHING
+
+## 2026-03-18T23:03:00-0500 POST-RUN: instruction-tuned refusal pivot smoke
+
+- Command: `.venv/bin/python scripts/run_instruction_tuned_refusal_pivot.py --max-pairs 4 --max-prompts 2 --max-new-tokens 24 --judge-max-new-tokens 3 --sweep-output-dir results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-smoke --gate-output-dir results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke --overwrite`
+- Outcome: SUCCESS
+- Key metric: the smoke sweep selected layer `12` with `1.000000` pair separation on `4` refusal pairs, and the smoke gate completed structurally cleanly with best dense refusal net preference `0.000000` versus neutral on `2` prompts
+- Artifacts saved: `results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-smoke/`, `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke/`
+- Latest checkpoint: none
+- Anomalies: the first smoke run exposed a judge-generation warning because Gemma 3's stored sampling defaults leaked into deterministic judge calls; clearing `temperature`, `top_p`, and `top_k` in the chat-judge helper removed it on the rerun
+- Next step: launch the full bounded instruction-tuned refusal pivot on the same frozen `270M` stack
+
+## 2026-03-18T23:05:00-0500 PRE-RUN: full instruction-tuned refusal pivot
+
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_refusal_pivot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_refusal_pivot.py --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `refusal_direction_v1_pilot_pairs / 32 sweep pairs / 12 gate prompts`
+- Output path: `results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-v1-mean-difference`, `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-v1`
+- What I'm testing: whether the smallest instruction-tuned Gemma plus GemmaScope v2 stack recovers a cleaner simpler-concept hidden-state plus output-level refusal control than the exhausted base-model lane.
+- Expected outcome: either a materially cleaner prompt-only or steered refusal gate than the base-model lane, or a stronger basis for stopping at the negative result.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260318-session023.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_refusal_pivot.py --overwrite`
+- Main confound to watch: a cleaner instruction-tuned hidden-state direction may still fail the output gate if neutral chat behavior already collapses the comparison toward ties.
+- Implementation verified: YES - focused unit tests plus a clean end-to-end smoke sweep and gate on the frozen stack
+- Status: LAUNCHING
+
+## 2026-03-18T23:00:27-0500 POST-RUN: full instruction-tuned refusal pivot
+
+- Command: `.venv/bin/python scripts/run_instruction_tuned_refusal_pivot.py --overwrite`
+- Outcome: SUCCESS
+- Key metric: hidden-state refusal separates `32 / 32` pairs at layer `9`, but the best dense refusal net preference versus neutral is still `0.000000`
+- Artifacts saved: `results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-v1-mean-difference/`, `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-v1/`
+- Latest checkpoint: none
+- Anomalies: the output gate remained tie-heavy even after the earlier judge-path fix, and raw generations were inspected before interpretation to confirm that this reflected convergent weak refusal behavior rather than another order bug
+- Next step: update the repo truth and stop on synthesis for a write-up-grade negative result

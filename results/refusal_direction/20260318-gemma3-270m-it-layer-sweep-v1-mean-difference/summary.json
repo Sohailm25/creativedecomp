@@ -1,0 +1,72 @@
+{
+  "created_at": "2026-03-18T22:55:12.641992",
+  "model_id": "google/gemma-3-270m-it",
+  "device": "mps",
+  "sae_release": "gemma-scope-2-270m-it-res",
+  "reference_sae": {
+    "release": "gemma-scope-2-270m-it-res",
+    "sae_id": "layer_12_width_16k_l0_medium",
+    "d_in": 640,
+    "d_sae": 16384,
+    "dtype": "float32"
+  },
+  "pair_count": 32,
+  "candidate_layers": [
+    5,
+    9,
+    12,
+    15
+  ],
+  "best_layer": 9,
+  "top_layers": [
+    {
+      "hidden_layer": 9,
+      "pair_count": 32,
+      "positive_mean_projection": 1488.49267578125,
+      "negative_mean_projection": 1056.9293212890625,
+      "mean_margin": 431.563232421875,
+      "positive_gt_negative_fraction": 1.0,
+      "margin_std": 106.59792567755532,
+      "margin_zscore": 4.0485145706819905,
+      "vector_norm": 1.0
+    },
+    {
+      "hidden_layer": 12,
+      "pair_count": 32,
+      "positive_mean_projection": -5754.4013671875,
+      "negative_mean_projection": -7382.517578125,
+      "mean_margin": 1628.1163330078125,
+      "positive_gt_negative_fraction": 1.0,
+      "margin_std": 444.6609066047494,
+      "margin_zscore": 3.661478566253591,
+      "vector_norm": 1.0
+    },
+    {
+      "hidden_layer": 15,
+      "pair_count": 32,
+      "positive_mean_projection": -1859.406005859375,
+      "negative_mean_projection": -5382.62841796875,
+      "mean_margin": 3523.22216796875,
+      "positive_gt_negative_fraction": 1.0,
+      "margin_std": 1017.1539254866981,
+      "margin_zscore": 3.463804326648912,
+      "vector_norm": 1.0
+    },
+    {
+      "hidden_layer": 5,
+      "pair_count": 32,
+      "positive_mean_projection": -602.585205078125,
+      "negative_mean_projection": -670.8981323242188,
+      "mean_margin": 68.31295776367188,
+      "positive_gt_negative_fraction": 1.0,
+      "margin_std": 34.12320469837964,
+      "margin_zscore": 2.0019502937912628,
+      "vector_norm": 0.9999999403953552
+    }
+  ],
+  "artifacts": {
+    "layer_metrics_jsonl": "results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-v1-mean-difference/layer_metrics.jsonl",
+    "best_layer_pair_details_jsonl": "results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-v1-mean-difference/best_layer_pair_details.jsonl",
+    "directions_npz": "results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-v1-mean-difference/directions.npz"
+  }
+}

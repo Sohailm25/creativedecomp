@@ -40,6 +40,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 |---|---|---|---|
 | Matched refusal layer sweep on the same Gemma 2 2B stack recovering a very clean hidden-state refusal direction at layer `15` | refusal baseline | pass | `results/refusal_direction/20260318-gemma2-2b-layer-sweep-v1-mean-difference/README.md` |
 | Bounded Gemma 2 9B refusal layer sweep showing that the larger base model still yields a perfectly clean hidden-state refusal control at layer `18` | refusal baseline | pass | `results/refusal_direction/20260318-gemma2-9b-layer-sweep-v1-mean-difference/README.md` |
+| Smoke instruction-tuned refusal layer sweep on the smallest feasible GemmaScope v2-backed Gemma stack confirming the hidden-state extraction path works end to end | refusal baseline | partial | `results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-smoke/README.md` |
+| Full instruction-tuned refusal layer sweep on `google/gemma-3-270m-it` recovering a perfect hidden-state refusal direction at layer `9` | refusal baseline | pass | `results/refusal_direction/20260318-gemma3-270m-it-layer-sweep-v1-mean-difference/README.md` |
 
 ## Feature Decomposition
 
@@ -77,6 +79,8 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Prefilled-refusal output gate weakly recovering the prompt-only refusal baseline while dense refusal steering still fails the clean output gate | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v2-prefilled-refusal/README.md` |
 | Bounded Gemma 2 9B refusal output gate showing that the larger model still does not rescue a clean dense refusal win versus neutral | steering evaluation | fail | `results/steering_eval/20260318-gemma2-9b-refusal-output-gate-v1-bounded/README.md` |
 | Bounded sparse SAE-latent refusal output gate showing that a top-32 GemmaScope intervention also fails to rescue the matched refusal gate on Gemma 2 2B | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-sae-latent-output-gate-v1/README.md` |
+| Smoke instruction-tuned refusal output gate confirming that the matched gate runs cleanly on the smallest feasible GemmaScope v2-backed Gemma stack | steering evaluation | partial | `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke/README.md` |
+| Full instruction-tuned refusal output gate showing that prompt-only and dense refusal still collapse to ties versus neutral on `google/gemma-3-270m-it` | steering evaluation | fail | `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-v1/README.md` |
 
 ## Creativity Benchmarks
 

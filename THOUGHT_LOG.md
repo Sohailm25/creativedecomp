@@ -454,3 +454,24 @@ Suggested entry format:
   - medium that it will rescue the simpler-concept gate enough to matter
 - Interesting facts:
   - The MacBook feasibility memo already pointed to instruction-tuned GemmaScope coverage, and the novelty memo already warned that dataset-specific SAEs can change the apparent quality of behavior features.
+
+## [2026-03-18T23:01:00-0500] The Final Pivot Clarified The Lane More Than It Helped It
+
+- Stage: instruction-tuned control
+- Feel of the Experiment: This is the kind of negative result I trust more than a shaky positive. The instruction-tuned lane removed the easy excuse that the whole problem was base-model prompt behavior, and it still did not produce a clean output-side refusal effect.
+- Working Hypotheses:
+  - Hidden-state extraction is not the missing ingredient on this local Gemma plus SAE path. We can now recover refusal cleanly in hidden state on base-model and instruction-tuned stacks.
+  - The bottleneck is the local causal output-control story, not merely model scale, base-model prompt regime, or whether the intervention is dense versus sparse.
+- Hunches and Guesses:
+  - The next useful work is synthesis and write-up, not another steering method.
+  - If this lane is ever reopened, it should be because a new paper gives a concrete mechanism mismatch, not because the current results feel disappointing.
+- Predictions:
+  - A careful write-up will be more meaningful than one more local regime pivot, because the cross-regime failure pattern is now the actual finding.
+- Surprises and Tensions:
+  - The instruction-tuned sweep was cleaner in hidden state than I expected, with all `32 / 32` refusal pairs separating at multiple candidate layers.
+  - The output gate still collapsed to ties even though neutral generations were not saturated refusals in the feasibility probe.
+- Confidence:
+  - high that the local steering lane is exhausted enough for a write-up-grade negative result
+  - high that decomposition should remain blocked
+- Interesting facts:
+  - `google/gemma-3-270m-it` plus `gemma-scope-2-270m-it-res` is genuinely feasible on the MacBook lane, but feasibility was not the limiting variable.

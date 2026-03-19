@@ -216,3 +216,17 @@
 - Decision: do not stop at the base-model negative result yet. Run exactly one bounded instruction-tuned refusal pivot on a GemmaScope v2-backed instruction-tuned Gemma stack, choosing the smallest locally feasible paired checkpoint and SAE release inside the next task. If that pivot also fails, stop and write up the local steering lane as a negative result instead of shopping more regimes.
 - Rationale: the current base-model lane is exhausted enough to rule out more base-model sweeps, but not enough to rule out the paper-backed regime dependence highlighted by dataset-dependent and chat-specific SAE evidence. The MacBook guide says GemmaScope v2 makes instruction-tuned Gemma stacks locally feasible, so one bounded pivot is still aligned with the original Gemma plus SAE thesis rather than a random escape hatch.
 - Impact: `creativedecomp-176` can close, `creativedecomp-177` becomes the only ready task, `creativedecomp-npt` stays blocked, and a write-up-grade negative result becomes the default only if the instruction-tuned refusal pivot also fails.
+
+## [2026-03-18T22:58:00-0500] DECISION: Freeze the instruction-tuned pivot to the smallest locally feasible GemmaScope v2-backed Gemma stack
+
+- Trigger: `creativedecomp-177` required choosing one instruction-tuned regime without turning the task into a broad model search.
+- Decision: freeze the pivot to `google/gemma-3-270m-it` plus `gemma-scope-2-270m-it-res`, using `layer_12_width_16k_l0_medium` as the reference SAE and the release-derived residual candidate layers `[5, 9, 12, 15]`.
+- Rationale: this is the smallest paired instruction-tuned Gemma plus GemmaScope v2 stack that is locally feasible on the MacBook lane for chat generation, hidden-state extraction, control wrapping, and SAE loading.
+- Impact: the instruction-tuned pivot stays bounded, reproducible, and aligned with the original Gemma plus SAE thesis instead of drifting into a broad instruction-tuned model comparison.
+
+## [2026-03-18T23:00:00-0500] DECISION: Treat the failed instruction-tuned refusal pivot as the stop signal for steering-regime shopping
+
+- Trigger: the final bounded instruction-tuned refusal pivot recovered perfect hidden-state refusal on `google/gemma-3-270m-it` but still failed the matched output gate. Prompt-only refusal versus neutral and both dense conditions versus neutral stayed `12 / 12` ties on refusal.
+- Decision: close `creativedecomp-177`, keep `creativedecomp-npt` blocked, and treat the local steering lane as exhausted enough for a write-up-grade negative result rather than running more steering-regime variants.
+- Rationale: the last paper-backed regime shift did not rescue the simpler-concept output claim. Continuing to try new steering regimes after dense, cross-scale, sparse SAE-latent, and instruction-tuned refusal controls would now look like regime shopping rather than disciplined falsification.
+- Impact: the next honest task is synthesis and write-up framing, not more steering implementation. Any future reopening of the lane now requires a specific new confound or paper-backed reason, not generic optimism.
