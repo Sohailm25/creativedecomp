@@ -86,6 +86,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("Gemma 2 `9B`", CURRENT_STATE)
         self.assertIn("scale alone does not rescue dense output-level refusal steering", CURRENT_STATE)
 
+    def test_current_state_chooses_alternate_method_control_after_cross_scale_dense_failure(self) -> None:
+        self.assertIn("alternate-method control lane", CURRENT_STATE)
+        self.assertIn("stop further dense base-model steering sweeps", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

@@ -195,3 +195,10 @@
 - Decision: stop the broad 9B calibration grid and replace it with one bounded claim-bearing output gate at the gentlest previously viable coefficient (`0.5`) on the selected layer.
 - Rationale: continuing the broad grid would spend large amounts of local time on sampled decoding overhead without changing the scientific question of `creativedecomp-c4t`, which is whether scale alone rescues a clean simpler-concept dense control effect.
 - Impact: the 9B result remains scientifically useful and honestly bounded, and future sessions now know that full sampled calibration grids on this lane are a throughput risk rather than an invisible missing artifact.
+
+## [2026-03-18T21:36:00-0500] DECISION: Stop more dense base-model steering sweeps and choose an alternate-method control lane on the same stack
+
+- Trigger: the cross-scale synthesis after the Gemma 2 `2B` and bounded Gemma 2 `9B` refusal controls showed the same pattern: strong hidden-state extraction and weak dense output-side control.
+- Decision: close the synthesis question by stopping further dense base-model steering sweeps on this MacBook lane and making the next bounded task an alternate-method control on the same Gemma 2 `2B` plus GemmaScope stack, starting with refusal and an SAE-aware effect-oriented or sparse intervention family.
+- Rationale: a pure write-up stop would leave the strongest local method family from `SAE-TS`, `FGAA`, `SAS`, and output-feature filtering untested, while an instruction-tuned pivot would change model behavior, prompting regime, and likely SAE assumptions at the same time. The highest-information next step is to test whether the failure is specific to dense additive steering rather than broader than the intervention family.
+- Impact: `creativedecomp-174` can close once the follow-up issue is filed, `creativedecomp-npt` stays blocked, and the repo should no longer spend time on more dense-vector sweeps unless a later decision explicitly reopens them.

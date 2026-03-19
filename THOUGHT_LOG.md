@@ -393,3 +393,24 @@ Suggested entry format:
   - medium-high that model-scale sensitivity is now the right next lane
 - Interesting facts:
   - On the prefixed-refusal gate, prompt-only refusal versus neutral reaches refusal net preference `0.25`, while the best dense refusal condition only reaches `0.083333` and loses the coherence tie-break.
+
+## [2026-03-18T21:34:00-0500] Cross-Scale Failure Looks Like A Method Problem More Than A Size Problem
+
+- Stage: synthesis
+- Feel of the Experiment: This is the first point where "just try another dense steering run" would be intellectually dishonest. We have already asked that question at two scales and on a simpler concept.
+- Working Hypotheses:
+  - Dense additive steering is the weak link on this local lane, not hidden-state extraction itself.
+  - An alternate intervention family that uses SAE effects or sparse feature control is the last bounded method question worth testing before the repo settles for a negative-result stop.
+- Hunches and Guesses:
+  - An instruction-tuned pivot right now would create too much interpretive fog because it changes the model and likely the SAE assumptions at once.
+  - A refusal-first alternate-method control will tell us more per unit of work than another creativity-specific tweak.
+- Predictions:
+  - If the alternate-method refusal control still fails, then the honest conclusion is that this MacBook steering path is negative-result territory and the paper should lean into that directly.
+  - If it succeeds, then the dense failure becomes a method-family caution rather than a broader causal failure.
+- Surprises and Tensions:
+  - The 9B hidden-state refusal result was so clean that it makes the output failure harder to dismiss as "small model noise."
+- Confidence:
+  - high that we should stop further dense base-model steering sweeps
+  - medium-high that the next lane should stay on Gemma plus GemmaScope rather than pivot to an instruction-tuned model
+- Interesting facts:
+  - The papers we already cited are stronger on effect-aware or sparse steering than on defending dense additive vectors as the only serious causal control method.
