@@ -557,3 +557,25 @@ Suggested entry format:
   - medium that decomposition should pivot there immediately without one more synthesis pass
 - Interesting facts:
   - Under the locked manual audit, dense layer `12`, coeff `1.0` beats neutral on both prompt-grounded creativity and coherence, while coeff `0.5` does not and prompt-only creativity is roughly tied with neutral.
+
+## [2026-03-19T09:22:00-0500] Pilot Readiness Is Not The Same Thing As Claim Readiness
+
+- Stage: synthesis
+- Feel of the Experiment: The cleanest interpretation is now in the middle. Requiring another generic creativity gate would be Phase 1 drift, but pretending a 12-prompt manual audit settles the later claim boundary would also be sloppy.
+- Working Hypotheses:
+  - The prereg Phase 1 gate is satisfied on the matched instruction-tuned stack because there is now a bounded dense creativity effect plus coherence read on the same stack where refusal also works.
+  - The right continuation is a bounded Phase 2 pilot decomposition pivot on `google/gemma-3-270m-it`, not another steering rerun.
+- Hunches and Guesses:
+  - The automatic judge failure is now more of a Phase 3 and confirmatory-evaluation problem than a Phase 2 pilot blocker.
+  - If signed decomposition cannot preserve the `layer 12 / coeff 1.0` creativity effect even on this matched stack, that negative result will be much more meaningful than the old base-model-only story.
+- Predictions:
+  - `creativedecomp-npt` should become the next ready task once the synthesis lands.
+  - The repo should file evaluation hardening as explicit later work instead of quietly assuming the current judge can be fixed on the fly.
+- Surprises and Tensions:
+  - The macbook guide still clearly prefers `Gemma 2 2B + GemmaScope 65K` as the default base lane, so the instruction-tuned pivot should be framed as a bounded pilot, not a replacement thesis.
+  - Prompt-only creativity being roughly tied with neutral makes the creativity result less rhetorically clean, but it does not actually violate the prereg Phase 1 gate.
+- Confidence:
+  - high that the next honest move is a bounded Phase 2 pilot on the matched instruction-tuned stack
+  - high that claim-bearing evaluation should remain gated
+- Interesting facts:
+  - The same manual-audit style that rescued the instruction-tuned refusal lane is now what makes the instruction-tuned creativity lane usable enough for pilot decomposition, even though the automatic judge remains unusable.

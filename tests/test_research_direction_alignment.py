@@ -108,9 +108,11 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("coeff `1.0`", CURRENT_STATE)
         self.assertIn("same instruction-tuned stack", CURRENT_STATE)
 
-    def test_current_state_keeps_decomposition_blocked_pending_instruction_tuned_synthesis(self) -> None:
-        self.assertIn("decomposition remains blocked pending synthesis", CURRENT_STATE)
-        self.assertIn("creativedecomp-182", CURRENT_STATE)
+    def test_current_state_opens_bounded_phase2_pilot_on_instruction_tuned_stack(self) -> None:
+        self.assertIn("bounded Phase 2 pilot", CURRENT_STATE)
+        self.assertIn("google/gemma-3-270m-it", CURRENT_STATE)
+        self.assertIn("creativedecomp-npt", CURRENT_STATE)
+        self.assertIn("claim-bearing evaluation remains gated", CURRENT_STATE)
 
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
