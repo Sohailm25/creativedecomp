@@ -90,19 +90,21 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("alternate-method control lane", CURRENT_STATE)
         self.assertIn("stop further dense base-model steering sweeps", CURRENT_STATE)
 
-    def test_current_state_tracks_sparse_refusal_control_as_not_rescuing_output_gate(self) -> None:
+    def test_current_state_tracks_sparse_refusal_control_as_not_rescuing_base_model_lane(self) -> None:
         self.assertIn("sparse SAE-latent refusal control", CURRENT_STATE)
-        self.assertIn("write-up-grade negative result", CURRENT_STATE)
         self.assertIn("instruction-tuned pivot", CURRENT_STATE)
 
-    def test_current_state_tracks_instruction_tuned_refusal_pivot_as_failed_final_sensitivity(self) -> None:
-        self.assertIn("instruction-tuned refusal pivot", CURRENT_STATE)
+    def test_current_state_tracks_instruction_tuned_manual_audit_as_correcting_all_tie_read(self) -> None:
+        self.assertIn("instruction-tuned refusal manual audit", CURRENT_STATE)
         self.assertIn("google/gemma-3-270m-it", CURRENT_STATE)
-        self.assertIn("write-up-grade negative result", CURRENT_STATE)
+        self.assertIn("prompt-only refusal baseline", CURRENT_STATE)
+        self.assertIn("modest dense refusal", CURRENT_STATE)
+        self.assertIn("unmatched instruction-tuned stack", CURRENT_STATE)
 
-    def test_current_state_requires_cached_instruction_tuned_refusal_audit_before_final_bundle(self) -> None:
+    def test_current_state_chooses_post_audit_synthesis_over_negative_result_freeze(self) -> None:
         self.assertIn("cached instruction-tuned refusal outputs", CURRENT_STATE)
-        self.assertIn("manual audit", CURRENT_STATE)
+        self.assertIn("do not freeze the write-up-grade negative-result bundle", CURRENT_STATE)
+        self.assertIn("matched continuation", CURRENT_STATE)
 
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)

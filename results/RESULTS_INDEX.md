@@ -81,6 +81,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Bounded sparse SAE-latent refusal output gate showing that a top-32 GemmaScope intervention also fails to rescue the matched refusal gate on Gemma 2 2B | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-sae-latent-output-gate-v1/README.md` |
 | Smoke instruction-tuned refusal output gate confirming that the matched gate runs cleanly on the smallest feasible GemmaScope v2-backed Gemma stack | steering evaluation | partial | `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-smoke/README.md` |
 | Full instruction-tuned refusal output gate showing that prompt-only and dense refusal still collapse to ties versus neutral on `google/gemma-3-270m-it` | steering evaluation | fail | `results/steering_eval/20260318-gemma3-270m-it-refusal-output-gate-v1/README.md` |
+| Blinded cached-output manual audit on the instruction-tuned refusal gate recovering a clear prompt-only refusal baseline and modest dense refusal wins versus neutral, showing the automatic all-tie read was judge-insensitive | steering evaluation | mixed | `results/steering_eval/20260319-gemma3-270m-it-refusal-output-gate-v1-manual-audit/README.md` |
 
 ## Creativity Benchmarks
 

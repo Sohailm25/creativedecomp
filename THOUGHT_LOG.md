@@ -495,3 +495,24 @@ Suggested entry format:
   - medium-high that one cached-output refusal audit is still worth doing before freezing the final bundle
 - Interesting facts:
   - The strongest criticism of the current local negative-result framing is not "you should have tried more models." It is "you handled judge brittleness for creativity more carefully than for the final simpler-concept pivot."
+
+## [2026-03-19T08:12:00-0500] The Manual Audit Changed The Story More Than I Expected
+
+- Stage: synthesis
+- Feel of the Experiment: This is the kind of correction the repo is supposed to force. The manual audit did not just add nuance to the final instruction-tuned refusal pivot; it invalidated the cleanest version of the old negative-result story.
+- Working Hypotheses:
+  - The automatic local judge was too blunt for the instruction-tuned refusal slice, especially when the outputs differed by degree of refusal rather than by obvious refusal tokens.
+  - The active creativity question is now bottlenecked by regime matching again, not by whether local output-side steering can happen at all.
+- Hunches and Guesses:
+  - The next useful work is a written synthesis that decides whether to port the creativity-side question onto a matched instruction-tuned lane or to stop at a narrower regime-dependent claim.
+  - Reopening decomposition directly from this result would still be wrong, because the recovered simpler-concept effect is not on the same stack as the creativity lane.
+- Predictions:
+  - The post-audit synthesis will narrow the field to one matched continuation rather than reopening broad experimentation.
+- Surprises and Tensions:
+  - The prompt-only refusal baseline came back much more strongly than I expected under the locked manual rubric.
+  - Dense refusal did not stay dead either; it came back as a modest effect with decent coherence, which means the repo can no longer honestly say the instruction-tuned lane failed outright.
+- Confidence:
+  - high that the pre-audit write-up-grade negative-result bundle should not be frozen
+  - medium that the right next move is a matched creativity/control synthesis rather than immediate new implementation
+- Interesting facts:
+  - On the cached instruction-tuned refusal outputs, prompt-only refusal beats neutral on all `12 / 12` refusal judgments, while dense coeff `0.5` and `1.0` both beat neutral on refusal often enough to count as real but modest effects under the locked rubric.
