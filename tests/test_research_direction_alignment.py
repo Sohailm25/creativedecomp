@@ -82,6 +82,10 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("prompt-only refusal baseline", CURRENT_STATE)
         self.assertIn("dense refusal steering still does not clear a clean output-level gate", CURRENT_STATE)
 
+    def test_current_state_tracks_9b_scale_sensitivity_as_not_rescuing_dense_refusal(self) -> None:
+        self.assertIn("Gemma 2 `9B`", CURRENT_STATE)
+        self.assertIn("scale alone does not rescue dense output-level refusal steering", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

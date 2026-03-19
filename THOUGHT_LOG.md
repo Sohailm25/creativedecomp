@@ -218,6 +218,28 @@ Suggested entry format:
 - Working Hypotheses:
   - A dense creativity direction can still be mechanistically interesting even if prompt-only creativity remains stronger on average in pilot evaluation.
   - What matters first is whether the direction causes a measurable output effect with an honest tradeoff profile.
+
+## [2026-03-18T21:15:00-0500] Scale Helped The Hidden State But Not The Causal Story
+
+- Stage: analysis
+- Feel of the Experiment: This is clarifying in a harsher way than I expected. The 9B model removes one easy excuse, but it does not give the clean dense-control win that would reopen the feature path.
+- Working Hypotheses:
+  - The hidden-state extraction method is not the main weakness on the refusal control anymore.
+  - The bigger issue is the base-model dense-steering plus sampled-decoding lane itself, not just 2B capacity.
+- Hunches and Guesses:
+  - If we keep pushing this exact base-model dense-steering lane, the next result is more likely to be another honest negative than a rescue.
+  - An instruction-tuned control or a different causal intervention method would be more informative than one more near-identical base-model sweep.
+- Predictions:
+  - The strongest next step is synthesis and lane selection, not decomposition.
+  - If we do continue experimentally, the next good control will probably change either model regime or intervention method, not just scale.
+- Surprises and Tensions:
+  - Gemma 2 `9B` is feasible locally for hidden-state work, which is encouraging.
+  - Gemma 2 `9B` generation on MPS still pays a painful sampled-decoding cost, and the cleaner hidden-state control still does not become a clean dense output effect.
+- Confidence:
+  - high that decomposition should remain blocked
+  - medium-to-high that "2B was just too small" is no longer the right primary explanation
+- Interesting facts:
+  - Process sampling during the 9B calibration attempt showed the main thread spending its time in synchronous MPS `multinomial` and copy waits, which makes broad sampled calibration grids a real MacBook constraint on this lane.
 - Hunches and Guesses:
   - If `v3` works, the strongest early result may be "steering has a distinct effect with different failure modes than prompting," not "steering is simply better than prompting."
 - Predictions:

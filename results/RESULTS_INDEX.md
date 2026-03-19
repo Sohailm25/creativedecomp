@@ -39,6 +39,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Artifact | Lane | Status | Path |
 |---|---|---|---|
 | Matched refusal layer sweep on the same Gemma 2 2B stack recovering a very clean hidden-state refusal direction at layer `15` | refusal baseline | pass | `results/refusal_direction/20260318-gemma2-2b-layer-sweep-v1-mean-difference/README.md` |
+| Bounded Gemma 2 9B refusal layer sweep showing that the larger base model still yields a perfectly clean hidden-state refusal control at layer `18` | refusal baseline | pass | `results/refusal_direction/20260318-gemma2-9b-layer-sweep-v1-mean-difference/README.md` |
 
 ## Feature Decomposition
 
@@ -74,6 +75,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Prefilled-refusal calibration rerun restoring grounded requests while still showing noisy dense refusal outputs | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-direction-calibration-v3-prefilled-refusal/README.md` |
 | First refusal output gate showing no usable prompt-only refusal baseline and no clean dense refusal win under the generic wrapper | steering evaluation | fail | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v1/README.md` |
 | Prefilled-refusal output gate weakly recovering the prompt-only refusal baseline while dense refusal steering still fails the clean output gate | steering evaluation | mixed | `results/steering_eval/20260318-gemma2-2b-refusal-output-gate-v2-prefilled-refusal/README.md` |
+| Bounded Gemma 2 9B refusal output gate showing that the larger model still does not rescue a clean dense refusal win versus neutral | steering evaluation | fail | `results/steering_eval/20260318-gemma2-9b-refusal-output-gate-v1-bounded/README.md` |
 
 ## Creativity Benchmarks
 

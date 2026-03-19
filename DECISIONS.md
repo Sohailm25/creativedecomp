@@ -181,3 +181,17 @@
 - Decision: close the refusal-baseline task as a mixed result, keep decomposition blocked, and make bounded model-scale sensitivity the next lane before any more 2B-specific decomposition work.
 - Rationale: the refusal control changed the interpretation of the creativity negative result. Because the same base-model `2B` stack does not produce a clean dense output-level success case even on refusal, the strongest claim is no longer "creativity is uniquely distributed on this stack." The stronger reading is that dense output-level steering on this `2B` lane is broadly weak or prompt-sensitive, which makes a bounded scale-up the highest-information next step.
 - Impact: `creativedecomp-rcf` can close, `creativedecomp-c4t` becomes the next ready task, and `creativedecomp-npt` remains blocked behind the scale sensitivity check.
+
+## [2026-03-18T21:12:00-0500] DECISION: Treat the bounded Gemma 2 9B refusal check as evidence that scale alone does not rescue dense output-level control
+
+- Trigger: Gemma 2 `9B` loaded successfully on the MacBook lane, the matched refusal layer sweep recovered a perfect hidden-state control at layer `18`, and the bounded output gate at coeff `0.5` still failed versus neutral.
+- Decision: close `creativedecomp-c4t`, keep `creativedecomp-npt` blocked, and treat the current base-model dense-steering weakness as cross-scale rather than as a Gemma 2 `2B`-only issue.
+- Rationale: the scale-up improved hidden-state extraction but not the causal output-side control claim. That makes "2B is just too small" a weaker explanation than before.
+- Impact: the next honest move is synthesis, not decomposition. The follow-up task should decide whether to stop on a write-up-grade negative result, try an instruction-tuned or alternate-method control lane, or abandon dense base-model steering on the MacBook path.
+
+## [2026-03-18T21:13:00-0500] DECISION: Record the 9B sampled-calibration slowdown as a real MacBook constraint and bound the claim-bearing gate accordingly
+
+- Trigger: the full Gemma 2 `9B` sampled calibration grid on `mps` remained live but extremely slow; process sampling showed repeated waits inside MPS `multinomial` and copy synchronization rather than a transient bug.
+- Decision: stop the broad 9B calibration grid and replace it with one bounded claim-bearing output gate at the gentlest previously viable coefficient (`0.5`) on the selected layer.
+- Rationale: continuing the broad grid would spend large amounts of local time on sampled decoding overhead without changing the scientific question of `creativedecomp-c4t`, which is whether scale alone rescues a clean simpler-concept dense control effect.
+- Impact: the 9B result remains scientifically useful and honestly bounded, and future sessions now know that full sampled calibration grids on this lane are a throughput risk rather than an invisible missing artifact.
