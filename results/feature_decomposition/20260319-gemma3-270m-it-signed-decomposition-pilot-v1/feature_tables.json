@@ -1,0 +1,248 @@
+{
+  "contrastive_latent_topk": {
+    "top_positive_features": [
+      {
+        "feature_id": 229,
+        "signed_coefficient": 0.22214548289775848
+      },
+      {
+        "feature_id": 446,
+        "signed_coefficient": 0.2107848972082138
+      },
+      {
+        "feature_id": 3222,
+        "signed_coefficient": 0.1752505600452423
+      },
+      {
+        "feature_id": 569,
+        "signed_coefficient": 0.16497953236103058
+      },
+      {
+        "feature_id": 271,
+        "signed_coefficient": 0.16300459206104279
+      },
+      {
+        "feature_id": 287,
+        "signed_coefficient": 0.156965970993042
+      },
+      {
+        "feature_id": 285,
+        "signed_coefficient": 0.1464073807001114
+      },
+      {
+        "feature_id": 430,
+        "signed_coefficient": 0.1370840221643448
+      },
+      {
+        "feature_id": 326,
+        "signed_coefficient": 0.1275579333305359
+      },
+      {
+        "feature_id": 5398,
+        "signed_coefficient": 0.11420795321464539
+      },
+      {
+        "feature_id": 7819,
+        "signed_coefficient": 0.11052439361810684
+      },
+      {
+        "feature_id": 454,
+        "signed_coefficient": 0.1009971871972084
+      },
+      {
+        "feature_id": 312,
+        "signed_coefficient": 0.0943557396531105
+      },
+      {
+        "feature_id": 107,
+        "signed_coefficient": 0.0939553827047348
+      },
+      {
+        "feature_id": 1083,
+        "signed_coefficient": 0.0901678279042244
+      },
+      {
+        "feature_id": 353,
+        "signed_coefficient": 0.0901012197136879
+      }
+    ],
+    "top_negative_features": [
+      {
+        "feature_id": 11367,
+        "signed_coefficient": -0.20323844254016876
+      },
+      {
+        "feature_id": 360,
+        "signed_coefficient": -0.14059127867221832
+      },
+      {
+        "feature_id": 658,
+        "signed_coefficient": -0.12721282243728638
+      },
+      {
+        "feature_id": 482,
+        "signed_coefficient": -0.1265118569135666
+      },
+      {
+        "feature_id": 964,
+        "signed_coefficient": -0.12485360354185104
+      },
+      {
+        "feature_id": 225,
+        "signed_coefficient": -0.11140117794275284
+      },
+      {
+        "feature_id": 239,
+        "signed_coefficient": -0.10642366111278534
+      },
+      {
+        "feature_id": 199,
+        "signed_coefficient": -0.09826581180095673
+      },
+      {
+        "feature_id": 1323,
+        "signed_coefficient": -0.09538008272647858
+      },
+      {
+        "feature_id": 507,
+        "signed_coefficient": -0.07854471355676651
+      },
+      {
+        "feature_id": 16,
+        "signed_coefficient": -0.07275209575891495
+      }
+    ],
+    "nonzero_feature_count": 32
+  },
+  "fista_dense_topk": {
+    "top_positive_features": [
+      {
+        "feature_id": 3222,
+        "signed_coefficient": 0.1714913696050644
+      },
+      {
+        "feature_id": 7987,
+        "signed_coefficient": 0.15797773003578186
+      },
+      {
+        "feature_id": 446,
+        "signed_coefficient": 0.13253101706504822
+      },
+      {
+        "feature_id": 12599,
+        "signed_coefficient": 0.12999755144119263
+      },
+      {
+        "feature_id": 569,
+        "signed_coefficient": 0.12520277500152588
+      },
+      {
+        "feature_id": 10248,
+        "signed_coefficient": 0.12276321649551392
+      },
+      {
+        "feature_id": 4867,
+        "signed_coefficient": 0.12122344225645065
+      },
+      {
+        "feature_id": 7405,
+        "signed_coefficient": 0.10147436708211899
+      },
+      {
+        "feature_id": 3447,
+        "signed_coefficient": 0.08130259811878204
+      },
+      {
+        "feature_id": 3680,
+        "signed_coefficient": 0.08102453500032425
+      },
+      {
+        "feature_id": 4330,
+        "signed_coefficient": 0.07581794261932373
+      },
+      {
+        "feature_id": 5398,
+        "signed_coefficient": 0.07403042912483215
+      },
+      {
+        "feature_id": 13721,
+        "signed_coefficient": 0.0725676566362381
+      },
+      {
+        "feature_id": 15630,
+        "signed_coefficient": 0.07182617485523224
+      },
+      {
+        "feature_id": 6941,
+        "signed_coefficient": 0.07166609168052673
+      }
+    ],
+    "top_negative_features": [
+      {
+        "feature_id": 16008,
+        "signed_coefficient": -0.17994900047779083
+      },
+      {
+        "feature_id": 1323,
+        "signed_coefficient": -0.17697979509830475
+      },
+      {
+        "feature_id": 1307,
+        "signed_coefficient": -0.165807843208313
+      },
+      {
+        "feature_id": 9061,
+        "signed_coefficient": -0.16285614669322968
+      },
+      {
+        "feature_id": 256,
+        "signed_coefficient": -0.14084385335445404
+      },
+      {
+        "feature_id": 11367,
+        "signed_coefficient": -0.13503172993659973
+      },
+      {
+        "feature_id": 6049,
+        "signed_coefficient": -0.11240196228027344
+      },
+      {
+        "feature_id": 2302,
+        "signed_coefficient": -0.10985452681779861
+      },
+      {
+        "feature_id": 1134,
+        "signed_coefficient": -0.10764919221401215
+      },
+      {
+        "feature_id": 2529,
+        "signed_coefficient": -0.10292361676692963
+      },
+      {
+        "feature_id": 5905,
+        "signed_coefficient": -0.09248276054859161
+      },
+      {
+        "feature_id": 290,
+        "signed_coefficient": -0.0856456458568573
+      },
+      {
+        "feature_id": 6898,
+        "signed_coefficient": -0.08564125001430511
+      },
+      {
+        "feature_id": 4901,
+        "signed_coefficient": -0.08095400035381317
+      },
+      {
+        "feature_id": 9527,
+        "signed_coefficient": -0.08087503165006638
+      },
+      {
+        "feature_id": 13248,
+        "signed_coefficient": -0.08065923303365707
+      }
+    ],
+    "nonzero_feature_count": 32
+  }
+}

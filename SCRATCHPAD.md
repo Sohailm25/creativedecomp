@@ -218,6 +218,36 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 
 - Command: `.venv/bin/python scripts/run_generation_side_creativity_smoke.py --sweep-dir results/creativity_direction/20260318-gemma2-2b-layer-sweep-pilot --output-dir results/steering_eval/20260318-gemma2-2b-generation-smoke --overwrite`
 - Outcome: SUCCESS
+
+## 2026-03-19T09:38:00-0500 PRE-RUN: instruction-tuned signed decomposition pilot
+
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_creativity_decomposition_pilot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_decomposition_pilot.py --output-dir results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `creative_direction_it_v1_pilot_pairs / 18 accepted counterpart rows / frozen layer 12 dense direction`
+- Output path: `results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1`
+- What I'm testing: whether two legal signed decomposition methods agree enough on the matched instruction-tuned creativity direction to justify a pilot method freeze.
+- Expected outcome: one comparison artifact with pair-separation metrics, top positive and negative features, matched random-feature controls, and a bounded recommendation on whether the pilot method can freeze.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260319-session029.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_creativity_decomposition_pilot.py --output-dir results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1 --overwrite`
+- Main confound to watch: a sparse reconstruction can look numerically aligned to the dense direction while failing to beat matched random-feature controls on the frozen pair slice.
+- Implementation verified: YES - focused helper tests for signed top-k sparsification, random-feature controls, FISTA sparse coding, and feature sign summaries
+- Status: LAUNCHING
+
+## 2026-03-19T09:45:00-0500 POST-RUN: instruction-tuned signed decomposition pilot
+
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_decomposition_pilot.py --output-dir results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1 --overwrite`
+- Outcome: SUCCESS
+- Key metric: `fista_dense_topk` is the recommended pilot method with `0.666667` positive-greater-than-negative fraction, dense-direction cosine `0.839755`, and agreement cosine `0.736018` versus the contrastive latent method
+- Artifacts saved: `results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/`
+- Latest checkpoint: none
+- Anomalies: the first pass exposed a GemmaScope v2 loader mismatch on `mps` and NumPy overflow warnings in the FISTA path; both were fixed before the final saved run by loading the SAE on CPU first and moving the sparse-coding math to CPU `torch`
+- Next step: freeze the bounded pilot method choice in repo truth, close `creativedecomp-npt`, and queue the feature-validation continuation plus evaluation-hardening follow-up
 - Key metric: all four conditions completed with `0.000` prompt-meta marker fraction under the repaired continuation-style harness
 - Artifacts saved: `results/steering_eval/20260318-gemma2-2b-generation-smoke/`
 - Latest checkpoint: none
@@ -803,3 +833,112 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: the output gate remained tie-heavy even after the earlier judge-path fix, and raw generations were inspected before interpretation to confirm that this reflected convergent weak refusal behavior rather than another order bug
 - Next step: update the repo truth and stop on synthesis for a write-up-grade negative result
+## 2026-03-19T12:10:00-0500 PRE-RUN: instruction-tuned creativity manual audit prep
+- tmux session: N/A
+- Script: `scripts/audit_instruction_tuned_creativity_output_gate_v1.py`
+- Command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py`
+- Device: `cpu`
+- Model: `N/A` (uses cached outputs)
+- SAE: `N/A`
+- Data slice: `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1`
+- Output path: `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1-manual-audit`
+- What I'm testing: build a blinded manual audit packet from cached instruction-tuned creativity outputs and baseline reference rows.
+- Expected outcome: audit packet plus scoring summary that references the manual annotations template.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260319-session029.md`
+- Resume command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --overwrite`
+- Main confound to watch: the cached outputs need to match the locked prompt IDs and condition ids; any mismatch should be flagged before manual annotation.
+- Implementation verified: NO (audit packet not yet generated)
+- Status: LAUNCHING
+## 2026-03-19T12:18:00-0500 POST-RUN: instruction-tuned creativity manual audit prep
+- Command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --overwrite`
+- Outcome: SUCCESS
+- Key metric: blind audit packet and answer key now live under `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1-manual-audit/`
+- Artifacts saved: `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1-manual-audit/`
+- Latest checkpoint: none
+- Anomalies: none
+- Next step: collect manual annotations from the locked rubric, then use the manual scores to decide whether the creativity gate now shows a prompt-grounded creativity win on the instruction-tuned stack before allowing feature-level claims.
+
+## 2026-03-19T16:33:00-0500 PRE-RUN: feature-validation manual audit triage
+- tmux session: N/A
+- Script: `scripts/audit_instruction_tuned_creativity_output_gate_v1.py` (reused for feature-validation outputs)
+- Command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --artifact-dir scratch/feature_validation_audit_source --reference-condition-id dense_direction --candidate-condition-ids positive_feature_3222,negative_feature_16008,bundle_feature_group --sample-size 6 --seed 20260319 --output-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit --overwrite`
+- Device: `cpu`
+- Model: `N/A` (cached outputs only)
+- SAE: `N/A`
+- Data slice: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1/outputs.jsonl`
+- Output path: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit`
+- What I'm testing: compare each feature intervention against dense-direction outputs using a blinded audit packet and a quick simulated scoring pass.
+- Expected outcome: audit packet plus triage-level summary that indicates whether positive, negative, or bundled features look stronger than dense.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260319-session029.md`
+- Resume command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --artifact-dir scratch/feature_validation_audit_source --reference-condition-id dense_direction --candidate-condition-ids positive_feature_3222,negative_feature_16008,bundle_feature_group --sample-size 6 --seed 20260319 --annotations-path results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/manual_annotations_simulated.jsonl --output-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit --overwrite`
+- Main confound to watch: simulated heuristic annotations are non-claim-bearing and should only be used for ranking/triage, not final conclusions.
+- Implementation verified: YES - audit script already validated on instruction-tuned gate artifacts
+- Status: LAUNCHING
+
+## 2026-03-19T16:36:00-0500 POST-RUN: feature-validation manual audit triage
+- Command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --artifact-dir scratch/feature_validation_audit_source --reference-condition-id dense_direction --candidate-condition-ids positive_feature_3222,negative_feature_16008,bundle_feature_group --sample-size 6 --seed 20260319 --annotations-path results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/manual_annotations_simulated.jsonl --output-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit --overwrite`
+- Outcome: SUCCESS
+- Key metric: simulated triage favors `bundle_feature_group` over dense on both prompt-grounded creativity (`0.667` vs `0.333`) and coherence (`0.667` vs `0.167`), while `negative_feature_16008` underperforms dense on creativity (`0.333` vs `0.500`).
+- Artifacts saved: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/`
+- Latest checkpoint: none
+- Anomalies: none
+- Next step: replace simulated annotations with locked human/manual annotations before any claim-bearing interpretation, then fold the confirmed comparison into `creativedecomp-183` and the Phase 3 narrative.
+
+## 2026-03-19T11:40:00-0500 PRE-RUN: instruction-tuned creativity feature-validation pilot
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `creative_direction_it_v1_pilot / 18 accepted pairs / 12 prompt limit`
+- Output path: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1`
+- What I'm testing: whether top signed SAE features and a bundled intervention produce discernible creativity output effects while remaining matched to the signed bundle.
+- Expected outcome: cached outputs plus summary metrics for positive, negative, and bundled feature interventions, using the cached output-gate artifacts for evaluation gating.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260319-session029.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --overwrite`
+- Main confound to watch: the current judge is still weak, so the pilot must rely on cached manual audit stories rather than automated judgments.
+- Implementation verified: NO (script not yet run)
+- Status: LAUNCHING
+## 2026-03-19T11:58:30-0500 POST-RUN: instruction-tuned creativity feature-validation pilot
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Outcome: SUCCESS
+- Key metric: generated outputs cached plus summary stats for positive, negative, bundled, and dense directions on `6` prompts (`18` pairs) using the instruction-tuned pilot slice
+- Artifacts saved: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1/`
+- Latest checkpoint: none
+- Anomalies: none; the script completed cleanly on the frozen signed bundle with the defined feature conditions
+- Next step: move on to the evaluation-hardening follow-up and inspect the cached outputs/manually audited gates before building any claim-bearing feature statements
+
+## 2026-03-20T10:32:00-0500 PRE-RUN: instruction-tuned creativity cached-output rubric re-eval
+- tmux session: N/A
+- Script: `scripts/evaluate_instruction_tuned_creativity_output_gate_rubric_v1.py`
+- Command: `.venv/bin/python scripts/evaluate_instruction_tuned_creativity_output_gate_rubric_v1.py --artifact-dir results/steering_eval/20260319-gemma3-270m-it-output-gate-v1 --output-dir results/steering_eval/20260320-gemma3-270m-it-output-gate-v1-rubric-eval-v2 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `N/A`; cached output judging only
+- Data slice: `instruction-tuned creativity gate cached outputs / 12 prompts / 5 comparisons`
+- Output path: `results/steering_eval/20260320-gemma3-270m-it-output-gate-v1-rubric-eval-v2`
+- What I'm testing: whether order-debiased score-per-story rubric judging can replace brittle label judging for claim-bearing evaluation.
+- Expected outcome: parse-robust judgments with non-degenerate score deltas, or explicit collapse diagnosis.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session030.md`
+- Resume command: `.venv/bin/python scripts/evaluate_instruction_tuned_creativity_output_gate_rubric_v1.py --artifact-dir results/steering_eval/20260319-gemma3-270m-it-output-gate-v1 --output-dir results/steering_eval/20260320-gemma3-270m-it-output-gate-v1-rubric-eval-v2 --overwrite`
+- Main confound to watch: judge may still collapse to constant outputs even with robust parsing.
+- Implementation verified: YES - unit tests in `tests/test_instruction_tuned_creativity_rubric_eval.py`
+- Status: LAUNCHING
+
+## 2026-03-20T10:46:30-0500 POST-RUN: instruction-tuned creativity cached-output rubric re-eval
+- Command: `.venv/bin/python scripts/evaluate_instruction_tuned_creativity_output_gate_rubric_v1.py --artifact-dir results/steering_eval/20260319-gemma3-270m-it-output-gate-v1 --output-dir results/steering_eval/20260320-gemma3-270m-it-output-gate-v1-rubric-eval-v2 --overwrite`
+- Outcome: SUCCESS
+- Key metric: parse success `1.000000`, but both axes collapsed to constant score `1.0` with tie fraction `1.000000`
+- Artifacts saved: `results/steering_eval/20260320-gemma3-270m-it-output-gate-v1-rubric-eval-v2/`
+- Latest checkpoint: none
+- Anomalies: none on parsing after hardening; signal collapse remained
+- Next step: keep automatic judging non-claim-bearing on this stack and move to locked manual feature-validation annotations (`creativedecomp-602`)

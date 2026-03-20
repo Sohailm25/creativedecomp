@@ -265,3 +265,38 @@
 - Decision: reopen Phase 2 as a bounded pilot on `google/gemma-3-270m-it` plus `gemma-scope-2-270m-it-res`. `creativedecomp-npt` should now run on that matched instruction-tuned stack. Do not require another generic creativity steering follow-up before pilot decomposition. At the same time, do not upgrade the broader claim boundary: claim-bearing evaluation and later feature-validation claims remain gated on a stronger judge path or additional locked manual audits plus the prereg benchmark work.
 - Rationale: the prereg requires a bounded output-level creativity effect with a coherence or usefulness check before Phase 2 opens. The matched instruction-tuned creativity manual audit now satisfies that minimum pilot gate, and it does so on the same stack where refusal already has a manual-audit-supported output-side effect. Forcing one more generic creativity gate would be Phase 1 drift rather than better science. But the automatic creativity judge is still unusable, prompt-only creativity remains roughly tied with neutral, and the default MacBook thesis still centers `google/gemma-2-2b` plus GemmaScope `65K`. So the honest move is a temporary pilot pivot, not a full thesis rewrite.
 - Impact: `creativedecomp-182` can close, `creativedecomp-npt` becomes the next ready task, and evaluation hardening should be tracked as explicit follow-up work rather than silently assumed solved.
+
+## [2026-03-19T16:34:00-0500] DECISION: Treat feature-validation simulated annotations as triage-only and require locked manual replacement for any claim
+
+- Trigger: the bounded feature-validation pilot completed, and the next step was to compare `positive_feature_3222`, `negative_feature_16008`, and `bundle_feature_group` against `dense_direction` without waiting on a full manual pass.
+- Decision: generate a blinded feature-validation audit packet and run a simulated heuristic annotation pass to rank conditions quickly, but explicitly mark the result as non-claim-bearing and require locked manual annotations before interpretation upgrades.
+- Rationale: this preserves momentum and helps prioritize where manual effort should focus, while preventing metric drift or accidental overclaiming from heuristic labels.
+- Impact: a new triage artifact now exists at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/`, and `creativedecomp-183` remains the next ready blocker for claim-bearing evaluation hardening.
+
+## [2026-03-19T16:36:00-0500] DECISION: Close `creativedecomp-npt` and shift active focus to `creativedecomp-183`
+
+- Trigger: `bd` still had `creativedecomp-npt` open even though the signed method comparison and pilot freeze artifacts were already complete.
+- Decision: close `creativedecomp-npt` in issue tracking and treat `creativedecomp-183` as the only ready issue.
+- Rationale: the decomposition-method-comparison objective is complete and documented; leaving it open obscures the real critical-path blocker.
+- Impact: `bd ready` now surfaces `creativedecomp-183` as the next active task, aligning issue tracking with the lived experimental state.
+
+## [2026-03-20T10:48:00-0500] DECISION: Treat rubric-based automatic judging as hardened but still non-usable for claim-bearing creativity evaluation
+
+- Trigger: `creativedecomp-183` added and ran a cached-output rubric re-evaluator (`scripts/evaluate_instruction_tuned_creativity_output_gate_rubric_v1.py`) on `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1/`, with bidirectional score-per-story judging, parse robustness, and explicit judge-health checks.
+- Decision: keep this rubric path as the default automatic diagnostic evaluator, but do not treat its outputs as claim-bearing on the current instruction-tuned creativity gate artifact.
+- Rationale: parse robustness improved to `1.000000`, but judge health still collapses: both axes reduce to constant score `1.0` and all comparisons tie. This confirms that stronger parsing alone does not rescue the local automatic judge.
+- Impact: `creativedecomp-183` can close as completed evaluation hardening; claim-bearing interpretation remains manual-audit-gated.
+
+## [2026-03-20T10:49:00-0500] DECISION: Open `creativedecomp-602` as the next ready blocker for claim-bearing feature validation
+
+- Trigger: after closing `creativedecomp-183`, the feature-validation audit under `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/` still relied on simulated heuristic annotations.
+- Decision: create `creativedecomp-602` to replace simulated annotations with locked manual rubric annotations before any feature-level claim upgrades.
+- Rationale: with both automatic judge paths explicitly failing as claim-bearing creativity evaluators on this stack, manual annotation quality and locking now dominate evidence quality.
+- Impact: `bd ready` now points to `creativedecomp-602` as the highest-priority next task.
+
+## [2026-03-20T10:56:00-0500] DECISION: Close `creativedecomp-184` and keep only `creativedecomp-602` ready
+
+- Trigger: issue tracking still had `creativedecomp-184` open even though the bounded feature-validation pilot artifact and write-up were already landed.
+- Decision: close `creativedecomp-184` with the completed-pilot reason and keep `creativedecomp-602` as the single ready claim-bearing blocker.
+- Rationale: leaving the completed pilot open obscures the actual evidence-quality blocker and can cause accidental task thrash.
+- Impact: `bd ready` now returns one item, `creativedecomp-602`, matching the current experiment-critical path.

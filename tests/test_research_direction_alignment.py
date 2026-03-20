@@ -114,6 +114,11 @@ class ResearchDirectionAlignmentTest(unittest.TestCase):
         self.assertIn("creativedecomp-npt", CURRENT_STATE)
         self.assertIn("claim-bearing evaluation remains gated", CURRENT_STATE)
 
+    def test_current_state_tracks_signed_decomposition_pilot_method_choice(self) -> None:
+        self.assertIn("fista_dense_topk", CURRENT_STATE)
+        self.assertIn("contrastive_latent_topk", CURRENT_STATE)
+        self.assertIn("matched random-feature controls", CURRENT_STATE)
+
     def test_config_uses_65k_as_base_sae_configuration(self) -> None:
         self.assertIn("default_width: 65k", CONFIG)
 

@@ -1,0 +1,74 @@
+{
+  "created_at": "2026-03-19T09:31:37.153039",
+  "model_id": "google/gemma-3-270m-it",
+  "device": "mps",
+  "sae_release": "gemma-scope-2-270m-it-res",
+  "reference_sae": {
+    "release": "gemma-scope-2-270m-it-res",
+    "sae_id": "layer_12_width_16k_l0_medium",
+    "d_in": 640,
+    "d_sae": 16384,
+    "dtype": "float32"
+  },
+  "hidden_layer": 12,
+  "pair_count": 18,
+  "top_k": 32,
+  "random_control_samples": 16,
+  "dense_direction_source": "results/creativity_direction/20260319-gemma3-270m-it-layer-sweep-v1-mean-difference/summary.json",
+  "dense_direction_method": "mean_difference",
+  "method_rows": [
+    {
+      "method_id": "contrastive_latent_topk",
+      "pair_count": 18,
+      "positive_mean_projection": -2896.3740234375,
+      "negative_mean_projection": -3586.0341796875,
+      "mean_margin": 689.6600341796875,
+      "positive_gt_negative_fraction": 0.6111111111111112,
+      "margin_zscore": 0.7554105205237331,
+      "dense_direction_cosine": 0.79804927110672,
+      "decoded_direction_norm": 1.0,
+      "nonzero_feature_count": 32,
+      "random_control_mean_positive_gt_negative_fraction": 0.5104166666666667,
+      "random_control_mean_margin": 68.9804756641388,
+      "random_control_mean_margin_zscore": 0.4750313637186794,
+      "random_control_mean_dense_direction_cosine": 0.07982165645807981,
+      "random_control_max_positive_gt_negative_fraction": 0.6111111111111112,
+      "random_control_max_dense_direction_cosine": 0.2834358215332031
+    },
+    {
+      "method_id": "fista_dense_topk",
+      "pair_count": 18,
+      "positive_mean_projection": -972.841796875,
+      "negative_mean_projection": -1692.4598388671875,
+      "mean_margin": 719.617919921875,
+      "positive_gt_negative_fraction": 0.6666666666666666,
+      "margin_zscore": 0.746133631787827,
+      "dense_direction_cosine": 0.8327152729034424,
+      "decoded_direction_norm": 1.0,
+      "nonzero_feature_count": 32,
+      "random_control_mean_positive_gt_negative_fraction": 0.4722222222222222,
+      "random_control_mean_margin": 58.461112439632416,
+      "random_control_mean_margin_zscore": 0.38913545058146715,
+      "random_control_mean_dense_direction_cosine": 0.06764903728617355,
+      "random_control_max_positive_gt_negative_fraction": 0.6111111111111112,
+      "random_control_max_dense_direction_cosine": 0.3003087341785431
+    }
+  ],
+  "agreement": {
+    "decoded_direction_cosine": 0.7188544548446545,
+    "feature_jaccard_top_sets": 0.11538461538461539,
+    "lhs_method_id": "contrastive_latent_topk",
+    "rhs_method_id": "fista_dense_topk"
+  },
+  "recommendation": {
+    "recommended_method_id": "fista_dense_topk",
+    "pilot_freeze_ok": true,
+    "ranking_rule": "rank by pair-separation gain over matched random controls, then dense-direction cosine gain over matched random controls, then mean-margin gain over matched random controls"
+  },
+  "artifacts": {
+    "summary_json": "results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/summary.json",
+    "method_metrics_jsonl": "results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/method_metrics.jsonl",
+    "feature_tables_json": "results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/feature_tables.json",
+    "random_control_metrics_jsonl": "results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/random_control_metrics.jsonl"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "created_at": "2026-03-19T10:46:05-05:00",
+  "model_id": "google/gemma-3-270m-it",
+  "device": "mps",
+  "sae_release": "gemma-scope-2-270m-it-res",
+  "reference_sae": {
+    "sae_id": "layer_12_width_16k_l0_medium"
+  },
+  "hidden_layer": 12,
+  "prompt_count": 6,
+  "steering_coeff": 1.0,
+  "max_new_tokens": 96,
+  "seed": 8200,
+  "templates_path": "/Users/sohailmo/creativedecomp/prompts/creative_direction_v1_templates.json",
+  "sweep_dir": "/Users/sohailmo/creativedecomp/results/creativity_direction/20260319-gemma3-270m-it-layer-sweep-v1-mean-difference",
+  "feature_method": "fista_dense_topk",
+  "feature_table_path": "/Users/sohailmo/creativedecomp/results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/feature_tables.json",
+  "feature_metadata": {
+    "positive_feature_id": 3222,
+    "negative_feature_id": 16008,
+    "bundle_feature_ids": [
+      3222,
+      7987,
+      446,
+      16008,
+      1323,
+      1307
+    ]
+  },
+  "conditions": [
+    {
+      "condition_id": "dense_direction",
+      "description": "original dense creativity direction",
+      "hidden_layer": 12,
+      "steering_coeff": 1.0
+    },
+    {
+      "condition_id": "positive_feature_3222",
+      "description": "top positive signed SAE feature",
+      "hidden_layer": 12,
+      "steering_coeff": 1.0
+    },
+    {
+      "condition_id": "negative_feature_16008",
+      "description": "top negative signed SAE feature",
+      "hidden_layer": 12,
+      "steering_coeff": 1.0
+    },
+    {
+      "condition_id": "bundle_feature_group",
+      "description": "bundle of top positive and negative SAE features",
+      "hidden_layer": 12,
+      "steering_coeff": 1.0
+    }
+  ],
+  "condition_summaries": [
+    {
+      "condition_id": "bundle_feature_group",
+      "sample_count": 6,
+      "mean_completion_word_count": 80.83333333333333,
+      "mean_completion_char_count": 444.5
+    },
+    {
+      "condition_id": "dense_direction",
+      "sample_count": 6,
+      "mean_completion_word_count": 80.5,
+      "mean_completion_char_count": 444.6666666666667
+    },
+    {
+      "condition_id": "negative_feature_16008",
+      "sample_count": 6,
+      "mean_completion_word_count": 81.16666666666667,
+      "mean_completion_char_count": 441.3333333333333
+    },
+    {
+      "condition_id": "positive_feature_3222",
+      "sample_count": 6,
+      "mean_completion_word_count": 80.66666666666667,
+      "mean_completion_char_count": 449.3333333333333
+    }
+  ],
+  "outputs_path": "outputs.jsonl"
+}
