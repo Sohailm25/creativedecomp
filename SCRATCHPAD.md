@@ -1035,3 +1035,68 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: none in audit-packet alignment or summary aggregation
 - Next step: file root-cause follow-up and keep stronger claim language blocked
+
+## 2026-03-20T13:15:00-0500 PRE-RUN: coefficient sensitivity check (bundle-vs-dense on benchmark families)
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9040 --steering-coeff 0.5 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `writing/diversity family / 10 prompts`
+- Output path: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05`
+- What I'm testing: whether reducing intervention strength from coeff `1.0` to `0.5` recovers bundle-vs-dense benchmark behavior.
+- Expected outcome: a bounded sensitivity read that either weakens or supports the scale-mismatch hypothesis.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session031.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9040 --steering-coeff 0.5 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05 --overwrite`
+- Main confound to watch: lower coeff can reduce both harmful and useful signal, creating ambiguous ties.
+- Implementation verified: YES - baseline coeff `1.0` benchmark pipeline is already landed on the same prompts.
+- Status: LAUNCHING
+
+## 2026-03-20T13:15:00-0500 PRE-RUN: coefficient sensitivity check (association/divergent family)
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9050 --steering-coeff 0.5 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `association/divergent family / 10 prompts`
+- Output path: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05`
+- What I'm testing: same bounded coeff sensitivity on the CREATE-style prompt family.
+- Expected outcome: paired family evidence on whether coeff alone explains the dropoff.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session031.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9050 --steering-coeff 0.5 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05 --overwrite`
+- Main confound to watch: association prompts are noisier; ties can mask real directional differences.
+- Implementation verified: YES - baseline coeff `1.0` run is complete with locked audits on the same family.
+- Status: LAUNCHING
+
+## 2026-03-20T13:20:12-0500 POST-RUN: coefficient sensitivity check (writing/diversity family)
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9040 --steering-coeff 0.5 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05 --overwrite`
+- Outcome: SUCCESS
+- Key metric: bounded coeff rerun completed on `10` prompts x `4` conditions
+- Artifacts saved: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05/`
+- Latest checkpoint: none
+- Anomalies: none
+- Next step: run matching coeff rerun on association/divergent family and lock audits
+
+## 2026-03-20T13:22:00-0500 POST-RUN: coefficient sensitivity check (association/divergent family)
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9050 --steering-coeff 0.5 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05 --overwrite`
+- Outcome: SUCCESS
+- Key metric: bounded coeff rerun completed on `10` prompts x `4` conditions
+- Artifacts saved: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05/`
+- Latest checkpoint: none
+- Anomalies: none
+- Next step: score locked bundle-vs-dense audits and compare coeff deltas against baseline
+
+## 2026-03-20T13:24:03-0500 POST-RUN: dropoff root-cause synthesis
+- Command: `.venv/bin/python scripts/analyze_feature_validation_dropoff.py --writing-artifact-dir ... --writing-audit-summary-path ... --writing-low-coeff-audit-summary-path ... --association-artifact-dir ... --association-audit-summary-path ... --association-low-coeff-audit-summary-path ... --output-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1/summary.json`
+- Outcome: SUCCESS
+- Key metric: bundle remains below dense on prompt-grounded creativity across both families at both tested coefficients
+- Artifacts saved: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1/`
+- Latest checkpoint: none
+- Anomalies: none in summary aggregation
+- Next step: propose one prompt-family-matched feature-refresh corrective experiment before any claim upgrade attempt

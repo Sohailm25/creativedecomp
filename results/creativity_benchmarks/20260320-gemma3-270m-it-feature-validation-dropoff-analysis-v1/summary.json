@@ -1,0 +1,127 @@
+{
+  "created_at": "2026-03-20T13:24:03-05:00",
+  "families": [
+    {
+      "family_id": "writing_diversity_family",
+      "artifact_dir": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1",
+      "audit_summary_path": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-manual-audit/summary.json",
+      "audit_net_wins": {
+        "prompt_grounded_creativity_net_win": -0.3,
+        "coherence_net_win": 0.0
+      },
+      "condition_metrics": {
+        "dense_direction": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.307582933682678,
+          "mean_repetition_rate": 0.3473383606988259,
+          "mean_completion_word_count": 78.6
+        },
+        "positive_feature_3222": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.2683290762446773,
+          "mean_repetition_rate": 0.33575123057925277,
+          "mean_completion_word_count": 82.0
+        },
+        "negative_feature_16008": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.2740545642463801,
+          "mean_repetition_rate": 0.36364104015992055,
+          "mean_completion_word_count": 79.5
+        },
+        "bundle_feature_group": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.23493660448903414,
+          "mean_repetition_rate": 0.3575573829282399,
+          "mean_completion_word_count": 79.5
+        }
+      },
+      "bundle_dense_condition_deltas": {
+        "prompt_grounding_delta": -0.07264632919364383,
+        "repetition_delta": 0.01021902222941401,
+        "word_count_delta": 0.9000000000000057
+      },
+      "diagnostic_flags": {
+        "bundle_under_dense_on_creativity": true,
+        "bundle_under_dense_on_coherence": false,
+        "bundle_lower_prompt_grounding": true,
+        "bundle_higher_repetition": true
+      },
+      "low_coeff_sensitivity": {
+        "audit_summary_path": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-manual-audit/summary.json",
+        "audit_net_wins": {
+          "prompt_grounded_creativity_net_win": -0.2,
+          "coherence_net_win": 0.09999999999999998
+        },
+        "net_win_deltas_vs_baseline": {
+          "prompt_grounded_creativity_net_win_delta": 0.09999999999999998,
+          "coherence_net_win_delta": 0.09999999999999998
+        }
+      }
+    },
+    {
+      "family_id": "association_divergent_family",
+      "artifact_dir": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1",
+      "audit_summary_path": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-manual-audit/summary.json",
+      "audit_net_wins": {
+        "prompt_grounded_creativity_net_win": -0.19999999999999998,
+        "coherence_net_win": -0.10000000000000003
+      },
+      "condition_metrics": {
+        "dense_direction": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.3029304029304029,
+          "mean_repetition_rate": 0.3189104799427024,
+          "mean_completion_word_count": 78.2
+        },
+        "positive_feature_3222": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.27793040293040294,
+          "mean_repetition_rate": 0.3330421703438066,
+          "mean_completion_word_count": 79.1
+        },
+        "negative_feature_16008": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.31062271062271063,
+          "mean_repetition_rate": 0.32385065319448086,
+          "mean_completion_word_count": 78.9
+        },
+        "bundle_feature_group": {
+          "sample_count": 10.0,
+          "mean_prompt_grounding_ratio": 0.30238095238095236,
+          "mean_repetition_rate": 0.3264084890602144,
+          "mean_completion_word_count": 77.2
+        }
+      },
+      "bundle_dense_condition_deltas": {
+        "prompt_grounding_delta": -0.0005494505494505475,
+        "repetition_delta": 0.007498009117512028,
+        "word_count_delta": -1.0
+      },
+      "diagnostic_flags": {
+        "bundle_under_dense_on_creativity": true,
+        "bundle_under_dense_on_coherence": true,
+        "bundle_lower_prompt_grounding": true,
+        "bundle_higher_repetition": true
+      },
+      "low_coeff_sensitivity": {
+        "audit_summary_path": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-manual-audit/summary.json",
+        "audit_net_wins": {
+          "prompt_grounded_creativity_net_win": -0.3,
+          "coherence_net_win": -0.3
+        },
+        "net_win_deltas_vs_baseline": {
+          "prompt_grounded_creativity_net_win_delta": -0.1,
+          "coherence_net_win_delta": -0.19999999999999996
+        }
+      }
+    }
+  ],
+  "root_cause_summary": {
+    "family_count": 2,
+    "creativity_dropoff_family_count": 2,
+    "coherence_dropoff_family_count": 1,
+    "lower_prompt_grounding_family_count": 2,
+    "higher_repetition_family_count": 2
+  },
+  "recommended_minimum_corrective_experiment": "rerun bundle-vs-dense with prompt-family-matched feature selection and a bounded coefficient sensitivity slice before any claim upgrade."
+}

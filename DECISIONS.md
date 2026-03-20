@@ -328,3 +328,10 @@
 - Decision: close `creativedecomp-tu6` as completed execution, but record the prereg benchmark-family confirmation gate as not met. The pilot bundle-over-dense pattern does not generalize in this first pass.
 - Rationale: in the association/divergent family, bundle-vs-dense net wins are `-0.200` on prompt-grounded creativity and `-0.100` on coherence; in the writing/diversity family, net wins are `-0.300` on creativity and `0.000` on coherence. This is direct disconfirmation of the pilot-slice ranking as a generalized claim.
 - Impact: stronger feature-level claim language remains blocked; `creativedecomp-e4p` is now the next ready task to diagnose prompt-family shift, feature selection stability, and steering-scale sensitivity before any corrective rerun.
+
+## [2026-03-20T13:26:00-0500] DECISION: Coefficient-only rescue is insufficient; queue prompt-family-matched bundle refresh as the minimum corrective experiment
+
+- Trigger: `creativedecomp-e4p` completed bounded dropoff diagnostics plus a locked coeff-`0.5` sensitivity pass on both benchmark families.
+- Decision: close `creativedecomp-e4p` as completed analysis and do not treat lower coefficient alone as a fix. Move next to a prompt-family-matched signed-bundle refresh experiment with locked audits at coeffs `0.5` and `1.0`.
+- Rationale: lowering coeff from `1.0` to `0.5` gave only partial, non-general rescue (writing/diversity creativity net win `-0.300 -> -0.200`; association/divergent `-0.200 -> -0.300` with worse coherence). Diagnostic metrics also show bundle prompt grounding is lower and repetition is higher than dense in both families, which points to transfer/feature-selection mismatch rather than one global scale bug.
+- Impact: `creativedecomp-e4p` can close, `creativedecomp-0jl` is now the next ready corrective task, and feature-level claim upgrades remain blocked until benchmark-family confirmation recovers.

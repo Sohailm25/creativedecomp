@@ -97,6 +97,10 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Writing/diversity benchmark-family feature-validation run on `10` confirm prompts with locked bundle-vs-dense audit | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-manual-audit/README.md` |
 | Association/divergent benchmark-family feature-validation run on `10` CREATE-style prompts with locked bundle-vs-dense audit | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-manual-audit/README.md` |
 | Two-family prereg benchmark confirmation summary for bundle-vs-dense generalization (`20` audited pairs total) | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1/README.md` |
+| Writing/diversity bounded coefficient sensitivity rerun (`coeff=0.5`) with locked bundle-vs-dense audit | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-manual-audit/README.md` |
+| Association/divergent bounded coefficient sensitivity rerun (`coeff=0.5`) with locked bundle-vs-dense audit | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-manual-audit/README.md` |
+| Two-family coeff-`0.5` confirmation summary for bundle-vs-dense | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-coeff05/summary.json` |
+| Root-cause synthesis artifact comparing baseline vs coeff-`0.5` dropoff signals | creativity benchmarks | pass | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1/README.md` |
 
 ## Controller Extensions
 

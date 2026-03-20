@@ -21,6 +21,7 @@ Run a bounded post-decomposition check on the matched instruction-tuned stack to
 - An independent second-rater pass on the same blinded packet is now recorded. Inter-rater agreement is `0.833` (Cohen's κ `0.710`) for prompt-grounded creativity and `0.944` (Cohen's κ `0.894`) for coherence.
 - The first prereg two-family benchmark confirmation run now exists at `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1/` (`20` audited pairs total, beyond the `18`-pair pilot slice) and does **not** confirm the pilot bundle-over-dense pattern.
 - Benchmark-family net wins (`bundle - dense`) are negative on prompt-grounded creativity in both families: association/divergent `-0.200`, writing/diversity `-0.300`; coherence is `-0.100` and `0.000` respectively.
+- A bounded coeff sensitivity follow-up at `0.5` (`results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-coeff05/`) does not consistently rescue the result; writing/diversity improves slightly (`-0.200`) while association/divergent worsens (`-0.300` creativity net win, `-0.300` coherence net win).
 
 ## Limitations
 

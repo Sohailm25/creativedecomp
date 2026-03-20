@@ -1,0 +1,10 @@
+{"audit_pair_id":"audit-01-01","prompt_grounded_creativity_winner_label":"B","coherence_winner_label":"B","notes":"B adds art/tinkerer bridge cues; A stays generic storm narrative."}
+{"audit_pair_id":"audit-01-02","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"A explicitly brings in abandoned space station with beehive context."}
+{"audit_pair_id":"audit-01-03","prompt_grounded_creativity_winner_label":"tie","coherence_winner_label":"tie","notes":"Both connect seed-bank/blackout similarly with comparable coherence."}
+{"audit_pair_id":"audit-01-04","prompt_grounded_creativity_winner_label":"tie","coherence_winner_label":"tie","notes":"Both include chess+fire but omit evacuation-map specifics."}
+{"audit_pair_id":"audit-01-05","prompt_grounded_creativity_winner_label":"B","coherence_winner_label":"B","notes":"B is more concrete about eruption effects and remains cleaner."}
+{"audit_pair_id":"audit-01-06","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"A better ties glassblower to deep-ocean setting."}
+{"audit_pair_id":"audit-01-07","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"A keeps river lock operator center; B drifts to clockmaker framing."}
+{"audit_pair_id":"audit-01-08","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"A is cleaner and less broken; both miss explicit quantum-key detail."}
+{"audit_pair_id":"audit-01-09","prompt_grounded_creativity_winner_label":"tie","coherence_winner_label":"tie","notes":"Both mostly whale-focused with similarly generic prose quality."}
+{"audit_pair_id":"audit-01-10","prompt_grounded_creativity_winner_label":"B","coherence_winner_label":"B","notes":"B anchors bus ticket and marine linkage more directly."}

@@ -600,3 +600,24 @@ Suggested entry format:
   - medium-high that `creativedecomp-e4p` can isolate at least one actionable confound
 - Interesting facts:
   - The first beyond-pilot two-family confirmation used `20` locked audited pairs and still reversed the earlier bundle-over-dense pilot signal.
+
+## [2026-03-20T13:25:00-0500] Lowering Coefficient Helps One Family Slightly But Hurts The Other
+
+- Stage: feature-validation root-cause analysis
+- Feel of the Experiment: The coeff sensitivity result cuts off the easiest excuse. Scale alone is not the primary blocker.
+- Working Hypotheses:
+  - The bundle is not transferring cleanly across prompt families because feature selection is too pilot-shaped.
+  - Prompt grounding is the sharper failure mode than raw coherence collapse.
+- Hunches and Guesses:
+  - A prompt-family-matched bundle refresh has a better chance than another generic coeff tweak.
+  - Keeping the same stack while changing only feature selection should give a clean falsifiable next step.
+- Predictions:
+  - If refreshed features still lose to dense across both families, the current decomposition-to-intervention path is likely too brittle for claim upgrades.
+- Surprises and Tensions:
+  - Writing/diversity improved slightly at coeff `0.5`, but association/divergent clearly worsened.
+  - The repetition signal is small but consistent in the wrong direction for bundle.
+- Confidence:
+  - high that stronger claim language should remain blocked
+  - medium-high that `creativedecomp-0jl` is the minimum honest corrective path
+- Interesting facts:
+  - The root-cause artifact flags lower prompt grounding and higher repetition for bundle versus dense in both families, even before changing model or SAE regime.

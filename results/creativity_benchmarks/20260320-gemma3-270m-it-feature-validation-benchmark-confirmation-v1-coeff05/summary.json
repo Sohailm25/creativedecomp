@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-03-20T13:22:52-05:00",
+  "association_summary_path": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-manual-audit/summary.json",
+  "writing_summary_path": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-manual-audit/summary.json",
+  "family_summaries": [
+    {
+      "family_id": "association_divergent_family",
+      "family_label": "Association / Divergent (CREATE-style)",
+      "sample_count": 10,
+      "prompt_grounded_creativity_net_win": -0.3,
+      "coherence_net_win": -0.3,
+      "bundle_beats_dense_on_creativity": false,
+      "bundle_nonnegative_on_coherence": false
+    },
+    {
+      "family_id": "writing_diversity_family",
+      "family_label": "Writing / Diversity (WritingPrompts-style)",
+      "sample_count": 10,
+      "prompt_grounded_creativity_net_win": -0.2,
+      "coherence_net_win": 0.09999999999999998,
+      "bundle_beats_dense_on_creativity": false,
+      "bundle_nonnegative_on_coherence": true
+    }
+  ],
+  "confirmation": {
+    "family_count": 2,
+    "has_minimum_family_count": true,
+    "passes_prereg_two_family_confirmation": false
+  },
+  "claim_boundary": "benchmark_family_confirmation_not_met"
+}
