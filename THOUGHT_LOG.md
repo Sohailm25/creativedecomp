@@ -579,3 +579,24 @@ Suggested entry format:
   - high that claim-bearing evaluation should remain gated
 - Interesting facts:
   - The same manual-audit style that rescued the instruction-tuned refusal lane is now what makes the instruction-tuned creativity lane usable enough for pilot decomposition, even though the automatic judge remains unusable.
+
+## [2026-03-20T11:40:00-0500] The Pilot Bundle Signal Did Not Survive The First Real Generalization Check
+
+- Stage: benchmark-family confirmation
+- Feel of the Experiment: The result is cleaner than I expected and less flattering than the pilot read. The two-family check did exactly what it was supposed to do: it blocked claim drift.
+- Working Hypotheses:
+  - The pilot bundle-over-dense win likely depends on the narrow pilot prompt regime and does not transfer cleanly to broader prompt families yet.
+  - The current frozen feature bundle may be overfit to the pilot slice and under-specified for cross-family creativity prompts.
+- Hunches and Guesses:
+  - Prompt-family shift and intervention scale may matter more than feature sign alone in the current setup.
+  - A narrow root-cause pass will likely recover one concrete correction target before any rerun.
+- Predictions:
+  - If we rerun without diagnosing root cause first, we will likely reproduce another mixed/negative benchmark-family result.
+- Surprises and Tensions:
+  - Coherence did not catastrophically collapse in the writing family, but creativity still dropped versus dense.
+  - The association family, which was meant to highlight bridge-like behavior, was exactly where bundle looked weakest.
+- Confidence:
+  - high that stronger claim language must remain blocked
+  - medium-high that `creativedecomp-e4p` can isolate at least one actionable confound
+- Interesting facts:
+  - The first beyond-pilot two-family confirmation used `20` locked audited pairs and still reversed the earlier bundle-over-dense pilot signal.

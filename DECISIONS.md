@@ -314,3 +314,17 @@
 - Decision: create `creativedecomp-yga` to run an independent second-rater pass on the same blinded packet and report inter-rater agreement before stronger claim language.
 - Rationale: this keeps the claim boundary honest while preserving momentum and methodological rigor.
 - Impact: `creativedecomp-yga` becomes the next ready task after `creativedecomp-602`.
+
+## [2026-03-20T11:22:00-0500] DECISION: Record two-rater agreement for feature-validation manual audit and promote benchmark confirmation as next blocker
+
+- Trigger: `creativedecomp-yga` added a second locked rater and agreement computation under `scripts/compute_feature_validation_inter_rater_agreement.py`, producing `inter_rater_agreement.json` and embedding metrics in the manual-audit summary.
+- Decision: accept the feature-validation manual audit as two-rater pilot evidence with explicit agreement (`0.833` / kappa `0.710` for prompt-grounded creativity; `0.944` / kappa `0.894` for coherence), then move the critical path to prereg benchmark-family confirmation.
+- Rationale: agreement is strong enough to retire the single-rater confound, but pilot-slice manual judgments alone are still insufficient for stronger publication-grade claims.
+- Impact: `creativedecomp-yga` can close and `creativedecomp-tu6` becomes the next ready issue.
+
+## [2026-03-20T11:45:00-0500] DECISION: Treat the first two-family benchmark confirmation pass as a failed generalization gate and pivot to root-cause analysis
+
+- Trigger: `creativedecomp-tu6` ran two benchmark families beyond the `18`-pair pilot slice on the matched instruction-tuned stack with locked bundle-vs-dense rubric audits (`10` pairs per family; `20` total).
+- Decision: close `creativedecomp-tu6` as completed execution, but record the prereg benchmark-family confirmation gate as not met. The pilot bundle-over-dense pattern does not generalize in this first pass.
+- Rationale: in the association/divergent family, bundle-vs-dense net wins are `-0.200` on prompt-grounded creativity and `-0.100` on coherence; in the writing/diversity family, net wins are `-0.300` on creativity and `0.000` on coherence. This is direct disconfirmation of the pilot-slice ranking as a generalized claim.
+- Impact: stronger feature-level claim language remains blocked; `creativedecomp-e4p` is now the next ready task to diagnose prompt-family shift, feature selection stability, and steering-scale sensitivity before any corrective rerun.

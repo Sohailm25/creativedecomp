@@ -970,3 +970,68 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: none in packet alignment or annotation mapping
 - Next step: run independent second-rater agreement pass (`creativedecomp-yga`) before stronger claim language
+
+## 2026-03-20T11:28:00-0500 PRE-RUN: benchmark-family confirmation generation (writing/diversity family)
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9020 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `creative_direction_v1_confirm / first 10 prompts`
+- Output path: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1`
+- What I'm testing: whether dense vs feature-intervention outputs can be generated on a larger writing/diversity family slice under the frozen pilot method settings.
+- Expected outcome: cached generations and summary for dense + selected feature interventions on 10 writing-family prompts.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session031.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9020 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1 --overwrite`
+- Main confound to watch: family shift from instruction-tuned counterpart prompts to broader confirm prompts may reduce prompt-grounding quality.
+- Implementation verified: YES - script already used for the landed feature-validation pilot on the same stack and settings.
+- Status: LAUNCHING
+
+## 2026-03-20T11:28:00-0500 PRE-RUN: benchmark-family confirmation generation (association/divergent family)
+- tmux session: N/A
+- Script: `scripts/run_instruction_tuned_creativity_feature_validation_pilot.py`
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9030 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `create_style_association_v1 / 10 prompts`
+- Output path: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1`
+- What I'm testing: whether the same dense/feature interventions hold on a CREATE-style association family.
+- Expected outcome: cached generations and summary for dense + selected feature interventions on 10 association prompts.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session031.md`
+- Resume command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9030 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1 --overwrite`
+- Main confound to watch: concept-bridging prompts can inflate novelty while degrading coherence if interventions push style over control.
+- Implementation verified: YES - script and condition construction already validated by unit tests and prior pilot artifact.
+- Status: LAUNCHING
+
+## 2026-03-20T11:33:03-0500 POST-RUN: benchmark-family confirmation generation (writing/diversity family)
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9020 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1 --overwrite`
+- Outcome: SUCCESS
+- Key metric: `10` prompts x `4` conditions generated; `bundle_feature_group` mean completion length `79.5` words vs dense `78.6`
+- Artifacts saved: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1/`
+- Latest checkpoint: none
+- Anomalies: none; generation completed with frozen stack settings
+- Next step: run association/divergent benchmark-family generation with same intervention settings
+
+## 2026-03-20T11:37:36-0500 POST-RUN: benchmark-family confirmation generation (association/divergent family)
+- Command: `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9030 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1 --overwrite`
+- Outcome: SUCCESS
+- Key metric: `10` prompts x `4` conditions generated; `bundle_feature_group` mean completion length `77.2` words vs dense `78.2`
+- Artifacts saved: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1/`
+- Latest checkpoint: none
+- Anomalies: none; prompt family shift executed cleanly
+- Next step: build locked bundle-vs-dense manual audits for both families and aggregate prereg confirmation
+
+## 2026-03-20T11:39:24-0500 POST-RUN: two-family benchmark confirmation aggregation
+- Command: `.venv/bin/python scripts/summarize_feature_validation_benchmark_confirmation.py --association-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-manual-audit/summary.json --writing-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-manual-audit/summary.json --output-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1/summary.json`
+- Outcome: SUCCESS
+- Key metric: prereg two-family confirmation `passes_prereg_two_family_confirmation = false`
+- Artifacts saved: `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1/`
+- Latest checkpoint: none
+- Anomalies: none in audit-packet alignment or summary aggregation
+- Next step: file root-cause follow-up and keep stronger claim language blocked

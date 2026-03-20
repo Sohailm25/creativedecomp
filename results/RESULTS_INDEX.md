@@ -49,11 +49,14 @@ Register every experimental artifact here. Never delete entries; mark superseded
 
 | Artifact | Lane | Status | Path |
 |---|---|---|---|
+| Signed decomposition pilot on the matched instruction-tuned creativity stack comparing `contrastive_latent_topk` and `fista_dense_topk` against random-feature controls | feature decomposition | pass | `results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/README.md` |
 
 ## Feature Validation
 
 | Artifact | Lane | Status | Path |
 |---|---|---|---|
+| Bounded feature-validation pilot generations for dense direction plus top positive, top negative, and bundled signed features | feature validation | pass | `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1/README.md` |
+| Two-rater manual audit on the pilot feature-validation slice, including inter-rater agreement summary | feature validation | mixed | `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/README.md` |
 
 ## Bridge Features
 
@@ -91,6 +94,9 @@ Register every experimental artifact here. Never delete entries; mark superseded
 
 | Artifact | Lane | Status | Path |
 |---|---|---|---|
+| Writing/diversity benchmark-family feature-validation run on `10` confirm prompts with locked bundle-vs-dense audit | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-manual-audit/README.md` |
+| Association/divergent benchmark-family feature-validation run on `10` CREATE-style prompts with locked bundle-vs-dense audit | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-manual-audit/README.md` |
+| Two-family prereg benchmark confirmation summary for bundle-vs-dense generalization (`20` audited pairs total) | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1/README.md` |
 
 ## Controller Extensions
 

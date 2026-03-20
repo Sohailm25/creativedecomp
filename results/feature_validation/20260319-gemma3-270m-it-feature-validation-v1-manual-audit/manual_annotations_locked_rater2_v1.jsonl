@@ -1,0 +1,18 @@
+{"audit_pair_id": "audit-01-01", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B gives slightly stronger concrete framing and cleaner continuation."}
+{"audit_pair_id": "audit-01-02", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B is more vivid and better grounded to the prompt setup."}
+{"audit_pair_id": "audit-01-03", "prompt_grounded_creativity_winner_label": "tie", "coherence_winner_label": "tie", "notes": "Both feel generic and similarly weak in progression."}
+{"audit_pair_id": "audit-01-04", "prompt_grounded_creativity_winner_label": "A", "coherence_winner_label": "A", "notes": "A has better imagery and slightly more coherent flow."}
+{"audit_pair_id": "audit-01-05", "prompt_grounded_creativity_winner_label": "A", "coherence_winner_label": "A", "notes": "A is less repetitive and better connected to crisis premise."}
+{"audit_pair_id": "audit-01-06", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "A", "notes": "B has marginally stronger premise use; A is more readable."}
+{"audit_pair_id": "audit-02-01", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B has stronger specific details and cleaner sequence."}
+{"audit_pair_id": "audit-02-02", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "A", "notes": "B is more concrete; A remains slightly clearer sentence to sentence."}
+{"audit_pair_id": "audit-02-03", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B is less contradictory and more specific."}
+{"audit_pair_id": "audit-02-04", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B introduces conflict more directly and reads cleaner."}
+{"audit_pair_id": "audit-02-05", "prompt_grounded_creativity_winner_label": "A", "coherence_winner_label": "A", "notes": "A has better continuity and fewer broken phrasing moments."}
+{"audit_pair_id": "audit-02-06", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B tracks the prompt concept and maintains consistency."}
+{"audit_pair_id": "audit-03-01", "prompt_grounded_creativity_winner_label": "A", "coherence_winner_label": "A", "notes": "A is more concrete and less formulaic than B."}
+{"audit_pair_id": "audit-03-02", "prompt_grounded_creativity_winner_label": "A", "coherence_winner_label": "A", "notes": "A is more novel and grounded with clearer imagery."}
+{"audit_pair_id": "audit-03-03", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "A", "notes": "B feels slightly richer in specifics; A reads marginally cleaner."}
+{"audit_pair_id": "audit-03-04", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B develops conflict setup better and is more coherent."}
+{"audit_pair_id": "audit-03-05", "prompt_grounded_creativity_winner_label": "A", "coherence_winner_label": "A", "notes": "A is better grounded to the one-hour power premise."}
+{"audit_pair_id": "audit-03-06", "prompt_grounded_creativity_winner_label": "B", "coherence_winner_label": "B", "notes": "B better fits the non-dreaming concept and flows better."}

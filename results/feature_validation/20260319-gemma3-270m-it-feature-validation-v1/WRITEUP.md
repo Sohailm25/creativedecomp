@@ -18,14 +18,16 @@ Run a bounded post-decomposition check on the matched instruction-tuned stack to
 - Length-level summaries are tightly clustered across conditions (roughly `80` words and `440`-`450` chars on average), so there is no obvious gross verbosity confound.
 - A separate blinded audit packet was built at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/`.
 - Locked rubric annotations (single-rater pass) on that packet currently rank `bundle_feature_group` above dense on both prompt-grounded creativity and coherence, and rank `positive_feature_3222` below dense.
+- An independent second-rater pass on the same blinded packet is now recorded. Inter-rater agreement is `0.833` (Cohen's κ `0.710`) for prompt-grounded creativity and `0.944` (Cohen's κ `0.894`) for coherence.
+- The first prereg two-family benchmark confirmation run now exists at `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1/` (`20` audited pairs total, beyond the `18`-pair pilot slice) and does **not** confirm the pilot bundle-over-dense pattern.
+- Benchmark-family net wins (`bundle - dense`) are negative on prompt-grounded creativity in both families: association/divergent `-0.200`, writing/diversity `-0.300`; coherence is `-0.100` and `0.000` respectively.
 
 ## Limitations
 
-- The locked annotations are manual but single-rater; independent second-rater confirmation is still needed for stronger publication-grade claims.
+- The benchmark-family confirmation pass currently fails the prereg two-family gate, so stronger feature-level claim language remains blocked.
 - Current automatic judge limitations still apply and remain tracked in `creativedecomp-183`.
 
 ## Next Steps
 
-- Add an independent second-rater annotation pass over the same blinded packet and report inter-rater agreement.
 - Keep feature-level interpretation tied to the same prompt-grounded creativity and coherence rubric used in instruction-tuned gate work.
-- Only then decide whether any feature-level effect is strong enough for stronger write-up language.
+- Run a root-cause follow-up on why bundle performance drops off the pilot slice (prompt-family shift, feature selection instability, or intervention scaling mismatch) before any claim upgrade attempt.
