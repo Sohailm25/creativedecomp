@@ -1100,3 +1100,54 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: none in summary aggregation
 - Next step: propose one prompt-family-matched feature-refresh corrective experiment before any claim upgrade attempt
+
+## 2026-03-20T13:32:00-0500 PRE-RUN: prompt-family-matched bundle refresh selection
+- tmux session: N/A
+- Script: `scripts/select_prompt_matched_bundle_v1.py`
+- Command: `.venv/bin/python scripts/select_prompt_matched_bundle_v1.py --writing-pair-path prompts/writing_diversity_tuning_v1.jsonl --association-pair-path prompts/create_style_association_tuning_v1.jsonl --candidate-count-per-sign 8 --select-count-per-sign 3 --steering-coeff 1.0 --output-dir results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1 --overwrite`
+- Device: `mps`
+- Model: `google/gemma-3-270m-it`
+- SAE: `gemma-scope-2-270m-it-res / layer_12_width_16k_l0_medium`
+- Data slice: `16 tuning prompts across writing/diversity and association/divergent families`
+- Output path: `results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1`
+- What I'm testing: whether prompt-family-matched single-feature scoring can produce a better transfer-ready signed bundle.
+- Expected outcome: refreshed feature table method (`fista_dense_topk_prompt_matched_refresh_v1`) with ranked candidate diagnostics.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session032.md`
+- Resume command: `.venv/bin/python scripts/select_prompt_matched_bundle_v1.py --writing-pair-path prompts/writing_diversity_tuning_v1.jsonl --association-pair-path prompts/create_style_association_tuning_v1.jsonl --candidate-count-per-sign 8 --select-count-per-sign 3 --steering-coeff 1.0 --output-dir results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1 --overwrite`
+- Main confound to watch: proxy scoring (prompt grounding minus repetition) may over-prioritize literalness over richer creativity cues.
+- Implementation verified: YES - selector helper tests pass and generation pipeline already validated on this stack.
+- Status: LAUNCHING
+
+## 2026-03-20T14:00:32-0500 POST-RUN: prompt-family-matched bundle refresh selection
+- Command: `.venv/bin/python scripts/select_prompt_matched_bundle_v1.py --writing-pair-path prompts/writing_diversity_tuning_v1.jsonl --association-pair-path prompts/create_style_association_tuning_v1.jsonl --candidate-count-per-sign 8 --select-count-per-sign 3 --steering-coeff 1.0 --output-dir results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1 --overwrite`
+- Outcome: SUCCESS
+- Key metric: refreshed method `fista_dense_topk_prompt_matched_refresh_v1` selected features `+:[10248, 7405, 3222]` and `-:[9061, 1307, 11367]`
+- Artifacts saved: `results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/`
+- Latest checkpoint: none
+- Anomalies: none
+- Next step: rerun both benchmark families at coeffs `1.0` and `0.5` with locked bundle-vs-dense audits
+
+## 2026-03-20T14:16:46-0500 POST-RUN: prompt-matched bundle refresh benchmark reruns and summaries
+- Commands:
+  - `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9060 --feature-table-path results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/feature_tables_refreshed.json --feature-method fista_dense_topk_prompt_matched_refresh_v1 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1 --overwrite`
+  - `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9070 --feature-table-path results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/feature_tables_refreshed.json --feature-method fista_dense_topk_prompt_matched_refresh_v1 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-refresh-v1 --overwrite`
+  - `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/creative_direction_v1_confirm.jsonl --max-prompts 10 --seed 9080 --steering-coeff 0.5 --feature-table-path results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/feature_tables_refreshed.json --feature-method fista_dense_topk_prompt_matched_refresh_v1 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-refresh-v1 --overwrite`
+  - `.venv/bin/python scripts/run_instruction_tuned_creativity_feature_validation_pilot.py --pair-path prompts/create_style_association_v1.jsonl --max-prompts 10 --seed 9090 --steering-coeff 0.5 --feature-table-path results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/feature_tables_refreshed.json --feature-method fista_dense_topk_prompt_matched_refresh_v1 --output-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-refresh-v1 --overwrite`
+  - `.venv/bin/python scripts/summarize_feature_validation_benchmark_confirmation.py --association-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-refresh-v1-manual-audit/summary.json --writing-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1-manual-audit/summary.json --output-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-refresh-v1/summary.json`
+  - `.venv/bin/python scripts/summarize_feature_validation_benchmark_confirmation.py --association-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-refresh-v1-manual-audit/summary.json --writing-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-refresh-v1-manual-audit/summary.json --output-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-coeff05-refresh-v1/summary.json`
+  - `.venv/bin/python scripts/analyze_feature_validation_dropoff.py --writing-artifact-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1 --writing-audit-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1-manual-audit/summary.json --association-artifact-dir results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-refresh-v1 --association-audit-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-refresh-v1-manual-audit/summary.json --writing-low-coeff-audit-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-refresh-v1-manual-audit/summary.json --association-low-coeff-audit-summary-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-refresh-v1-manual-audit/summary.json --output-path results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1-refresh-v1/summary.json`
+- Outcome: SUCCESS
+- Key metric: prereg two-family confirmation still `false` at coeff `1.0` and coeff `0.5`; writing/diversity partially recovers at coeff `1.0` but association/divergent remains negative.
+- Artifacts saved:
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1/`
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-refresh-v1/`
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-coeff05-refresh-v1/`
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-refresh-v1/`
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-refresh-v1/`
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-coeff05-refresh-v1/`
+  - `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1-refresh-v1/`
+- Latest checkpoint: none
+- Anomalies: current refresh rerun uses deterministic heuristic-locked audit labels; independent human rerating still pending for claim-bearing use
+- Next step: execute follow-up `creativedecomp-d1j` for independent human rerating and then choose between further retuning and a negative transfer freeze

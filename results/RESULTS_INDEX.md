@@ -50,6 +50,7 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Artifact | Lane | Status | Path |
 |---|---|---|---|
 | Signed decomposition pilot on the matched instruction-tuned creativity stack comparing `contrastive_latent_topk` and `fista_dense_topk` against random-feature controls | feature decomposition | pass | `results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/README.md` |
+| Prompt-family-matched signed-bundle refresh selecting a new `fista_dense_topk_prompt_matched_refresh_v1` method for corrective benchmark reruns | feature decomposition | mixed | `results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/README.md` |
 
 ## Feature Validation
 
@@ -101,6 +102,11 @@ Register every experimental artifact here. Never delete entries; mark superseded
 | Association/divergent bounded coefficient sensitivity rerun (`coeff=0.5`) with locked bundle-vs-dense audit | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-coeff05-manual-audit/README.md` |
 | Two-family coeff-`0.5` confirmation summary for bundle-vs-dense | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-coeff05/summary.json` |
 | Root-cause synthesis artifact comparing baseline vs coeff-`0.5` dropoff signals | creativity benchmarks | pass | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1/README.md` |
+| Writing/diversity prompt-matched refresh rerun (`coeff=1.0`) with heuristic-locked bundle-vs-dense audit | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1-manual-audit/README.md` |
+| Association/divergent prompt-matched refresh rerun (`coeff=1.0`) with heuristic-locked bundle-vs-dense audit | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-association-v1-refresh-v1-manual-audit/README.md` |
+| Two-family prompt-matched refresh confirmation summary (`coeff=1.0`) showing partial family recovery but failed prereg gate | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-refresh-v1/README.md` |
+| Two-family prompt-matched refresh confirmation summary (`coeff=0.5`) showing no consistent cross-family rescue | creativity benchmarks | fail | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-confirmation-v1-coeff05-refresh-v1/README.md` |
+| Refresh-lane dropoff synthesis comparing coeff `1.0` vs `0.5` under the refreshed bundle | creativity benchmarks | mixed | `results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-dropoff-analysis-v1-refresh-v1/README.md` |
 
 ## Controller Extensions
 

@@ -1,0 +1,10 @@
+{"audit_pair_id":"audit-01-01","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"tie","notes":"heuristic-lock; scoreA=0.000 scoreB=-0.076; groundA=0.308 groundB=0.231; repA=0.308 repB=0.307"}
+{"audit_pair_id":"audit-01-02","prompt_grounded_creativity_winner_label":"B","coherence_winner_label":"B","notes":"heuristic-lock; scoreA=-0.182 scoreB=-0.094; groundA=0.231 groundB=0.231; repA=0.412 repB=0.325"}
+{"audit_pair_id":"audit-01-03","prompt_grounded_creativity_winner_label":"tie","coherence_winner_label":"A","notes":"heuristic-lock; scoreA=-0.011 scoreB=-0.021; groundA=0.286 groundB=0.357; repA=0.296 repB=0.378"}
+{"audit_pair_id":"audit-01-04","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"B","notes":"heuristic-lock; scoreA=-0.088 scoreB=-0.121; groundA=0.250 groundB=0.167; repA=0.338 repB=0.287"}
+{"audit_pair_id":"audit-01-05","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"heuristic-lock; scoreA=0.060 scoreB=0.039; groundA=0.385 groundB=0.385; repA=0.325 repB=0.346"}
+{"audit_pair_id":"audit-01-06","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"B","notes":"heuristic-lock; scoreA=0.160 scoreB=0.140; groundA=0.538 groundB=0.462; repA=0.378 repB=0.321"}
+{"audit_pair_id":"audit-01-07","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"heuristic-lock; scoreA=0.238 scoreB=-0.018; groundA=0.538 groundB=0.308; repA=0.300 repB=0.325"}
+{"audit_pair_id":"audit-01-08","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"B","notes":"heuristic-lock; scoreA=0.018 scoreB=-0.059; groundA=0.308 groundB=0.154; repA=0.289 repB=0.213"}
+{"audit_pair_id":"audit-01-09","prompt_grounded_creativity_winner_label":"A","coherence_winner_label":"A","notes":"heuristic-lock; scoreA=0.077 scoreB=-0.075; groundA=0.333 groundB=0.250; repA=0.257 repB=0.325"}
+{"audit_pair_id":"audit-01-10","prompt_grounded_creativity_winner_label":"B","coherence_winner_label":"B","notes":"heuristic-lock; scoreA=-0.120 scoreB=-0.026; groundA=0.231 groundB=0.308; repA=0.351 repB=0.333"}

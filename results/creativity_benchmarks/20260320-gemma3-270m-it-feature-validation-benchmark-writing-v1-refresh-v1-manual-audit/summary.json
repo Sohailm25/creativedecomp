@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-03-20T14:16:25-05:00",
+  "artifact_dir": "results/creativity_benchmarks/20260320-gemma3-270m-it-feature-validation-benchmark-writing-v1-refresh-v1",
+  "candidate_condition_ids": [
+    "bundle_feature_group"
+  ],
+  "reference_condition_id": "dense_direction",
+  "sample_count": 10,
+  "seed": 20260320,
+  "comparison_summaries": [
+    {
+      "comparison_id": "bundle_feature_group_vs_dense_direction",
+      "candidate_condition_id": "bundle_feature_group",
+      "reference_condition_id": "dense_direction",
+      "sample_count": 10,
+      "prompt_grounded_creativity_candidate_win_fraction": 0.4,
+      "prompt_grounded_creativity_reference_win_fraction": 0.3,
+      "prompt_grounded_creativity_tie_fraction": 0.3,
+      "coherence_candidate_win_fraction": 0.6,
+      "coherence_reference_win_fraction": 0.4,
+      "coherence_tie_fraction": 0.0
+    }
+  ]
+}

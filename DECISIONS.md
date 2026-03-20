@@ -335,3 +335,10 @@
 - Decision: close `creativedecomp-e4p` as completed analysis and do not treat lower coefficient alone as a fix. Move next to a prompt-family-matched signed-bundle refresh experiment with locked audits at coeffs `0.5` and `1.0`.
 - Rationale: lowering coeff from `1.0` to `0.5` gave only partial, non-general rescue (writing/diversity creativity net win `-0.300 -> -0.200`; association/divergent `-0.200 -> -0.300` with worse coherence). Diagnostic metrics also show bundle prompt grounding is lower and repetition is higher than dense in both families, which points to transfer/feature-selection mismatch rather than one global scale bug.
 - Impact: `creativedecomp-e4p` can close, `creativedecomp-0jl` is now the next ready corrective task, and feature-level claim upgrades remain blocked until benchmark-family confirmation recovers.
+
+## [2026-03-20T14:20:00-0500] DECISION: Prompt-matched refresh gives mixed family recovery; require independent human rerating before next corrective move
+
+- Trigger: `creativedecomp-0jl` completed the prompt-family-matched selector refresh and four benchmark reruns (`coeff=1.0` and `0.5` on writing/diversity and association/divergent).
+- Decision: close `creativedecomp-0jl` as executed corrective work, but do not treat current refresh summaries as claim-bearing because they are heuristic-locked. Open `creativedecomp-d1j` for independent human rerating and post-rerating synthesis.
+- Rationale: refreshed coeff `1.0` partially recovers writing/diversity (`+0.100` creativity net win; `+0.200` coherence net win) but remains strongly negative on association/divergent (`-0.300`, `-0.500`). Refreshed coeff `0.5` does not provide consistent rescue across families either. This is informative but still sensitive to audit-label quality.
+- Impact: benchmark-family confirmation remains not met; the next critical path is annotation-quality hardening on refresh artifacts plus decision on whether to retune selection or freeze a negative transfer interpretation.

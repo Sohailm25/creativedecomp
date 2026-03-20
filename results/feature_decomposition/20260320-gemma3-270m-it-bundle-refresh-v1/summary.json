@@ -1,0 +1,180 @@
+{
+  "created_at": "2026-03-20T14:00:32-05:00",
+  "model_id": "google/gemma-3-270m-it",
+  "device": "mps",
+  "source_feature_method": "fista_dense_topk",
+  "refreshed_method_id": "fista_dense_topk_prompt_matched_refresh_v1",
+  "tuning_prompt_counts": {
+    "writing_diversity_tuning": 8,
+    "association_divergent_tuning": 8,
+    "total": 16
+  },
+  "candidate_count_per_sign": 8,
+  "select_count_per_sign": 3,
+  "steering_coeff": 1.0,
+  "max_new_tokens": 96,
+  "source_feature_table_path": "/Users/sohailmo/creativedecomp/results/feature_decomposition/20260319-gemma3-270m-it-signed-decomposition-pilot-v1/feature_tables.json",
+  "refreshed_feature_table_path": "/Users/sohailmo/creativedecomp/results/feature_decomposition/20260320-gemma3-270m-it-bundle-refresh-v1/feature_tables_refreshed.json",
+  "selected_positive_features": [
+    {
+      "feature_id": 10248,
+      "signed_coefficient": 0.12276321649551392,
+      "mean_prompt_grounding_ratio": 0.3229582917082917,
+      "mean_repetition_rate": 0.321621313912051,
+      "selection_score": 0.0013369777962407015
+    },
+    {
+      "feature_id": 7405,
+      "signed_coefficient": 0.10147436708211899,
+      "mean_prompt_grounding_ratio": 0.3164595820845821,
+      "mean_repetition_rate": 0.3263897251127359,
+      "selection_score": -0.009930143028153815
+    },
+    {
+      "feature_id": 3222,
+      "signed_coefficient": 0.1714913696050644,
+      "mean_prompt_grounding_ratio": 0.293638653013653,
+      "mean_repetition_rate": 0.3048594151897776,
+      "selection_score": -0.01122076217612461
+    }
+  ],
+  "selected_negative_features": [
+    {
+      "feature_id": 9061,
+      "signed_coefficient": -0.16285614669322968,
+      "mean_prompt_grounding_ratio": 0.377518315018315,
+      "mean_repetition_rate": 0.3197942169315091,
+      "selection_score": 0.0577240980868059
+    },
+    {
+      "feature_id": 1307,
+      "signed_coefficient": -0.165807843208313,
+      "mean_prompt_grounding_ratio": 0.33093989343989344,
+      "mean_repetition_rate": 0.325174552407294,
+      "selection_score": 0.005765341032599458
+    },
+    {
+      "feature_id": 11367,
+      "signed_coefficient": -0.13503172993659973,
+      "mean_prompt_grounding_ratio": 0.3247065434565435,
+      "mean_repetition_rate": 0.32282189470798245,
+      "selection_score": 0.0018846487485610353
+    }
+  ],
+  "positive_candidate_scores": [
+    {
+      "feature_id": 3222,
+      "signed_coefficient": 0.1714913696050644,
+      "mean_prompt_grounding_ratio": 0.293638653013653,
+      "mean_repetition_rate": 0.3048594151897776,
+      "selection_score": -0.01122076217612461
+    },
+    {
+      "feature_id": 7987,
+      "signed_coefficient": 0.15797773003578186,
+      "mean_prompt_grounding_ratio": 0.2731903513153513,
+      "mean_repetition_rate": 0.3392740485072735,
+      "selection_score": -0.0660836971919222
+    },
+    {
+      "feature_id": 446,
+      "signed_coefficient": 0.13253101706504822,
+      "mean_prompt_grounding_ratio": 0.2775245587745588,
+      "mean_repetition_rate": 0.3351168071866873,
+      "selection_score": -0.05759224841212851
+    },
+    {
+      "feature_id": 12599,
+      "signed_coefficient": 0.12999755144119263,
+      "mean_prompt_grounding_ratio": 0.25871003996003994,
+      "mean_repetition_rate": 0.32346416395908395,
+      "selection_score": -0.06475412399904401
+    },
+    {
+      "feature_id": 569,
+      "signed_coefficient": 0.12520277500152588,
+      "mean_prompt_grounding_ratio": 0.3039720695970696,
+      "mean_repetition_rate": 0.3220227436795372,
+      "selection_score": -0.018050674082467577
+    },
+    {
+      "feature_id": 10248,
+      "signed_coefficient": 0.12276321649551392,
+      "mean_prompt_grounding_ratio": 0.3229582917082917,
+      "mean_repetition_rate": 0.321621313912051,
+      "selection_score": 0.0013369777962407015
+    },
+    {
+      "feature_id": 4867,
+      "signed_coefficient": 0.12122344225645065,
+      "mean_prompt_grounding_ratio": 0.27974629537129536,
+      "mean_repetition_rate": 0.3473072314891264,
+      "selection_score": -0.06756093611783104
+    },
+    {
+      "feature_id": 7405,
+      "signed_coefficient": 0.10147436708211899,
+      "mean_prompt_grounding_ratio": 0.3164595820845821,
+      "mean_repetition_rate": 0.3263897251127359,
+      "selection_score": -0.009930143028153815
+    }
+  ],
+  "negative_candidate_scores": [
+    {
+      "feature_id": 16008,
+      "signed_coefficient": -0.17994900047779083,
+      "mean_prompt_grounding_ratio": 0.29579795204795206,
+      "mean_repetition_rate": 0.3248429348423638,
+      "selection_score": -0.029044982794411756
+    },
+    {
+      "feature_id": 1323,
+      "signed_coefficient": -0.17697979509830475,
+      "mean_prompt_grounding_ratio": 0.27366383616383616,
+      "mean_repetition_rate": 0.3159847052431931,
+      "selection_score": -0.04232086907935695
+    },
+    {
+      "feature_id": 1307,
+      "signed_coefficient": -0.165807843208313,
+      "mean_prompt_grounding_ratio": 0.33093989343989344,
+      "mean_repetition_rate": 0.325174552407294,
+      "selection_score": 0.005765341032599458
+    },
+    {
+      "feature_id": 9061,
+      "signed_coefficient": -0.16285614669322968,
+      "mean_prompt_grounding_ratio": 0.377518315018315,
+      "mean_repetition_rate": 0.3197942169315091,
+      "selection_score": 0.0577240980868059
+    },
+    {
+      "feature_id": 256,
+      "signed_coefficient": -0.14084385335445404,
+      "mean_prompt_grounding_ratio": 0.29323801198801197,
+      "mean_repetition_rate": 0.3121886831931193,
+      "selection_score": -0.01895067120510735
+    },
+    {
+      "feature_id": 11367,
+      "signed_coefficient": -0.13503172993659973,
+      "mean_prompt_grounding_ratio": 0.3247065434565435,
+      "mean_repetition_rate": 0.32282189470798245,
+      "selection_score": 0.0018846487485610353
+    },
+    {
+      "feature_id": 6049,
+      "signed_coefficient": -0.11240196228027344,
+      "mean_prompt_grounding_ratio": 0.3094665750915751,
+      "mean_repetition_rate": 0.3246222779286289,
+      "selection_score": -0.015155702837053808
+    },
+    {
+      "feature_id": 2302,
+      "signed_coefficient": -0.10985452681779861,
+      "mean_prompt_grounding_ratio": 0.2993204711954712,
+      "mean_repetition_rate": 0.3040555616934914,
+      "selection_score": -0.004735090498020178
+    }
+  ]
+}

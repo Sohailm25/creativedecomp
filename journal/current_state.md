@@ -7,6 +7,6 @@
 - Repo: standalone and initialized
 - Branch: `wip/creativedecomp-npt-signed-decomposition-pilot`
 - Focus: keep the matched instruction-tuned Phase 2 pilot rigorous while preventing pilot-slice overclaims in feature validation.
-- Experimental status: the repo now has (1) locked two-rater pilot feature-validation evidence, (2) a failed prereg two-family benchmark confirmation pass at coeff `1.0`, and (3) a bounded coeff-`0.5` sensitivity pass that did not consistently rescue bundle-vs-dense behavior across families. Stronger claim language remains blocked.
+- Experimental status: the repo now has (1) locked two-rater pilot feature-validation evidence, (2) baseline and coeff-`0.5` benchmark confirmation failures, and (3) a prompt-family-matched bundle-refresh rerun that produced mixed family behavior (writing/diversity improvement at coeff `1.0`, association/divergent still negative). Two-family confirmation is still not met.
 - Critical reminder: do not let the bigger "creative latent navigation" idea displace the primary bounded experiment
-- Immediate next move: execute `creativedecomp-0jl` to run a prompt-family-matched bundle refresh and rerun locked bundle-vs-dense audits at coeffs `0.5` and `1.0`.
+- Immediate next move: execute `creativedecomp-d1j` to replace heuristic refresh audit labels with locked human reratings and then decide whether to retune selection or freeze a negative benchmark-transfer read.
