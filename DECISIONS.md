@@ -300,3 +300,17 @@
 - Decision: close `creativedecomp-184` with the completed-pilot reason and keep `creativedecomp-602` as the single ready claim-bearing blocker.
 - Rationale: leaving the completed pilot open obscures the actual evidence-quality blocker and can cause accidental task thrash.
 - Impact: `bd ready` now returns one item, `creativedecomp-602`, matching the current experiment-critical path.
+
+## [2026-03-20T11:10:00-0500] DECISION: Replace simulated feature-validation annotations with locked rubric pass and keep single-rater boundary explicit
+
+- Trigger: `creativedecomp-602` required replacing simulated feature-validation triage labels with locked manual rubric annotations in `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/`.
+- Decision: overwrite the audit summary from a locked annotation file (`manual_annotations_locked_v1.jsonl`) and treat the resulting ranking as the active feature-validation read, while explicitly labeling it as single-rater.
+- Rationale: this removes the strongest immediate evidence-quality weakness (simulated labels) without pretending that one rater is enough for publication-grade confidence.
+- Impact: active feature-validation summary now comes from locked annotations (not simulated triage), `creativedecomp-602` can close, and independent second-rater agreement becomes the next blocker.
+
+## [2026-03-20T11:11:00-0500] DECISION: Open `creativedecomp-yga` for independent second-rater confirmation
+
+- Trigger: the locked single-rater feature-validation summary is now in place, but stronger claims still require rater-agreement evidence.
+- Decision: create `creativedecomp-yga` to run an independent second-rater pass on the same blinded packet and report inter-rater agreement before stronger claim language.
+- Rationale: this keeps the claim boundary honest while preserving momentum and methodological rigor.
+- Impact: `creativedecomp-yga` becomes the next ready task after `creativedecomp-602`.

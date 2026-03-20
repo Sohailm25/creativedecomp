@@ -9,7 +9,7 @@
 
 - `known`: this workspace is now a standalone git repository with remote `git@github.com:Sohailm25/creativedecomp.git`.
 - `known`: the active task branch is `wip/creativedecomp-npt-signed-decomposition-pilot`.
-- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, `creativedecomp-roq`, `creativedecomp-8o1`, `creativedecomp-ty9`, `creativedecomp-rcf`, `creativedecomp-c4t`, `creativedecomp-174`, `creativedecomp-175`, `creativedecomp-176`, `creativedecomp-177`, `creativedecomp-179`, `creativedecomp-180`, `creativedecomp-181`, `creativedecomp-182`, `creativedecomp-183`, `creativedecomp-184`, and `creativedecomp-npt` are complete as finished gates; `creativedecomp-178` is superseded, and `creativedecomp-602` is now the next ready task.
+- `known`: `bd` is initialized locally; `creativedecomp-1ie`, `creativedecomp-9cm`, `creativedecomp-x99`, `creativedecomp-2eh`, `creativedecomp-yk4`, `creativedecomp-e0r`, `creativedecomp-wtf`, `creativedecomp-6lm`, `creativedecomp-02c`, `creativedecomp-173`, `creativedecomp-roq`, `creativedecomp-8o1`, `creativedecomp-ty9`, `creativedecomp-rcf`, `creativedecomp-c4t`, `creativedecomp-174`, `creativedecomp-175`, `creativedecomp-176`, `creativedecomp-177`, `creativedecomp-179`, `creativedecomp-180`, `creativedecomp-181`, `creativedecomp-182`, `creativedecomp-183`, `creativedecomp-184`, `creativedecomp-602`, and `creativedecomp-npt` are complete as finished gates; `creativedecomp-178` is superseded, and `creativedecomp-yga` is now the next ready task.
 - `known`: the primary experiment is `creativity direction -> SAE feature decomposition -> feature-level validation`, not the broader controller and basin-hopping ideas.
 - `known`: the strongest default implementation path is `google/gemma-2-2b` plus GemmaScope `65K` residual SAEs on local MPS; narrower SAE widths remain method-specific pilot options, not the base configuration.
 - `known`: the main methodological risk is naive SAE decomposition of a dense steering vector; signed, contrastive, or pursuit-based decomposition is mandatory.
@@ -111,10 +111,10 @@
 - `known`: claim-bearing evaluation remains gated on a stronger judge path or additional locked manual audits plus the later benchmark-family work required by the prereg.
 - `known`: the pilot method freeze does not yet validate creativity features causally. Output-side feature validation, random-bundle comparison under intervention, and claim-bearing evaluation are still outstanding.
 - `observed`: the bounded `creativedecomp-184` feature-validation pilot artifact now exists at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1/`, recording scripted generations for the dense direction plus the top positive, negative, and bundled SAE feature interventions on the instruction-tuned pilot slice.
-- `observed`: a local write-up for that pilot now exists at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1/WRITEUP.md`, locking the methods, limits, and non-claim-bearing status before manual annotation replacement.
+- `observed`: a local write-up for that pilot now exists at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1/WRITEUP.md`, with manual-audit replacement results and updated limitations.
 - `observed`: the manual audit packet for the instruction-tuned creativity gate now lives under `results/steering_eval/20260319-gemma3-270m-it-output-gate-v1-manual-audit/`, ready for locked annotations to inform whether the pilot gate can be rescued or confirms the negative trend.
-- `observed`: the feature-validation triage audit artifact now exists at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/`; its simulated heuristic annotations (explicitly non-claim-bearing) rank `bundle_feature_group` above dense on both prompt-grounded creativity and coherence, while `negative_feature_16008` underperforms dense on creativity.
-- `known`: the feature-validation triage output is exploratory only; claim-bearing interpretation still requires locked human/manual annotations using the same rubric.
+- `observed`: the feature-validation manual-audit artifact at `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/` now uses locked rubric annotations (`manual_annotations_locked_v1.jsonl`) rather than simulated labels. On this `18`-sample slice, `bundle_feature_group` beats dense on both prompt-grounded creativity and coherence (`1.000` candidate win fraction on both axes), while `positive_feature_3222` underperforms dense (`0.167` creativity candidate win, `0.333` coherence candidate win).
+- `known`: this locked pass is single-rater. Stronger publication-grade claim language remains gated on independent second-rater confirmation and agreement reporting.
 - `known`: stop further dense base-model steering sweeps on this MacBook lane unless a later synthesis or control result explicitly reopens them.
 - `known`: the local operating files now exist for state tracking, preregistration, session logging, result indexing, validation code, and tracked empty directories that survive fresh clones.
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
@@ -123,6 +123,6 @@
 
 ## Immediate Next Steps
 
-1. Execute `creativedecomp-602`: replace simulated feature-validation annotations with locked manual annotations and tie the feature-level read to the instruction-tuned gate rubric.
-2. Keep evaluation hardening explicit rather than implicit so claim-bearing feature validation does not silently inherit the automatic-judge collapse now confirmed by rubric-eval health checks.
+1. Execute `creativedecomp-yga`: run an independent second-rater pass on the same blinded feature-validation packet and report inter-rater agreement.
+2. Keep evaluation hardening explicit rather than implicit so claim-bearing feature validation does not silently inherit automatic-judge collapse.
 3. Preserve `google/gemma-2-2b` plus GemmaScope `65K` as the default base configuration and earlier negative regime, not as erased baggage.

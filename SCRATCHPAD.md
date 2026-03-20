@@ -942,3 +942,31 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: none on parsing after hardening; signal collapse remained
 - Next step: keep automatic judging non-claim-bearing on this stack and move to locked manual feature-validation annotations (`creativedecomp-602`)
+
+## 2026-03-20T11:05:00-0500 PRE-RUN: locked feature-validation annotation replacement
+- tmux session: N/A
+- Script: `scripts/audit_instruction_tuned_creativity_output_gate_v1.py`
+- Command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --artifact-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1 --reference-condition-id dense_direction --candidate-condition-ids positive_feature_3222,negative_feature_16008,bundle_feature_group --sample-size 6 --seed 20260319 --annotations-path results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/manual_annotations_locked_v1.jsonl --output-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit --overwrite`
+- Device: `cpu`
+- Model: `N/A`; cached output audit only
+- SAE: `N/A`
+- Data slice: `feature-validation cached outputs / 18 pairwise comparisons`
+- Output path: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit`
+- What I'm testing: replace simulated annotations with locked rubric labels and recompute feature-vs-dense comparisons.
+- Expected outcome: summary and README updated from locked annotations, with simulated labels retained only as historical trace.
+- Checkpoint path: N/A
+- Checkpoint cadence: N/A
+- Log path: `sessions/20260320-session030.md`
+- Resume command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --artifact-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1 --reference-condition-id dense_direction --candidate-condition-ids positive_feature_3222,negative_feature_16008,bundle_feature_group --sample-size 6 --seed 20260319 --annotations-path results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/manual_annotations_locked_v1.jsonl --output-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit --overwrite`
+- Main confound to watch: single-rater annotations can still overfit narrative preference without agreement checks.
+- Implementation verified: YES - audit script already exercised on creativity gate and feature-validation packet structures
+- Status: LAUNCHING
+
+## 2026-03-20T11:08:00-0500 POST-RUN: locked feature-validation annotation replacement
+- Command: `.venv/bin/python scripts/audit_instruction_tuned_creativity_output_gate_v1.py --artifact-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1 --reference-condition-id dense_direction --candidate-condition-ids positive_feature_3222,negative_feature_16008,bundle_feature_group --sample-size 6 --seed 20260319 --annotations-path results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/manual_annotations_locked_v1.jsonl --output-dir results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit --overwrite`
+- Outcome: SUCCESS
+- Key metric: bundle features beat dense on both axes (`1.000` candidate win fraction); positive feature underperforms dense on both axes
+- Artifacts saved: `results/feature_validation/20260319-gemma3-270m-it-feature-validation-v1-manual-audit/`
+- Latest checkpoint: none
+- Anomalies: none in packet alignment or annotation mapping
+- Next step: run independent second-rater agreement pass (`creativedecomp-yga`) before stronger claim language
