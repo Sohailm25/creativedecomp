@@ -342,3 +342,10 @@
 - Decision: close `creativedecomp-0jl` as executed corrective work, but do not treat current refresh summaries as claim-bearing because they are heuristic-locked. Open `creativedecomp-d1j` for independent human rerating and post-rerating synthesis.
 - Rationale: refreshed coeff `1.0` partially recovers writing/diversity (`+0.100` creativity net win; `+0.200` coherence net win) but remains strongly negative on association/divergent (`-0.300`, `-0.500`). Refreshed coeff `0.5` does not provide consistent rescue across families either. This is informative but still sensitive to audit-label quality.
 - Impact: benchmark-family confirmation remains not met; the next critical path is annotation-quality hardening on refresh artifacts plus decision on whether to retune selection or freeze a negative transfer interpretation.
+
+## [2026-03-20T14:32:00-0500] DECISION: Freeze d1j execution order with a runbook before further model reruns
+
+- Trigger: `creativedecomp-d1j` started with no single canonical rerating/recompute flow, creating avoidable drift risk.
+- Decision: add `history/20260320-refresh-rerating-runbook.md` and require the next pass to follow it exactly: lock all four human annotation files first, then recompute all four audits, both confirmations, and dropoff synthesis, then apply one explicit decision rule.
+- Rationale: rerating quality is now the highest-variance part of the pipeline. Tightening the execution order protects rigor better than launching another model run before evidence quality is stabilized.
+- Impact: future d1j work is now bounded and reproducible; remaining blocker is independent human annotation availability, not missing procedure.

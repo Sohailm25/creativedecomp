@@ -1151,3 +1151,12 @@ Use this file for execution checkpoints and transient notes. Every substantial l
 - Latest checkpoint: none
 - Anomalies: current refresh rerun uses deterministic heuristic-locked audit labels; independent human rerating still pending for claim-bearing use
 - Next step: execute follow-up `creativedecomp-d1j` for independent human rerating and then choose between further retuning and a negative transfer freeze
+
+## 2026-03-20T14:32:00-0500 POST-RUN: d1j rerating execution runbook
+- Command: `N/A (documentation + issue-flow hardening)`
+- Outcome: SUCCESS
+- Key metric: created one-pass rerating/recompute runbook at `history/20260320-refresh-rerating-runbook.md` with exact packet paths, recompute commands, and decision thresholds.
+- Artifacts saved: `history/20260320-refresh-rerating-runbook.md`
+- Latest checkpoint: none
+- Anomalies: none
+- Next step: apply independent human-locked annotations to the four refresh audit packets and execute the runbook commands.

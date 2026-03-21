@@ -129,6 +129,7 @@
 - `known`: the final rigor audit is landed in `history/20260318-final-rigor-audit.md` and `results/infrastructure/20260318-final-rigor-audit.md`.
 - `known`: no remaining structural differences from `resattn` look detrimental to execution rigor; the remaining differences are experiment-specific lanes and source documents.
 - `known`: the full local test suite is currently green, including scaffold structure, helper-script parsing, core-doc baggage checks, AGENTS rigor coverage, and novelty-alignment checks.
+- `known`: `creativedecomp-d1j` now has an execution runbook at `history/20260320-refresh-rerating-runbook.md` covering packet paths, lock procedure, recompute commands, and post-rerating decision thresholds.
 
 ## Immediate Next Steps
 

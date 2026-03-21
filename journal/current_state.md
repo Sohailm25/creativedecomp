@@ -9,4 +9,4 @@
 - Focus: keep the matched instruction-tuned Phase 2 pilot rigorous while preventing pilot-slice overclaims in feature validation.
 - Experimental status: the repo now has (1) locked two-rater pilot feature-validation evidence, (2) baseline and coeff-`0.5` benchmark confirmation failures, and (3) a prompt-family-matched bundle-refresh rerun that produced mixed family behavior (writing/diversity improvement at coeff `1.0`, association/divergent still negative). Two-family confirmation is still not met.
 - Critical reminder: do not let the bigger "creative latent navigation" idea displace the primary bounded experiment
-- Immediate next move: execute `creativedecomp-d1j` to replace heuristic refresh audit labels with locked human reratings and then decide whether to retune selection or freeze a negative benchmark-transfer read.
+- Immediate next move: execute `creativedecomp-d1j` using `history/20260320-refresh-rerating-runbook.md` to replace heuristic refresh audit labels with locked human reratings and then decide whether to retune selection or freeze a negative benchmark-transfer read.
